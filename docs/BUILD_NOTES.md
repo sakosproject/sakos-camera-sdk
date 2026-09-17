@@ -28,3 +28,17 @@ Observed non-failing build messages:
 This is a local debug-build result only. It does not prove model execution,
 camera behavior, device operation, local Maven consumption, or release
 readiness.
+
+## Phase 3 — 2026-09-17
+
+| Check | Result | Evidence |
+| --- | --- | --- |
+| Safety-core contract tests | Passed | `.\\gradlew.bat --no-daemon :safety-core:testDebugUnitTest`; `build-logs/phase-3-focused.log`; 16 tasks, 23 seconds. Tests cover invalid values, capture-bound Allow approval, Block/Review/cancelled non-approval, and unavailable/closed evaluator failure. |
+| Clean debug build | Passed | `.\\gradlew.bat --no-daemon --warning-mode all clean assembleDebug`; `build-logs/phase-3-clean-debug.log`; 155 tasks, 30 seconds. |
+| Core boundary review | Passed | source search found no host application, Rega capture trust, CameraX, Compose, LiteRT, tensor, threshold or Firebase use in `safety-core` implementation. |
+| Diff whitespace | Passed | `git diff --check` |
+
+The same non-failing SDK XML metadata warning and unstripped debug native
+library message observed in Phase 2 occurred during the clean build. They do
+not change the Phase 3 contract result and remain release-packaging follow-up
+items.
