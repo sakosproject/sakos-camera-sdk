@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "highTierThreshold": 0.75,
+  "rawNsfwBlockFloor": 0.45,
+  "elevatedDetectionFloor": 0.24,
+  "supportiveDetectionFloor": 0.3,
+  "corroboratedDetectionAnchorFloor": 0.45,
+  "extremeDetectionFloor": 0.85,
+  "stage1EasyAllowMax": 0.12,
+  "stage1AllowMax": 0.2,
+  "stage2AllowMax": 0.3,
+  "stage2CorroboratedDetectionFloor": 0.25,
+  "nearFloorLateralGap": 0.03
+}

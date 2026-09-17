@@ -42,3 +42,17 @@ The same non-failing SDK XML metadata warning and unstripped debug native
 library message observed in Phase 2 occurred during the clean build. They do
 not change the Phase 3 contract result and remain release-packaging follow-up
 items.
+
+## Phase 4A — 2026-09-17
+
+| Check | Result | Evidence |
+| --- | --- | --- |
+| Spatial policy regression tests | Passed | `.\\gradlew.bat --no-daemon :safety-opennsfw2:testDebugUnitTest`; `build-logs/phase-4a-focused.log`; 28 tests, 25 seconds. |
+| Policy content comparison | Passed | Source raw working-copy SHA-256 `d06a495fa9f777321a240516c0dd624033f13fbec1be002d75310bf9f5417583`; source and SDK LF-normalized content SHA-256 `4e347ada472d81713d2629e2a90c9b23f91f644cd0b584eae61838a5c07f50ff`. |
+| Source boundary review | Passed | no `.tflite`, host application, trust snapshot, Firebase, Google Services or Crashlytics content in `safety-opennsfw2`. |
+| Clean debug build | Passed | `.\\gradlew.bat --no-daemon --warning-mode all clean assembleDebug`; `build-logs/phase-4a-clean-debug.log`; 157 tasks, 35 seconds. |
+| Diff whitespace | Passed | `git diff --check` |
+
+The Phase 2 SDK XML metadata and unstripped debug-native-library messages
+recurred without failing the build. Phase 4A does not execute a model or close
+runtime/device/corpus parity gates.
