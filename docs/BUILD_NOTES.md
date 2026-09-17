@@ -188,3 +188,15 @@ The new `AndroidVideoPrivateStagingStore` roots production staging in
 directories. This does not constitute device filesystem, CameraX finalization,
 real model, promotion-atomicity, process-death, corpus, or physical-device
 evidence.
+
+## Phase 5 CameraX callback continuation — 2026-09-17
+
+| Check | Result | Evidence |
+| --- | --- | --- |
+| Managed photo callback tests | Passed | `.\gradlew.bat --no-daemon :capture-camerax:testDebugUnitTest`; 27 actionable tasks, 20 seconds. Covers CameraX error reporting with no evaluation/save and success-path pipeline delegation with exactly-once proxy closure. |
+| Common clean debug build | Passed | `.\gradlew.bat --no-daemon --warning-mode all clean assembleDebug`; 161 tasks, 40 seconds. |
+| Static boundary review | Passed | CameraX `OnImageCapturedCallback`, `ImageProxy` and `takePicture` are the only new integration APIs; no MediaStore, file output, EXIF/location, network, model or permission addition was found. |
+
+The bridge compiles against CameraX `OnImageCapturedCallback` and `takePicture`
+signatures. It is not device, optics/orientation, permission, lifecycle,
+model-runtime, storage, corpus, or release evidence.
