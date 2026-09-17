@@ -3,11 +3,10 @@
 Status: Phase 1 inventory, 2026-09-17. All source paths are relative to the
 pinned source commit `historical source revision omitted`.
 
-`Cleared` means that Phase 2 may author the named material from scratch. It
-does not clear a verbatim copy from the source repository. `Blocked` means no
-copy, adaptation, asset import, or generated derivative may enter this
-repository until the provenance record is cleared. `Excluded` means the item
-is out of SDK scope.
+`Cleared` means the named work may enter this repository under the stated
+authorization and provenance condition. `Blocked` means no copy, adaptation,
+asset import, or generated derivative may enter this repository until the
+provenance record is cleared. `Excluded` means the item is out of SDK scope.
 
 ## Cleared independent work
 
@@ -41,12 +40,14 @@ is out of SDK scope.
 
 
 
-| `scripts/nudity-model-benchmark.py` | `1683fa1501f34fe895229d0f377ea7928e9c116dc4f0f86b3426000f5b4a7f2d` | portable benchmark design | Blocked for copying; exclude corpus/manifests/outputs | sanitized tool smoke test |
+| `scripts/nudity-model-benchmark.py` | `1683fa1501f34fe895229d0f377ea7928e9c116dc4f0f86b3426000f5b4a7f2d` | portable benchmark design | Cleared: user-authorized algorithm export; exclude corpus/manifests/outputs | sanitized tool smoke test |
 
 ## Source test references
 
-The following tests are behavioral references only and are blocked for copying
-until source-code clearance: `SakosCompatibleScoreMappingTest.kt`
+The following tests are user-authorized behavioral references. Extract only
+sanitized assertion logic and independently named fixtures; do not copy a
+private corpus, result output, device path or environment-specific setup:
+`SakosCompatibleScoreMappingTest.kt`
 (`9809bba86a97a37ab36aeb5917d7524831016db628ae6b7a7ee7083af95dcd8c`),
 `SakosCompatibleMultiCropEvaluationTest.kt`
 (`69c2416c1511fa75f88208a232a179f46047aee492969397cd94520f4e541829`),

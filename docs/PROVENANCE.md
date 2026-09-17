@@ -45,10 +45,31 @@ the corresponding material can enter this repository:
 5. A final attribution/notice inventory checked against the packaged SDK and
    local Maven artifact, not only source files.
 
-Until then, the model and all verbatim/adapted code from the source repository
+Until then, the model asset and any code whose provenance is not covered below
 are **blocked**. The SDK may use independently authored scaffolding and
 clean-room implementations of documented behavior, subject to later policy
 and parity validation. This distinction must remain visible in future commits.
+
+## User-authorized camera/gallery application code export
+
+The user explicitly directed this project to extract the camera/gallery application
+work into an independent SDK and to preserve the detection helpers and
+sampling strategies developed there. The inspected source remote is under the
+user's `mendipan` account. At the pinned source commit, Git history for the
+candidate spatial, runtime, photo and video files listed in the extraction
+manifest shows only `mendypan` or `Mendi Yuda` as authors.
+
+That evidence and authorization clear a **selective export of those
+project-owned code files** into this repository, with their source revision
+and hashes retained in the manifest. It does not clear the model asset,
+private SakOS upstream material, a copied third-party contribution that was
+not visible in the inspected history, or new artwork/media. Keep attribution
+notes and the source commit in the extracted code/documentation, and do not
+copy excluded application, signing, diagnostics or corpus content.
+
+This clearance allows Phases 4A and 5–7 to adapt the listed project-owned
+algorithms. Phase 4B remains blocked until the exact model asset rights and
+conversion provenance are resolved.
 
 ## Third-party material handling
 

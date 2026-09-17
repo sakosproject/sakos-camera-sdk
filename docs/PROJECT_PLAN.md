@@ -95,7 +95,7 @@ Each row is a separately selected implementation unit. `4A` and `4B`, and `7A` a
 | Phase | Deliverable | Prerequisite | Status |
 | --- | --- | --- | --- |
 | 0 | Repository foundation | None | Complete |
-| 1 | Provenance evidence and exact extraction allowlist | 0 | Blocked for source/model import; independent scaffold clearance recorded |
+| 1 | Provenance evidence and exact extraction allowlist | 0 | Project-owned code cleared; exact model asset remains blocked |
 | 2 | Independent Gradle/module skeleton | 1: scaffold files cleared | Complete |
 | 3 | Evaluation contracts and failure semantics | 2; relevant Phase 1 clearance | Complete |
 | 4A | Spatial sampling and model-specific policy | 3; relevant Phase 1 clearance | Not started |
@@ -400,7 +400,7 @@ Append an entry after each implementation turn, including partial work. Preserve
 - Commands, exit codes, logs/reports, device/runtime versions: wrapper generation, dependency inspection and clean debug build all exited 0. Sanitized command/results are in `docs/BUILD_NOTES.md`; raw logs are ignored under `build-logs/`. The build used Android Studio OpenJDK 21.0.10 and produced 153 actionable tasks in 61 seconds. It reported SDK XML version 4 and unstripped debug native libraries; both are recorded as non-failing environment/package observations.
 - Gate results (passed / failed / pending), limitations and blockers: passed all local Phase 2 checks. The sample runtime graph resolved all four library modules and their inward dependencies; manifest inspection found no permissions, providers, queries, Firebase or host application references. The source/model provenance block remains unchanged. This is not a functional SDK, inference proof, device test, consumer test, publication or release gate.
 - Source worktree preservation and SDK diff review: source remains read-only with only its two pre-existing edits. SDK changes are limited to independently authored build/module/sample scaffolding, the generated Gradle wrapper and tracked evidence; `git diff --check` passed.
-- Remaining work and next eligible phase (not automatically authorized): Phase 3 can independently author generic evaluation contracts and fail-closed semantics in `safety-core`. It must not use blocked source code or a model asset; model/source clearance remains required before source-derived behavior and real inference phases.
+- Remaining work and next eligible phase (not automatically authorized): Phase 3 can independently author generic evaluation contracts and fail-closed semantics in `safety-core`. The later provenance amendment clears selective project-owned source code under the user's extraction authorization, but model-source clearance remains required before a model asset import and real inference.
 
 ### Phase 3 — 2026-09-17 — in progress
 
@@ -412,7 +412,7 @@ Append an entry after each implementation turn, including partial work. Preserve
 - Commands, exit codes, logs/reports, device/runtime versions: `:safety-core:testDebugUnitTest` and the common clean debug build both exited 0. Sanitized results are in `docs/BUILD_NOTES.md`; raw logs are ignored under `build-logs/`. The build used the Phase 2 recorded Android Studio OpenJDK 21.0.10 environment.
 - Gate results (passed / failed / pending), limitations and blockers: passed invalid-value, capture-binding, Block/Review/cancelled, and unavailable/closed evaluator checks. The test report generated during focused testing was removed by the required later clean build; the successful focused command log is retained as evidence. The contracts do not yet execute a model, own input storage or prove cancellation against a native interpreter. Source/model provenance remains blocked.
 - Source worktree preservation and SDK diff review: no source worktree operation occurred; its two pre-existing edits remain untouched. SDK changes are limited to Phase 3 core contracts, tests and documentation; `git diff --check` passed.
-- Remaining work and next eligible phase (not automatically authorized): Phase 4A may independently characterize and implement model-specific spatial sampling/policy only after source-code clearance. In the current provenance state, the next unblocked development work is to strengthen generic core tests or resolve the exact source/model rights; no real OpenNSFW2 implementation or model import may proceed.
+- Remaining work and next eligible phase (not automatically authorized): the provenance amendment records user-authorized selective export of project-owned sampling, policy and video code. Phase 4A may now preserve/characterize that cleared code without importing the model. Phase 4B remains blocked for real inference until exact model asset rights are evidenced.
 
 ## Planning revision record — 2026-09-17
 
@@ -420,3 +420,9 @@ Append an entry after each implementation turn, including partial work. Preserve
 - Read the tracked README/plan and source repository guidance; verified the source baseline, relevant filenames, trust-policy coupling and temporal policy constants through read-only inspection.
 - Validation: `git diff --check` passed; SDK status shows only `docs/PROJECT_PLAN.md` modified. Source status still shows only the two pre-existing edits recorded above. Gradle was not run because this revision changes documentation only.
 - Modified only this plan. No SDK source/model import, source-repository edit, Android build, commit, publication or deployment was performed. Full provenance review, full source characterization and implementation remain future phase work.
+
+### Phase 1 provenance amendment — 2026-09-17
+
+- The user explicitly authorized extraction of the camera/gallery application work. The inspected source remote is under the user's account, and Git history for the selected spatial, runtime, photo and video candidates contained only `mendypan` or `Mendi Yuda` author names.
+- `docs/PROVENANCE.md` and `docs/EXTRACTION_MANIFEST.md` now clear selective export of those project-owned code/policy/benchmark candidates while preserving source revision/hash records and exclusions. The exact model asset, private SakOS upstream provenance, unreviewed third-party material, private corpus/media and artwork remain blocked.
+- This amendment enables cleared algorithm/capture work in Phases 4A and 5–7. It does not authorize model import, Phase 4B execution, remote publication or public release.
