@@ -96,6 +96,20 @@ conversion provenance are resolved.
 - Do not import the local `.tflite` or run a real-model phase until the host is
   reachable or equivalent reviewable conversion evidence is supplied.
 
+## Phase 4B provenance recheck — 2026-09-17
+
+- The source checkout remains at the recorded revision with only its two
+  pre-existing unrelated edits. Its GitHub remote was reachable during this
+  recheck; that remote does not provide the separate private Gitea repository
+  named by the source provenance record.
+- The source-only candidate remains 6,128,536 bytes with SHA-256
+  `051A21BF697858C1E2537354A99BE09A48D26BBFBA0C35216B340F16DE7528D7`.
+  It was inspected in place and was not copied, packaged, loaded, or modified.
+- The selected source provenance record still points to the private Gitea
+  import but contains no conversion record, redistribution notice, or approval
+  evidence. This recheck therefore confirms the candidate identity but does
+  not establish a redistribution chain for it.
+
 ## Third-party material handling
 
 No third-party license text is included yet because no third-party code or
