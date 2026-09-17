@@ -131,3 +131,15 @@ physical camera, or process-death recovery.
 The sample is a contract demonstrator. It does not prove a camera/permission
 flow, model execution, real photo/video capture, approved-media viewer,
 accessibility/device behavior, or release packaging.
+
+## Phase 9 — 2026-09-17
+
+| Check | Result | Evidence |
+| --- | --- | --- |
+| Portable comparator self-test | Passed | `python tools/benchmark/compare_results.py --self-test`; `self-test: OK`. |
+| Portable comparator unit tests | Passed | `python -m unittest tools/benchmark/test_compare_results.py`; 3 tests. |
+| Diff whitespace | Passed | `git diff --check` |
+
+No corpus, source-reference result, model runtime, device identity, or latency
+measurement was available. The comparator is ready for sanitized external
+inputs, but it is not parity or performance evidence by itself.

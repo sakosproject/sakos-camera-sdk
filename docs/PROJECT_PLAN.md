@@ -105,7 +105,7 @@ Each row is a separately selected implementation unit. `4A` and `4B`, and `7A` a
 | 7A | Private video staging and cleanup state machine | 6 | Complete for injected private-store boundary; Android file-store pending |
 | 7B | CameraX recording, promotion and recovery integration | 7A | Complete for managed seam/recording adapter; real CameraX/file-store pending |
 | 8 | Usable Compose sample and approved-media viewer | 5, 7B | Complete for contract demonstrator; live capture/viewer pending |
-| 9 | Corpus comparison and performance report | 8; authorized local corpus | Not started |
+| 9 | Corpus comparison and performance report | 8; authorized local corpus | Blocked: comparator complete; real model and authorized corpus unavailable |
 | 10 | Device and lifecycle fault validation | 8; suitable devices | Not started |
 | 11 | Local Maven artifacts and separate minified consumer | 8; 9/10 required before release readiness | Not started |
 | 12 | Developer documentation and release presentation assets | 9, 10, 11 for verified claims | Not started |
@@ -496,6 +496,17 @@ Append an entry after each implementation turn, including partial work. Preserve
 - Gate results (passed / failed / pending), limitations and blockers: contract-demo UI and manifest gates passed. No device/screenshot/accessibility validation, Android permission flow, actual photo/video capture, model evaluation, file-store/promotion or approved-media viewer exists yet; those requirements remain blocked by or dependent on the pending runtime integrations.
 - Source worktree preservation and SDK diff review: no source write/build/reset occurred. The sample has no `uses-permission`, Firebase, host application, public-media, location, share or cloud-sync implementation. `git diff --check` passed before commit.
 - Remaining work and next eligible phase (not automatically authorized): Phase 9 needs an authorized local corpus and real model runtime; Phase 10 needs suitable devices plus actual capture wiring. Neither can be inferred from this contract demonstration.
+
+### Phase 9 — 2026-09-17 — blocked: comparator complete; real model and authorized corpus unavailable
+
+- Checkout/branch/HEAD and source revision/status: SDK branch `codex/phase-9-benchmark-tooling`, based on Phase 8 commit `82fda46`; source remains read only at `historical source revision omitted` with its two pre-existing unrelated edits.
+- Pre-edit exact target files / implementation steps: add an independently authored `tools/benchmark/compare_results.py`, its standard-library unit tests, a JSONL schema/command README, and a zero-metrics `docs/validation/PARITY_REPORT.md` template. The comparator will consume only precomputed sanitized reference/SDK records keyed by opaque capture ID, compute denominator/mismatch/false-accept/false-reject/unresolved categories and score/view/timestamp/rationale/latency deltas, and reject duplicate or misaligned input. Do not import media, manifests, source execution logic, model bytes, network downloads, corpus paths, private benchmark outputs or device data.
+- Acceptance criteria and planned checks: a synthetic self-test must demonstrate expected metrics and mismatch accounting; input schema must make missing labels/latency/model identity explicit rather than treating them as zero. Run Python unit tests and `git diff --check`; no Android build is required unless Android files change.
+- Changes actually made and intentional behavioral differences: added a standard-library comparator that consumes only sanitized JSONL records and records decision, score, selected-view, timestamp, rationale and latency differences. It rejects duplicate/misaligned IDs. The accompanying report template marks all actual corpus/model/runtime metrics unavailable; no source script, host runner, corpus asset, raw output or model was copied.
+- Commands, exit codes, logs/reports, device/runtime versions: `python tools/benchmark/compare_results.py --self-test` printed `self-test: OK`; `python -m unittest tools/benchmark/test_compare_results.py` passed 3 tests; `git diff --check` passed. No Android build was required because this phase changes only portable tooling and documentation.
+- Gate results (passed / failed / pending), limitations and blockers: comparator tooling and synthetic accounting passed. The Phase 9 comparison gate is blocked because no authorized labeled corpus/matched source output and no real SDK model runtime exist. Counts in `PARITY_REPORT.md` are intentionally unavailable, not zero. This is not corpus, model, performance, safety accuracy or device parity evidence.
+- Source worktree preservation and SDK diff review: source remained read only with only its two pre-existing edits. SDK changes are limited to portable benchmark tooling and sanitised documentation; no raw data/model path is tracked.
+- Remaining work and next eligible phase (not automatically authorized): provide an authorized corpus outside this repository plus matched pinned source and SDK output after Phase 4B's model gate to run the comparator. Phase 11 local Maven packaging can proceed independently, but release readiness remains dependent on Phases 9 and 10.
 
 ## Planning revision record — 2026-09-17
 
