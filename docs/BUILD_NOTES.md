@@ -174,3 +174,17 @@ exist, the prohibited-claim search found no new advertising claim, and
 `git diff --check` passed. No Gradle build ran. The documentation deliberately
 does not create a public security-reporting endpoint, model/runtime claim,
 corpus/device metric, remote install coordinate, or release claim.
+
+## Phases 7A/7B private-store continuation — 2026-09-17
+
+| Check | Result | Evidence |
+| --- | --- | --- |
+| Private staging and CameraX-output tests | Passed | `.\gradlew.bat --no-daemon :capture-video:testDebugUnitTest`; 38 actionable tasks, 23 seconds. The suite covers persisted/backup sessions, clip/sidecar cleanup, orphan/malformed metadata recovery, path-traversal rejection, CameraX output preparation, and the existing review/promotion lifecycle. |
+| Common clean debug build | Passed | `.\gradlew.bat --no-daemon --warning-mode all clean assembleDebug`; 161 tasks, 41 seconds. |
+| Static boundary review | Passed | `capture-video` uses `Context.noBackupFilesDir` and CameraX `FileOutputOptions`/`PendingRecording`; no MediaStore, external/public-path, network, model or permission addition was found. |
+
+The new `AndroidVideoPrivateStagingStore` roots production staging in
+`Context.noBackupFilesDir`; its filesystem behavior is exercised with JVM temp
+directories. This does not constitute device filesystem, CameraX finalization,
+real model, promotion-atomicity, process-death, corpus, or physical-device
+evidence.

@@ -1,6 +1,11 @@
 package org.sakos.camera.capture.video
 
 import androidx.camera.video.Recording
+import androidx.camera.video.FileOutputOptions
+import androidx.camera.video.PendingRecording
+import androidx.camera.video.VideoRecordEvent
+import androidx.core.util.Consumer
+import java.util.concurrent.Executor
 
 /** The narrow recording lifecycle boundary used before a staged session is discarded. */
 interface VideoRecordingHandle : AutoCloseable {
@@ -18,6 +23,22 @@ class CameraXVideoRecordingHandle(
     override fun close() {
         recording.close()
     }
+}
+
+/** Creates CameraX file output and starts recordings only beneath an app-private staging store. */
+class CameraXPrivateVideoRecordingFactory(
+    private val store: VideoPrivateStagingFileStore,
+) {
+    fun outputOptions(session: VideoStagingSession): FileOutputOptions {
+        require(session.state == VideoStagingState.Recording) { "CameraX output requires a Recording session." }
+        return FileOutputOptions.Builder(store.recordingOutputFile(session.id)).build()
+    }
+
+    fun start(
+        pendingRecording: PendingRecording,
+        executor: Executor,
+        listener: Consumer<VideoRecordEvent>,
+    ): CameraXVideoRecordingHandle = CameraXVideoRecordingHandle(pendingRecording.start(executor, listener))
 }
 
 /** Caller-owned promotion of an approved private staged clip. */

@@ -8,6 +8,11 @@ value class VideoStagingSessionId(val value: String) {
     init {
         require(value.isNotBlank()) { "staging session ID must not be blank." }
         require(value == value.trim()) { "staging session ID must not have surrounding whitespace." }
+        require(SESSION_ID.matches(value)) { "staging session ID contains unsafe path characters." }
+    }
+
+    private companion object {
+        val SESSION_ID = Regex("[A-Za-z0-9][A-Za-z0-9_-]{0,127}")
     }
 }
 
@@ -42,6 +47,11 @@ interface VideoPrivateStagingStore {
     fun writeSession(session: VideoStagingSession)
     fun deleteStagedContent(id: VideoStagingSessionId)
     fun removeSession(id: VideoStagingSessionId)
+}
+
+/** A private store that can provide the CameraX output path for a staged recording. */
+interface VideoPrivateStagingFileStore : VideoPrivateStagingStore {
+    fun recordingOutputFile(id: VideoStagingSessionId): java.io.File
 }
 
 sealed interface VideoRecordingStartResult {
