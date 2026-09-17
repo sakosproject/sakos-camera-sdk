@@ -106,3 +106,15 @@ non-failing environment/package observations.
 The focused test uses an injected in-memory store to verify cleanup, retry,
 transition rejection, blocking, and recovery. It is not Android filesystem,
 backup, CameraX, media-provider, process-death, or release evidence.
+
+## Phase 7B — 2026-09-17
+
+| Check | Result | Evidence |
+| --- | --- | --- |
+| Managed video pipeline tests | Passed | `.\\gradlew.bat --no-daemon :capture-video:testDebugUnitTest`; `build-logs/phase-7b-focused.log`; 30 tests, 21 seconds. |
+| Clean debug build | Passed | `.\\gradlew.bat --no-daemon --warning-mode all clean assembleDebug`; `build-logs/phase-7b-clean-debug.log`; 161 tasks, 37 seconds. |
+| Diff whitespace | Passed before commit | `git diff --check` |
+
+These injected tests do not validate a real CameraX recorder/finalize callback,
+Android file store, actual decoder/model evaluator, output promotion atomicity,
+physical camera, or process-death recovery.
