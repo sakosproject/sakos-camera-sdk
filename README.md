@@ -1,2 +1,54 @@
-# sakos-camera-sdk
-Modular Android camera safety SDK for child-oriented apps, with offline nudity detection, adaptive image sampling, and temporal video review. In development.
+# SakOS Camera SDK
+
+**Offline camera review for child-oriented Android projects.**
+
+Part of **SakOS — Safe Kids OS**. We are building a modular Android SDK that brings together on-device nudity detection, adaptive image sampling, temporal video review, and controlled capture delivery.
+
+[Project plan](docs/PROJECT_PLAN.md) · [SakOS on GitHub](https://github.com/sakosproject) · [Apache-2.0 license](LICENSE)
+
+> **In development.** This repository currently contains the project foundation and extraction plan. The Android libraries, sample app, model package, and installation instructions are not available yet.
+
+## What we are building
+
+| Capability | Planned experience |
+| --- | --- |
+| Offline evaluation | A bundled model runs on the device without an account or runtime download. |
+| Adaptive image review | Contextual and targeted crops combine evidence, with additional work for ambiguous captures. |
+| Video review | Timeline sampling and focused follow-up checks produce a clip-level decision. |
+| Controlled saving | The managed capture pipeline delivers media only after approval. |
+| Modular integration | Use the evaluation engine with an existing camera, or adopt the managed capture modules. |
+| Working example | A Kotlin sample app demonstrates photos, video, and an approved-media viewer. |
+
+The SDK is being extracted from existing camera/gallery application work. host application installation, entitlement, signing, and provider requirements will not be required by the independent SDK.
+
+## Privacy boundaries
+
+The planned managed photo pipeline evaluates captures in memory before saving. Rejected photos will not produce SDK-written image files.
+
+Video uses private temporary disk storage while recording and reviewing. The planned lifecycle deletes non-approved clips and recovers abandoned staging files after interruption. It does not promise that rejected video bytes never reach disk or that deletion provides forensic erasure.
+
+Detection is probabilistic, and sampled video review cannot guarantee detection of every unsafe moment. These controls apply to the SDK-managed workflow, not to other camera apps or a modified host application.
+
+## Model and attribution
+
+The existing detection work uses OpenNSFW2/Yahoo Open NSFW lineage together with additional capture, sampling, and policy logic. Exact model redistribution rights, conversion provenance, and third-party notices must be verified before any model is included here.
+
+Project-owned material is licensed under [Apache License 2.0](LICENSE). Future third-party code and model assets retain their applicable licenses; this repository's license does not replace those terms.
+
+## Roadmap
+
+- [x] Establish the SakOS organization and SDK repository.
+- [x] Record the module boundaries, privacy contract, and release gates.
+- [ ] Complete provenance review and extract the independent Android modules.
+- [ ] Preserve and validate the existing detection and sampling behavior.
+- [ ] Implement and test video cleanup and recovery.
+- [ ] Deliver the sample app and developer integration guides.
+- [ ] Launch the SakOS website and publish an experimental SDK release.
+
+See the [project plan](docs/PROJECT_PLAN.md) for scope and acceptance criteria.
+
+## Website and project feedback
+
+The planned website is [sakosproject.org](https://sakosproject.org), with a SakOS homepage, camera product page, and developer documentation. The website is not deployed as part of this repository setup.
+
+Repository owners and collaborators can use [issues](https://github.com/sakosproject/sakos-camera-sdk/issues) for planning. Please use text descriptions and synthetic reproductions; do not attach private photos, videos, or credentials. Public contribution and security-reporting instructions will be established before launch.
