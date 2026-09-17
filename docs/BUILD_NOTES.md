@@ -79,3 +79,18 @@ non-Allow no-write, Allow single delivery, duplicate suppression, output
 failure and frame closure. `--warning-mode all clean assembleDebug` passed in
 36 seconds (159 tasks). This is injected-evaluator pipeline evidence only;
 real CameraX/device/model behavior remains pending.
+
+## Phase 6 — 2026-09-17
+
+| Check | Result | Evidence |
+| --- | --- | --- |
+| Temporal planner and aggregation tests | Passed | `.\\gradlew.bat --no-daemon :capture-video:testDebugUnitTest`; `build-logs/phase-6-focused.log`; 18 tests, 23 seconds. |
+| Static source-boundary review | Passed | No host application, `MediaMetadataRetriever`, temporary-video, Camera Activity, live-runtime, model-asset, or Firebase reference in `capture-video`. |
+| Clean debug build | Passed | `.\\gradlew.bat --no-daemon --warning-mode all clean assembleDebug`; `build-logs/phase-6-clean-debug.log`; 161 tasks, 37 seconds. |
+| Diff whitespace | Passed | `git diff --check` |
+
+The test suite uses only synthetic closeable frames and injected evaluations. It
+does not validate Android decoding, model inference, corpus parity, recording,
+private staging, device behavior, or release packaging. The recurring SDK XML
+metadata warning and unstripped debug-native-library message remain
+non-failing environment/package observations.
