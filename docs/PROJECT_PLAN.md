@@ -99,7 +99,7 @@ Each row is a separately selected implementation unit. `4A` and `4B`, and `7A` a
 | 2 | Independent Gradle/module skeleton | 1: scaffold files cleared | Complete |
 | 3 | Evaluation contracts and failure semantics | 2; relevant Phase 1 clearance | Complete |
 | 4A | Spatial sampling and model-specific policy | 3; relevant Phase 1 clearance | Complete |
-| 4B | Bundled inference runtime | 4A; exact model clearance | Not started |
+| 4B | Bundled inference runtime | 4A; exact model clearance | Blocked: exact conversion provenance host unavailable |
 | 5 | Managed in-memory photo capture | 4B | Not started |
 | 6 | Temporal video review engine | 4B | Not started |
 | 7A | Private video staging and cleanup state machine | 6 | Not started |
@@ -429,6 +429,12 @@ Append an entry after each implementation turn, including partial work. Preserve
 ### Phase 4A formatting correction — 2026-09-17
 
 - The initial Phase 4A commit included trailing blank lines in seven imported Kotlin/test files. The immediately following scoped formatting commit removes only those blank lines; `git diff --check` then passed. The prior focused tests and clean build remain valid because this correction changes no executable content.
+
+### Phase 4B provenance preflight — 2026-09-17 — blocked
+
+- Verified public OpenNSFW2 MIT and Yahoo Open NSFW BSD-2-Clause license texts and added them under `third_party/licenses/`; the provenance record distinguishes these upstream redistribution terms from the unverified exact local model conversion.
+- The authorized private provenance host was unreachable during a read-only Git check. No private repository, model asset, conversion script or credentials were copied, changed or exposed.
+- The Phase 4B model/runtime gate remains blocked pending a reviewable exact conversion chain and notices for SHA-256 `051A21BF697858C1E2537354A99BE09A48D26BBFBA0C35216B340F16DE7528D7`. Later capture phases must retain fail-closed behavior and cannot substitute a different model without a separately versioned evaluation.
 
 ## Planning revision record — 2026-09-17
 

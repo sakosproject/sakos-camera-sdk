@@ -28,6 +28,21 @@ was found in the inspected source module. No private SakOS repository contents,
 conversion script, model-card source, or contributor authorization was imported
 into this repository during Phase 1.
 
+## Verified upstream license evidence
+
+On 2026-09-17, the upstream OpenNSFW2 MIT license and Yahoo Open NSFW
+BSD-2-Clause license were read from their public canonical repositories and
+copied verbatim into `third_party/licenses/opennsfw2-MIT.txt` and
+`third_party/licenses/yahoo-open-nsfw-BSD-2-Clause.txt`. The MIT terms permit
+distribution when its notice is retained. The Yahoo terms permit source and
+binary redistribution when its copyright notice, conditions and disclaimer are
+retained. The associated Yahoo documentation describes the model as preliminary
+pornography filtering and does not guarantee accuracy.
+
+This establishes the applicable upstream notices if the local model is proven
+to be a permitted derivative of that lineage. It does not itself establish the
+conversion provenance of the exact local `.tflite` asset.
+
 ## Required clearance before import
 
 The following evidence must be placed in a reviewable internal record before
@@ -70,6 +85,16 @@ copy excluded application, signing, diagnostics or corpus content.
 This clearance allows Phases 4A and 5–7 to adapt the listed project-owned
 algorithms. Phase 4B remains blocked until the exact model asset rights and
 conversion provenance are resolved.
+
+## Phase 4B provenance preflight — 2026-09-17
+
+- Public upstream license evidence is now retained in this repository as above.
+- The authorized private SakOS provenance host could not be reached during this
+  preflight, so the private model card, conversion script and repository notices
+  could not be re-read. This is an observation of reachability, not evidence
+  that the source repository or its records do not exist.
+- Do not import the local `.tflite` or run a real-model phase until the host is
+  reachable or equivalent reviewable conversion evidence is supplied.
 
 ## Third-party material handling
 
