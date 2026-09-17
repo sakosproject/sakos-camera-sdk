@@ -426,6 +426,10 @@ Append an entry after each implementation turn, including partial work. Preserve
 - Source worktree preservation and SDK diff review: source remains read-only with only its two pre-existing modifications. SDK changes are limited to the allowlisted Phase 4A package, policy asset, sanitized tests and documentation; `git diff --check` passed.
 - Remaining work and next eligible phase (not automatically authorized): model runtime Phase 4B is blocked by the exact-model provenance gate. Phase 5/6 capture work needs a functioning evaluator and therefore must not bypass the fail-closed unavailable evaluator. The next independent work is resolving the exact model rights/conversion chain or building non-model test seams without representing capture as functional.
 
+### Phase 4A formatting correction — 2026-09-17
+
+- The initial Phase 4A commit included trailing blank lines in seven imported Kotlin/test files. The immediately following scoped formatting commit removes only those blank lines; `git diff --check` then passed. The prior focused tests and clean build remain valid because this correction changes no executable content.
+
 ## Planning revision record — 2026-09-17
 
 - Replaced broad delivery stages with bounded phases, dependencies, source/target boundaries, acceptance gates, common verification and a reusable Terra / High prompt.

@@ -46,5 +46,3 @@ enum class IntegratedOpenNsfw2Strategy(
         }
     }
 }
-
-

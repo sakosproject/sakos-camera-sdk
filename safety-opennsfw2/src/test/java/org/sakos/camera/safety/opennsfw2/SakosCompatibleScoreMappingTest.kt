@@ -34,5 +34,3 @@ class SakosCompatibleScoreMappingTest {
         assertTrue(result.reason.contains("sfw_prob=0.920"))
     }
 }
-
-

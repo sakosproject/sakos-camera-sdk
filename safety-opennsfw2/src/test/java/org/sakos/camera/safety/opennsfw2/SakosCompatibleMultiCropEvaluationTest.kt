@@ -673,5 +673,3 @@ class SakosCompatibleMultiCropEvaluationTest {
         inferenceMillis = 8L,
     )
 }
-
-

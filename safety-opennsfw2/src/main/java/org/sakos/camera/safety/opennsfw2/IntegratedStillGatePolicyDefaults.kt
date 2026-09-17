@@ -72,5 +72,3 @@ object IntegratedStillGatePolicyDefaults {
         ).toFloat(),
     )
 }
-
-

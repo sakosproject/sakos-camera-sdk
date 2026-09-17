@@ -123,5 +123,3 @@ data class GateSamplingProfile(
         }
     }
 }
-
-

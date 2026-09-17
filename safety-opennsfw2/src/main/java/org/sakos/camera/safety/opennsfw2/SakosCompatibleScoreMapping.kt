@@ -111,5 +111,3 @@ object SakosCompatibleResultMapper {
 }
 
 private fun formatScore(value: Float): String = String.format(Locale.US, "%.3f", value)
-
-
