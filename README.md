@@ -1,8 +1,8 @@
 # SakOS Camera SDK
 
-**Offline camera review for child-oriented Android projects.**
+**Managed camera-review contracts for child-oriented Android projects.**
 
-Part of **SakOS — Safe Kids OS**. We are building a modular Android SDK that brings together on-device nudity detection, adaptive image sampling, temporal video review, and controlled capture delivery.
+Part of **SakOS — Safe Kids OS**. We are developing a modular Android SDK intended to combine on-device review, adaptive image sampling, temporal video review, and controlled capture delivery.
 
 [Project plan](docs/PROJECT_PLAN.md) · [SakOS on GitHub](https://github.com/sakosproject) · [Apache-2.0 license](LICENSE)
 
