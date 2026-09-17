@@ -71,3 +71,11 @@ absence of an approval path. They do not test an actual model, tensor shapes at
 runtime, LiteRT, camera input, corpus accuracy, device behavior, or release
 packaging. The recurring SDK XML and debug-native-library messages remain
 non-failing environment/package observations.
+
+## Phase 5 — 2026-09-17
+
+Focused `:capture-camerax:testDebugUnitTest` passed in 22 seconds. It covers
+non-Allow no-write, Allow single delivery, duplicate suppression, output
+failure and frame closure. `--warning-mode all clean assembleDebug` passed in
+36 seconds (159 tasks). This is injected-evaluator pipeline evidence only;
+real CameraX/device/model behavior remains pending.
