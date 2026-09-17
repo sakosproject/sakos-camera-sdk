@@ -150,3 +150,19 @@ inputs, but it is not parity or performance evidence by itself.
 runbook. Its coverage search and `git diff --check` passed. No Android build,
 emulator, physical device, model runtime, capture flow, media fixture, or
 device evidence was used; every validation row remains pending.
+
+## Phase 11 — 2026-09-17
+
+| Check | Result | Evidence |
+| --- | --- | --- |
+| Local publish + minified consumer | Passed after consumer AndroidX fix | `.\\scripts\\verify-local-consumer.ps1`; `build-logs/phase-11-local-consumer.log`; four provisional release AARs published locally, separate consumer `assembleRelease` passed. |
+| Consumer Maven dependency graph | Passed | `.\\gradlew.bat --no-daemon -p integration-tests\\consumer :app:dependencies --configuration releaseRuntimeClasspath`; Maven coordinates and transitive dependencies, no project substitution. |
+| POM/AAR inspection | Passed | Four source/AAR/POM/module artifacts observed before clean; POMs include provisional coordinates and Apache metadata; safety policy asset present in safety AAR. |
+| Clean debug build | Passed | `.\\gradlew.bat --no-daemon --warning-mode all clean assembleDebug`; `build-logs/phase-11-clean-debug.log`; 161 tasks, 39 seconds. |
+| Diff whitespace | Passed before commit | `git diff --check` |
+
+The first separate-consumer run correctly failed because its AndroidX setting
+was absent; `integration-tests/consumer/gradle.properties` fixes only that
+consumer build setting. The later verifier passed. Local Maven verification is
+not remote publication, model/runtime proof, corpus parity, device validation,
+or release readiness.
