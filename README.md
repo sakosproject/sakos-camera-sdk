@@ -6,7 +6,7 @@ Part of **SakOS — Safe Kids OS**. We are building a modular Android SDK that b
 
 [Project plan](docs/PROJECT_PLAN.md) · [SakOS on GitHub](https://github.com/sakosproject) · [Apache-2.0 license](LICENSE)
 
-> **In development.** This repository currently contains the project foundation and extraction plan. The Android libraries, sample app, model package, and installation instructions are not available yet.
+> **In development.** The repository contains extracted contract and policy seams plus a sample-app contract demonstrator. A real bundled model, Android file-store adapter, CameraX recorder start/finalize integration, and installation instructions are not available yet.
 
 ## What we are building
 
@@ -52,3 +52,7 @@ See the [project plan](docs/PROJECT_PLAN.md) for scope and acceptance criteria.
 The planned website is [sakosproject.org](https://sakosproject.org), with a SakOS homepage, camera product page, and developer documentation. The website is not deployed as part of this repository setup.
 
 Repository owners and collaborators can use [issues](https://github.com/sakosproject/sakos-camera-sdk/issues) for planning. Please use text descriptions and synthetic reproductions; do not attach private photos, videos, or credentials. Public contribution and security-reporting instructions will be established before launch.
+
+## Sample app
+
+The sample demonstrates the Photo/Video mode, runtime availability, and approved-media status without fabricating a capture result. Its capture actions remain disabled until the model runtime, private file-store adapter, and CameraX recorder integration pass their recorded gates. It requests no network permission and writes no media by itself.

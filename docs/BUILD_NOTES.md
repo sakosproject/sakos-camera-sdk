@@ -118,3 +118,16 @@ backup, CameraX, media-provider, process-death, or release evidence.
 These injected tests do not validate a real CameraX recorder/finalize callback,
 Android file store, actual decoder/model evaluator, output promotion atomicity,
 physical camera, or process-death recovery.
+
+## Phase 8 — 2026-09-17
+
+| Check | Result | Evidence |
+| --- | --- | --- |
+| Sample reducer tests | Passed | `.\\gradlew.bat --no-daemon :sample-app:testDebugUnitTest`; `build-logs/phase-8-focused.log`; 3 tests, 23 seconds. |
+| Manifest inspection | Passed | `android:allowBackup="false"`; no `<uses-permission>` declaration, including network/camera/microphone. |
+| Clean debug build | Passed | `.\\gradlew.bat --no-daemon --warning-mode all clean assembleDebug`; `build-logs/phase-8-clean-debug.log`; 161 tasks, 38 seconds. |
+| Diff whitespace | Passed before commit | `git diff --check` |
+
+The sample is a contract demonstrator. It does not prove a camera/permission
+flow, model execution, real photo/video capture, approved-media viewer,
+accessibility/device behavior, or release packaging.

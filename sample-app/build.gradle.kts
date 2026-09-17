@@ -42,5 +42,6 @@ dependencies {
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    testImplementation(kotlin("test"))
     debugImplementation(libs.androidx.ui.tooling)
 }
