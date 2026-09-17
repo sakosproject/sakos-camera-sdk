@@ -94,3 +94,15 @@ does not validate Android decoding, model inference, corpus parity, recording,
 private staging, device behavior, or release packaging. The recurring SDK XML
 metadata warning and unstripped debug-native-library message remain
 non-failing environment/package observations.
+
+## Phase 7A — 2026-09-17
+
+| Check | Result | Evidence |
+| --- | --- | --- |
+| Staging state-machine tests | Passed | `.\\gradlew.bat --no-daemon :capture-video:testDebugUnitTest`; `build-logs/phase-7a-focused.log`; 25 tests, 21 seconds. |
+| Clean debug build | Passed | `.\\gradlew.bat --no-daemon --warning-mode all clean assembleDebug`; `build-logs/phase-7a-clean-debug.log`; 161 tasks, 37 seconds. |
+| Diff whitespace | Passed before commit | `git diff --check` |
+
+The focused test uses an injected in-memory store to verify cleanup, retry,
+transition rejection, blocking, and recovery. It is not Android filesystem,
+backup, CameraX, media-provider, process-death, or release evidence.
