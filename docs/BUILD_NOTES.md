@@ -166,3 +166,11 @@ was absent; `integration-tests/consumer/gradle.properties` fixes only that
 consumer build setting. The later verifier passed. Local Maven verification is
 not remote publication, model/runtime proof, corpus parity, device validation,
 or release readiness.
+
+## Phase 12 — 2026-09-17
+
+Documentation-only verification passed: all explicit local documentation targets
+exist, the prohibited-claim search found no new advertising claim, and
+`git diff --check` passed. No Gradle build ran. The documentation deliberately
+does not create a public security-reporting endpoint, model/runtime claim,
+corpus/device metric, remote install coordinate, or release claim.

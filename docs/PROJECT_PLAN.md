@@ -108,7 +108,7 @@ Each row is a separately selected implementation unit. `4A` and `4B`, and `7A` a
 | 9 | Corpus comparison and performance report | 8; authorized local corpus | Blocked: comparator complete; real model and authorized corpus unavailable |
 | 10 | Device and lifecycle fault validation | 8; suitable devices | Blocked: pending physical devices and functional runtime |
 | 11 | Local Maven artifacts and separate minified consumer | 8; 9/10 required before release readiness | Complete for local verification; release readiness blocked by 9/10 |
-| 12 | Developer documentation and release presentation assets | 9, 10, 11 for verified claims | Not started |
+| 12 | Developer documentation and release presentation assets | 9, 10, 11 for verified claims | Complete for verified local documentation; public assets/release claims pending |
 | 13 | Local responsive website | 12; brand/hosting approach recorded | Not started |
 | 14 | Reviewed release preparation | 1–13 gates passed | Not started |
 | 15 | Explicit public launch actions | 14; specific user authorization | Not started |
@@ -529,6 +529,17 @@ Append an entry after each implementation turn, including partial work. Preserve
 - Gate results (passed / failed / pending), limitations and blockers: local Maven and minified-consumer gates passed. The consumer validates compile/minification and metadata resolution only; it does not prove real model presence/inference, offline runtime behavior, physical-device behavior, corpus parity, remote publication, or release readiness. Phases 9 and 10 remain blocked and prevent a release-ready claim.
 - Source worktree preservation and SDK diff review: no source write/build/reset occurred. The consumer has no `project(...)`, composite-build substitution, production checkout path, signing configuration, or remote publication target. Generated local Maven output remains under ignored `build/` and was removed by the later clean build.
 - Remaining work and next eligible phase (not automatically authorized): Phase 12 may document only verified local coordinates and limitations; it must not advertise a remote install/release. Phase 9/10 external gates remain required before release preparation.
+
+### Phase 12 — 2026-09-17 — complete for verified local documentation; public assets/release claims pending
+
+- Checkout/branch/HEAD and source revision/status: SDK branch `codex/phase-12-developer-docs`, based on Phase 11 commit `e601867`; source remains read only at `historical source revision omitted` with its two pre-existing unrelated edits.
+- Pre-edit exact target files / implementation steps: update `README.md`, `docs/VIDEO_STORAGE.md`, and `docs/MODEL_CARD.md`; add a local-consumer quick-start and integration guide, contribution guidance, a security-status document that does not advertise an unverified reporting channel, a changelog, and a third-party notice index. Record only the verified `0.0.0-local` local Maven path and present runtime/model/corpus/device/remote-release claims as pending. Do not create screenshots, sample media, security contact addresses, badges, package installs, release notes for public delivery, external messaging, or a website deployment.
+- Acceptance criteria and planned checks: runnable documentation command must match Phase 11 verifier; module/API/storage documentation must match current source and explicit limitations; link/reference and prohibited-claim search must pass. Documentation-only work does not require Gradle.
+- Changes actually made and intentional behavioral differences: updated the README's current status/local consumer quick-start, corrected the storage guide to reflect the narrow existing CameraX lifecycle adapter, and expanded the model card with sampled-video/isolated-evidence limitations. Added module/integration guidance, contributing guidance, a non-endpoint security-status file, an unreleased changelog and third-party notice index. No screenshot, sample media, badge, public security contact, external service, remote install coordinate, model, metric or public release claim was added.
+- Commands, exit codes, logs/reports, device/runtime versions: explicit local link-target verification passed for all documented local references; the prohibited-claim search found only existing plan text that prohibits such claims; `git diff --check` passed. No Gradle task ran because this phase changes documentation only.
+- Gate results (passed / failed / pending), limitations and blockers: verified local documentation gate passed. Brand visuals/screenshots, actual model/corpus/device evidence, a verified private security-reporting channel, remote install coordinates and public-release material remain pending. Docs do not make those claims.
+- Source worktree preservation and SDK diff review: no source write/build/reset occurred; its two pre-existing edits remain untouched. SDK changes are documentation/notice files only.
+- Remaining work and next eligible phase (not automatically authorized): Phase 13 can implement a local responsive site with only these verified claims. Phase 14 remains blocked until the unresolved model, corpus, device, security-channel and release-target gates are closed.
 
 ## Planning revision record — 2026-09-17
 

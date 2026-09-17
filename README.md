@@ -6,7 +6,7 @@ Part of **SakOS — Safe Kids OS**. We are building a modular Android SDK that b
 
 [Project plan](docs/PROJECT_PLAN.md) · [SakOS on GitHub](https://github.com/sakosproject) · [Apache-2.0 license](LICENSE)
 
-> **In development.** The repository contains extracted contract and policy seams plus a sample-app contract demonstrator. A real bundled model, Android file-store adapter, CameraX recorder start/finalize integration, and installation instructions are not available yet.
+> **In development.** The repository contains extracted contract and policy seams, local-only Maven verification, and a sample-app contract demonstrator. A real bundled model, Android file-store adapter, CameraX recorder start/finalize integration, and remote installation coordinates are not available yet.
 
 ## What we are building
 
@@ -46,6 +46,22 @@ Project-owned material is licensed under [Apache License 2.0](LICENSE). Future t
 - [ ] Launch the SakOS website and publish an experimental SDK release.
 
 See the [project plan](docs/PROJECT_PLAN.md) for scope and acceptance criteria.
+
+## Local consumer verification
+
+The four libraries can be published only to a repository-local Maven directory
+with provisional coordinates for a separate minified consumer build:
+
+```powershell
+.\scripts\verify-local-consumer.ps1
+```
+
+This creates `build/local-maven` temporarily and runs
+`integration-tests/consumer` without `project(...)` dependencies. The later
+clean build removes the directory; rerun the script to recreate it. See
+[the consumer report](docs/validation/CONSUMER_REPORT.md) and
+[integration guide](docs/INTEGRATION.md). This is not remote publication or a
+claim that the model/runtime works.
 
 ## Website and project feedback
 

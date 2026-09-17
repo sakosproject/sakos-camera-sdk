@@ -20,6 +20,8 @@ attempts return `BlockedByCleanup` until `retryCleanup` succeeds.
 On startup, call `recoverAbandonedSessions` before accepting a recording. It
 purges every non-completed session and preserves completed records. The current
 abstraction cannot guarantee forensic erasure, protect against a modified host,
-or prove behavior of a future Android file-store adapter. Phase 7B will supply
-CameraX recording, promotion ordering, file descriptors, backup configuration,
-and process-death/device verification.
+or prove behavior of a future Android file-store adapter. The current managed
+pipeline supplies an injected promotion seam and a narrow CameraX `Recording`
+stop/close adapter; it does not start a recorder, assign a file path, or prove
+file descriptors, backup configuration, promotion atomicity, or process-death
+behavior. Those remain device/runtime validation gates.
