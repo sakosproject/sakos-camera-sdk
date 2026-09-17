@@ -56,3 +56,18 @@ items.
 The Phase 2 SDK XML metadata and unstripped debug-native-library messages
 recurred without failing the build. Phase 4A does not execute a model or close
 runtime/device/corpus parity gates.
+
+## Phase 4B model preflight — 2026-09-17
+
+| Check | Result | Evidence |
+| --- | --- | --- |
+| Model preflight tests | Passed | `.\\gradlew.bat --no-daemon :safety-opennsfw2:testDebugUnitTest`; `build-logs/phase-4b-preflight-focused.log`; 27 actionable tasks, 25 seconds. |
+| Clean debug build | Passed | `.\\gradlew.bat --no-daemon --warning-mode all clean assembleDebug`; `build-logs/phase-4b-preflight-clean-debug.log`; 157 tasks, 36 seconds. |
+| Diff whitespace | Passed | `git diff --check` |
+
+The preflight tests cover missing asset, short asset, correct-length/wrong-
+digest asset, a closed evaluator, model/preprocessing/policy identity, and the
+absence of an approval path. They do not test an actual model, tensor shapes at
+runtime, LiteRT, camera input, corpus accuracy, device behavior, or release
+packaging. The recurring SDK XML and debug-native-library messages remain
+non-failing environment/package observations.
