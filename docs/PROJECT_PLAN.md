@@ -106,7 +106,7 @@ Each row is a separately selected implementation unit. `4A` and `4B`, and `7A` a
 | 7B | CameraX recording, promotion and recovery integration | 7A | Complete for managed seam/recording adapter; real CameraX/file-store pending |
 | 8 | Usable Compose sample and approved-media viewer | 5, 7B | Complete for contract demonstrator; live capture/viewer pending |
 | 9 | Corpus comparison and performance report | 8; authorized local corpus | Blocked: comparator complete; real model and authorized corpus unavailable |
-| 10 | Device and lifecycle fault validation | 8; suitable devices | Not started |
+| 10 | Device and lifecycle fault validation | 8; suitable devices | Blocked: pending physical devices and functional runtime |
 | 11 | Local Maven artifacts and separate minified consumer | 8; 9/10 required before release readiness | Not started |
 | 12 | Developer documentation and release presentation assets | 9, 10, 11 for verified claims | Not started |
 | 13 | Local responsive website | 12; brand/hosting approach recorded | Not started |
@@ -507,6 +507,17 @@ Append an entry after each implementation turn, including partial work. Preserve
 - Gate results (passed / failed / pending), limitations and blockers: comparator tooling and synthetic accounting passed. The Phase 9 comparison gate is blocked because no authorized labeled corpus/matched source output and no real SDK model runtime exist. Counts in `PARITY_REPORT.md` are intentionally unavailable, not zero. This is not corpus, model, performance, safety accuracy or device parity evidence.
 - Source worktree preservation and SDK diff review: source remained read only with only its two pre-existing edits. SDK changes are limited to portable benchmark tooling and sanitised documentation; no raw data/model path is tracked.
 - Remaining work and next eligible phase (not automatically authorized): provide an authorized corpus outside this repository plus matched pinned source and SDK output after Phase 4B's model gate to run the comparator. Phase 11 local Maven packaging can proceed independently, but release readiness remains dependent on Phases 9 and 10.
+
+### Phase 10 — 2026-09-17 — blocked: pending physical devices and functional runtime
+
+- Checkout/branch/HEAD and source revision/status: SDK branch `codex/phase-10-device-matrix`, based on Phase 9 commit `f5edd10`; source remains read only at `historical source revision omitted` with its two pre-existing unrelated edits.
+- Pre-edit exact target files / implementation steps: add `docs/validation/DEVICE_MATRIX.md` with reproducible device/fault scenarios, required evidence fields, stop conditions and every result marked pending. Do not add a fake device, emulator claim, model, permission flow, media fixture, APK upload, source edit or runtime workaround.
+- Acceptance criteria and planned checks: matrix must cover the plan's fresh-install, offline, no-host application, API range, front/back, orientation, repeat, resource, model fault, permission, cancellation/background, storage/cleanup, process-death/recovery and exposure/backup scenarios. Verify the matrix's internal completeness and run `git diff --check`; no Android build applies to documentation-only work.
+- Changes actually made and intentional behavioral differences: added a sanitised matrix with all required scenarios, device/configuration evidence fields, stop conditions and a stepwise execution outline. Every row is pending. No device, emulator, model, media, actual permission flow, file-store inspection or source operation occurred.
+- Commands, exit codes, logs/reports, device/runtime versions: matrix coverage search and `git diff --check` exited 0. No Android build ran because this phase changes only documentation.
+- Gate results (passed / failed / pending), limitations and blockers: device gate remains blocked. The worktree has neither suitable authorized physical devices nor a functional model/private-store/CameraX path to exercise. The matrix is a required runbook, not validation evidence.
+- Source worktree preservation and SDK diff review: no source write/build/reset occurred; its two pre-existing edits remain untouched. SDK changes are confined to the matrix and phase record.
+- Remaining work and next eligible phase (not automatically authorized): execute the pending rows on authorized physical devices after Phase 4B and actual capture integration are functional. Phase 11 local Maven packaging may proceed, but release readiness remains blocked on this matrix and Phase 9.
 
 ## Planning revision record — 2026-09-17
 

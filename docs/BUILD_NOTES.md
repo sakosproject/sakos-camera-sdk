@@ -143,3 +143,10 @@ accessibility/device behavior, or release packaging.
 No corpus, source-reference result, model runtime, device identity, or latency
 measurement was available. The comparator is ready for sanitized external
 inputs, but it is not parity or performance evidence by itself.
+
+## Phase 10 — 2026-09-17
+
+`docs/validation/DEVICE_MATRIX.md` was added as a documentation-only device
+runbook. Its coverage search and `git diff --check` passed. No Android build,
+emulator, physical device, model runtime, capture flow, media fixture, or
+device evidence was used; every validation row remains pending.
