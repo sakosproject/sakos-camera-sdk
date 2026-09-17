@@ -94,6 +94,10 @@ class VideoStagingSessionManager(
     fun markReviewing(id: VideoStagingSessionId): VideoStagingTransitionResult =
         transition(id, VideoStagingState.Recording, VideoStagingState.Reviewing)
 
+    /** Returns the durable Reviewing session without changing its state. */
+    fun requireReviewing(id: VideoStagingSessionId): VideoStagingTransitionResult =
+        requireState(id, VideoStagingState.Reviewing)
+
     fun beginPromotion(id: VideoStagingSessionId): VideoStagingTransitionResult =
         transition(id, VideoStagingState.Reviewing, VideoStagingState.Promoting)
 
@@ -164,6 +168,17 @@ class VideoStagingSessionManager(
         val updated = session.copy(state = next)
         store.writeSession(updated)
         return VideoStagingTransitionResult.Updated(updated)
+    }
+
+    private fun requireState(
+        id: VideoStagingSessionId,
+        expected: VideoStagingState,
+    ): VideoStagingTransitionResult {
+        val session = find(id) ?: return VideoStagingTransitionResult.Rejected("Unknown staging session ${id.value}.")
+        if (session.state != expected) {
+            return VideoStagingTransitionResult.Rejected("Session ${id.value} is not $expected.")
+        }
+        return VideoStagingTransitionResult.Updated(session)
     }
 
     private fun find(id: VideoStagingSessionId): VideoStagingSession? = store.sessions().singleOrNull { it.id == id }

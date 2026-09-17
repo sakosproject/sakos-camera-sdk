@@ -200,3 +200,15 @@ evidence.
 The bridge compiles against CameraX `OnImageCapturedCallback` and `takePicture`
 signatures. It is not device, optics/orientation, permission, lifecycle,
 model-runtime, storage, corpus, or release evidence.
+
+## Phase 7B CameraX finalization continuation — 2026-09-17
+
+| Check | Result | Evidence |
+| --- | --- | --- |
+| Finalization bridge tests | Passed | `.\gradlew.bat --no-daemon :capture-video:testDebugUnitTest`; 38 actionable tasks, 25 seconds. Covers CameraX-error cleanup, clean Reviewing transition/duration conversion, duplicate finalization rejection, and Allow-only promotion after preparation. |
+| Common clean debug build | Passed | `.\gradlew.bat --no-daemon --warning-mode all clean assembleDebug`; 161 tasks, 40 seconds. |
+| Static boundary review | Passed | Finalization bridge adds only `VideoRecordEvent.Finalize` handling; no MediaStore/public path, audio enablement, permission, model, network or release addition was found. |
+
+The real `VideoRecordEvent.Finalize` signature compiles through the bridge, but
+no actual recorder callback, decoder/model, promoted output, process death, or
+physical-device run has occurred.

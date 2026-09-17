@@ -84,6 +84,21 @@ class ManagedVideoCapturePipeline(
         if (reviewing !is VideoStagingTransitionResult.Updated) {
             return ManagedVideoReviewResult.Rejected("Session ${session.id.value} could not enter review: $reviewing")
         }
+        return reviewPrepared(reviewing.session, durationMillis, decoder, evaluator, promoter)
+    }
+
+    /** Reviews a session already moved to Reviewing by [CameraXVideoFinalizationBridge]. */
+    suspend fun <Frame : Any> reviewPrepared(
+        session: VideoStagingSession,
+        durationMillis: Long,
+        decoder: VideoFrameDecoder<Frame>,
+        evaluator: VideoFrameEvaluator<Frame>,
+        promoter: ApprovedVideoPromoter,
+    ): ManagedVideoReviewResult {
+        val reviewing = sessions.requireReviewing(session.id)
+        if (reviewing !is VideoStagingTransitionResult.Updated) {
+            return ManagedVideoReviewResult.Rejected("Session ${session.id.value} is not ready for review: $reviewing")
+        }
         val review = temporalReview.review(durationMillis, decoder, evaluator)
         if (review.decision != VideoTemporalReviewDecision.Allow) {
             return ManagedVideoReviewResult.NotPromoted(review, sessions.discard(session.id))

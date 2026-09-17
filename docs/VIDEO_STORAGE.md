@@ -30,7 +30,13 @@ recordings until `retryCleanup` removes its content and metadata.
 caller-supplied CameraX `PendingRecording`. It neither enables audio nor maps
 media to a public destination. The managed pipeline still owns an injected
 decoder/evaluator and approved-output promoter. A real CameraX finalization
-callback, file-descriptor behavior, backup behavior on a device, promotion
-atomicity, model review and process-death behavior remain unverified runtime or
-device gates. This store does not guarantee forensic erasure or protect against
-a modified host.
+bridge now maps a clean `VideoRecordEvent.Finalize` into a durable `Reviewing`
+session and its recorded duration. Every CameraX finalization error discards
+private staging before review or promotion; duplicate/out-of-order finalizations
+are rejected. The host starts review with `reviewPrepared` using its injected
+decoder/evaluator/promoter.
+
+File-descriptor behavior, backup behavior on a device, actual recorder callback
+delivery, promotion atomicity, model review and process-death behavior remain
+unverified runtime or device gates. This store does not guarantee forensic
+erasure or protect against a modified host.
