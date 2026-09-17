@@ -40,8 +40,18 @@ source checkout is a behavioral reference only and remains read-only.
 | CameraX | 1.5.3 | version catalog |
 | LiteRT | 1.4.2 | version catalog |
 
-The Gradle execution JDK has not yet been verified. Bytecode target 11 does
-not establish the JDK needed to run this AGP/Gradle combination.
+Phase 2 verified the Gradle execution JDK as OpenJDK 21.0.10 from the Android
+Studio runtime. Bytecode target 11 remains the compiled-library target; it
+does not imply that Gradle runs on JDK 11.
+
+The Phase 2 wrapper was generated from the official cached Gradle 8.13 binary
+distribution, not copied from the source repository. Its `distributionUrl`
+points to the Gradle 8.13 binary ZIP; the generated wrapper JAR SHA-256 is
+`81A82AAEA5ABCC8FF68B3DFCB58B3C3C429378EFD98E7433460610FECD7AE45F`.
+The distribution's Apache-2.0 license file had SHA-256
+`9536D88EA948603D18E232A13F5958D67807CD80828036B082BFF171D2CF0703`.
+The repository already carries the full Apache-2.0 text at `LICENSE`; the
+release audit must still include Gradle wrapper notices in its package review.
 
 ## Model fingerprint and declared contract
 

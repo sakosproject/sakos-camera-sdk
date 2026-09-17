@@ -96,7 +96,7 @@ Each row is a separately selected implementation unit. `4A` and `4B`, and `7A` a
 | --- | --- | --- | --- |
 | 0 | Repository foundation | None | Complete |
 | 1 | Provenance evidence and exact extraction allowlist | 0 | Blocked for source/model import; independent scaffold clearance recorded |
-| 2 | Independent Gradle/module skeleton | 1: scaffold files cleared | Not started |
+| 2 | Independent Gradle/module skeleton | 1: scaffold files cleared | Complete |
 | 3 | Evaluation contracts and failure semantics | 2; relevant Phase 1 clearance | Not started |
 | 4A | Spatial sampling and model-specific policy | 3; relevant Phase 1 clearance | Not started |
 | 4B | Bundled inference runtime | 4A; exact model clearance | Not started |
@@ -389,6 +389,18 @@ Append an entry after each implementation turn, including partial work. Preserve
 - Gate results (passed / failed / pending), limitations and blockers: inventory/disposition gate passed. Source/model redistribution clearance is pending and blocks import; neither a matching checksum nor private-repository license declarations prove it. No corpus, device, inference, local Maven, publication or website evidence exists.
 - Source worktree preservation and SDK diff review: source retained only its pre-existing two edits. SDK diff contains only the Phase 1 plan/provenance/manifest/baseline documentation.
 - Remaining work and next eligible phase (not automatically authorized): Phase 2 may create independently authored build/module scaffolding using the cleared baseline, without source/model imports. Clearance evidence is still required before Phases 3–7 can incorporate the blocked source-derived behavior or model.
+
+### Phase 2 — 2026-09-17 — in progress
+
+- Checkout/branch/HEAD and source revision/status: SDK branch `codex/phase-2-skeleton`, based on Phase 1 commit `4e259f8`; source remains a read-only reference at `historical source revision omitted` with its two pre-existing unrelated modifications.
+- Prerequisites and provenance clearance: `docs/EXTRACTION_MANIFEST.md` clears independently authored Gradle/module/sample scaffolding and a wrapper generated from the official Gradle 8.13 distribution. It does not clear source/model copying.
+- Pre-edit exact source sections / target files / implementation steps: no source code or asset is an input. Create root `settings.gradle.kts`, `build.gradle.kts`, `gradle.properties`, `gradle/libs.versions.toml`, generated Gradle 8.13 wrapper files, library manifests/build files for `safety-core`, `safety-opennsfw2`, `capture-camerax`, and `capture-video`, plus the `sample-app` build file, manifest, minimal Compose activity and resources. Add `docs/BUILD_NOTES.md` to record build evidence. Use packages `org.sakos.camera` and `org.sakos.camera.sample`; include no permissions, signing configuration, model asset, camera implementation, network/Firebase dependency, host application dependency, or approval behavior.
+- Acceptance criteria and planned checks: the five included modules resolve only their declared inward SDK dependencies and AndroidX/LiteRT baseline dependencies; the sample shell builds with standard debug signing and plainly states capture is not wired. Run `:sample-app:dependencies --configuration debugRuntimeClasspath`, then `--warning-mode all clean assembleDebug`, capture logs under ignored `build-logs/`, inspect manifests/dependency output, run `git diff --check`, and append final results before committing.
+- Changes actually made and intentional behavioral differences: added the five-module Gradle skeleton, generated an official Gradle 8.13 wrapper, and added a Compose-only sample setup screen. The sample requests no permissions and has no camera, microphone, model, capture, review, approval or output behavior. No source-derived code/asset, Firebase, host application integration, production signing or release configuration was introduced.
+- Commands, exit codes, logs/reports, device/runtime versions: wrapper generation, dependency inspection and clean debug build all exited 0. Sanitized command/results are in `docs/BUILD_NOTES.md`; raw logs are ignored under `build-logs/`. The build used Android Studio OpenJDK 21.0.10 and produced 153 actionable tasks in 61 seconds. It reported SDK XML version 4 and unstripped debug native libraries; both are recorded as non-failing environment/package observations.
+- Gate results (passed / failed / pending), limitations and blockers: passed all local Phase 2 checks. The sample runtime graph resolved all four library modules and their inward dependencies; manifest inspection found no permissions, providers, queries, Firebase or host application references. The source/model provenance block remains unchanged. This is not a functional SDK, inference proof, device test, consumer test, publication or release gate.
+- Source worktree preservation and SDK diff review: source remains read-only with only its two pre-existing edits. SDK changes are limited to independently authored build/module/sample scaffolding, the generated Gradle wrapper and tracked evidence; `git diff --check` passed.
+- Remaining work and next eligible phase (not automatically authorized): Phase 3 can independently author generic evaluation contracts and fail-closed semantics in `safety-core`. It must not use blocked source code or a model asset; model/source clearance remains required before source-derived behavior and real inference phases.
 
 ## Planning revision record — 2026-09-17
 
