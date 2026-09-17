@@ -1,0 +1,79 @@
+# Baseline record
+
+This internal record pins the source observations used for the initial SDK
+extraction plan. It is not a license grant and must be reviewed before making
+the repository public.
+
+## SDK foundation
+
+- Repository commit before Phase 1: `651b05f5289a0ecaf58829bdf691c6bf06c94724`.
+- Phase 1 branch: `codex/phase-1-provenance`.
+- The repository contained documentation, an Apache-2.0 license, and ignore
+  rules only. It did not contain Android source, a Gradle wrapper, model
+  assets, test media, or production configuration.
+
+## Read-only source snapshot
+
+The candidate source repository was inspected at commit
+`historical source revision omitted` on 2026-09-17. It had two
+pre-existing uncommitted modifications:
+
+- `docs/BUILD_NOTES.md`
+- `scripts/build-play-release-bundles-with-reviewer-token.ps1`
+
+Neither file is a candidate for this SDK and neither was read into or copied
+to this repository. All source paths in this document and the extraction
+manifest are relative to that source repository at the pinned commit. The
+source checkout is a behavioral reference only and remains read-only.
+
+## Retained Android baseline for Phase 2
+
+| Setting | Observed value | Observed source |
+| --- | --- | --- |
+| Compile SDK | 36 | library and application Gradle files |
+| Target SDK | 36 | application Gradle files |
+| Minimum SDK | 26 | library and application Gradle files |
+| Android Gradle Plugin | 8.13.2 | version catalog |
+| Kotlin | 2.0.21 | version catalog |
+| Java bytecode target | 11 | module Gradle files |
+| Gradle wrapper | 8.13 | wrapper properties |
+| CameraX | 1.5.3 | version catalog |
+| LiteRT | 1.4.2 | version catalog |
+
+The Gradle execution JDK has not yet been verified. Bytecode target 11 does
+not establish the JDK needed to run this AGP/Gradle combination.
+
+## Model fingerprint and declared contract
+
+The source asset `private source path omitted`
+was measured locally at the pinned source snapshot:
+
+| Property | Value |
+| --- | --- |
+| Size | 6,128,536 bytes |
+| SHA-256 | `051A21BF697858C1E2537354A99BE09A48D26BBFBA0C35216B340F16DE7528D7` |
+| Declared model ID | `opennsfw2_resnet50_v1` |
+| Declared input | float32 `[1, 224, 224, 3]` |
+| Declared input processing | YUV420 to RGB resize, BGR channel order with mean subtraction `[104, 117, 123]` |
+| Declared output | float32 `[1, 2]`, `[sfw_probability, nsfw_probability]` |
+
+The source policy asset fingerprint is
+`d06a495fa9f777321a240516c0dd624033f13fbec1be002d75310bf9f5417583`.
+It declares policy version 1, high-tier threshold 0.75, raw NSFW floor 0.45,
+and the other current spatial-policy constants. These values are facts about
+the source snapshot, not independently validated suitability claims.
+
+## Known behavior that requires characterization
+
+- Still evaluation combines fixed/adaptive spatial sampling, including
+  portrait-specific probes, ambiguity work, corroboration, and early exits.
+- Video policy declares a 30-second base interval and a maximum of 35 decoded
+  samples.
+- The source video aggregation contains an intentional
+  `singleUncorroboratedNonExtremeBlockAllow` path. Preserve and characterize
+  it before deciding whether to change it.
+- The source has a host application trust snapshot and a legacy fail-open policy
+  option. Neither belongs in the independent SDK's managed capture path.
+- The source's normal non-Allow video path may retain staging. The independent
+  SDK must introduce explicit cleanup/recovery in later phases; that is an
+  intentional lifecycle difference, not evidence of source parity.
