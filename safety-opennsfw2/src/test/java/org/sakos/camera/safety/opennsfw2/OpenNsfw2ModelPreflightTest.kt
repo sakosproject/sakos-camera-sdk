@@ -1,6 +1,7 @@
 package org.sakos.camera.safety.opennsfw2
 
 import java.io.ByteArrayInputStream
+import java.io.File
 import kotlin.coroutines.Continuation
 import kotlin.coroutines.EmptyCoroutineContext
 import kotlin.coroutines.startCoroutine
@@ -8,6 +9,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
 import kotlin.test.assertNull
+import kotlin.test.assertTrue
 import org.sakos.camera.safety.core.SafetyCaptureContext
 import org.sakos.camera.safety.core.SafetyCaptureId
 import org.sakos.camera.safety.core.SafetyEvaluationRequest
@@ -72,9 +74,21 @@ class OpenNsfw2ModelPreflightTest {
     @Test
     fun contractKeepsModelPreprocessingAndPolicyIdentityTogether() {
         assertEquals("opennsfw2_resnet50_v1", OpenNsfw2ModelPreflight.configuration.model.id)
+        assertEquals("051a21bf697858c1", OpenNsfw2ModelPreflight.configuration.model.version)
         assertEquals(listOf(1, 224, 224, 3), OpenNsfw2ModelPreflight.inputShape)
         assertEquals(listOf(1, 2), OpenNsfw2ModelPreflight.outputShape)
         assertEquals(listOf(104, 117, 123), OpenNsfw2ModelPreflight.bgrMeanSubtraction)
+    }
+
+    @Test
+    fun bundledAssetPassesTheDeclaredIntegrityPreflight() {
+        val asset = File("src/main/assets/${OpenNsfw2ModelPreflight.assetPath}")
+
+        assertTrue(asset.isFile)
+        assertEquals(
+            OpenNsfw2ModelAssetStatus.Verified,
+            asset.inputStream().use(OpenNsfw2ModelPreflight::verify),
+        )
     }
 
     private fun <T> runSuspend(block: suspend () -> T): T {

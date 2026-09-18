@@ -32,7 +32,7 @@ artifact.
 | --- | --- | --- |
 | Model asset/version | `UNSET` | Cleared conversion and redistribution record. |
 | Policy/preprocessing identity | `UNSET` | Model/runtime implementation and test evidence. |
-| Corpus parity report | `UNSET` | Completed authorized comparison report. |
+| Independent validation status | `UNSET` | Owner-approved completion status. |
 | Physical-device matrix | `UNSET` | Completed sanitized device evidence. |
 | Local consumer validation | `UNSET` | Re-run against this candidate, not a prior local build. |
 

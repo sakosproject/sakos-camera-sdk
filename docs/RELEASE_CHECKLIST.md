@@ -15,7 +15,7 @@ launch runbook can name an external action.
 | --- | --- | --- | --- |
 | Exact model rights | Reviewable conversion chain, exact asset checksum, redistribution notice and approval | Blocked | Do not add or package a model asset. |
 | Model runtime | Real bundled-model inference, failure handling and Android runtime evidence | Blocked | Do not claim runtime or offline inference works. |
-| Corpus parity | Authorized corpus, matched pinned reference/SDK records and completed comparator report | Blocked | Do not claim accuracy, parity or performance. |
+| Independent validation | Owner-approved completion status | Deferred | Do not claim accuracy, parity or performance. |
 | Physical-device validation | Completed device matrix with sanitized evidence and fault/recovery outcomes | Blocked | Do not claim capture, cleanup or device behavior. |
 | Security reporting | Verified private intake path and reviewed public disclosure wording | Blocked | Do not publish a security contact or disclosure policy. |
 | Package destination | Confirmed namespace, immutable version, account and approved publishing method | Unresolved | Do not sign, tag or publish. |

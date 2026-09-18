@@ -14,7 +14,7 @@ delivery.
 | README | The local Maven verifier can publish `0.0.0-local` artifacts to `build/local-maven`. | Locally verified | `docs/validation/CONSUMER_REPORT.md` records the separate minified-consumer check. It is neither a remote package nor an install guarantee. |
 | Model card | No model is bundled and the expected candidate cannot be used until provenance is cleared. | Accurately blocked | `docs/PROVENANCE.md` records the source-only candidate identity and missing conversion/redistribution evidence. |
 | Integration guide | Photo/video behavior is represented by injected review, staging and promotion seams. | Locally verified with limits | Unit tests cover the documented seams. No real inference, private Android file store, CameraX recording or device result exists. |
-| Changelog | The release is unreleased and excludes model/runtime, corpus/device validation and remote publication. | Accurately pending | `CHANGELOG.md` matches the plan and release checklist. |
+| Changelog | The release is unreleased and excludes device validation and remote publication. | Accurately pending | `CHANGELOG.md` matches the plan and release checklist. |
 | Security status | No verified security-reporting channel is advertised. | Accurately blocked | `SECURITY.md` identifies the missing prerequisite and offers no endpoint. |
 | Website home, camera and guide | The static pages describe local contracts and the local consumer verifier, with runtime/device limits. | Locally verified with limits | `website/` is a dependency-free local preview reviewed in Phase 13. It is not hosted and has no download, demo, telemetry or remote install flow. |
 

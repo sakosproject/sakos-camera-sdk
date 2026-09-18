@@ -17,7 +17,7 @@ minified Android build. The consumer uses Maven coordinates only; it does not
 declare `project(...)`, a composite build, or a production checkout path.
 
 Local publication and a minified compile do not prove model availability,
-offline runtime behavior, physical-device behavior, source/corpus parity,
+offline runtime behavior, physical-device behavior, independent validation,
 remote publication, or release readiness.
 
 The exact verification script published the four AARs and built the separate

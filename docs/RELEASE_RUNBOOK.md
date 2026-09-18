@@ -14,7 +14,7 @@ Record these in an approved private review location, not in this repository:
 - approved website host, domain/DNS account and rollback owner;
 - signing/material handling procedure, without keys or tokens in source;
 - verified private security-reporting path and approved public wording;
-- model conversion/redistribution approval, corpus parity report and completed
+- model authorization, independent validation status, and completed
   physical-device matrix.
 
 If any input is absent, stop and update `docs/RELEASE_CHECKLIST.md` with the
@@ -31,7 +31,7 @@ missing decision or evidence.
 4. Compare every public statement in README, model card, changelog and website
    with the evidence table. Remove or block unsupported claims.
 5. Have the named reviewers confirm model rights, security intake, device
-   evidence, corpus evidence, package destination and website/DNS destination.
+   evidence, independent-validation status, package destination and website/DNS destination.
 6. Prepare a rollback record that identifies the exact artifact and website
    revision to restore. Keep contact details in the approved private system.
 

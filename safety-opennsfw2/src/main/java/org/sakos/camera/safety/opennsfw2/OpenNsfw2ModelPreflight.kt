@@ -9,7 +9,7 @@ import org.sakos.camera.safety.core.SafetyEvaluationRequest
 import org.sakos.camera.safety.core.SafetyEvaluator
 import org.sakos.camera.safety.core.SafetyFailureReason
 
-/** The expected contract for the model asset; this does not include the asset itself. */
+/** The expected contract for the bundled model asset. */
 object OpenNsfw2ModelPreflight {
     const val assetPath = "model/sakos_nudity_model.tflite"
     const val expectedByteCount = 6_128_536L
@@ -19,7 +19,7 @@ object OpenNsfw2ModelPreflight {
     val bgrMeanSubtraction = listOf(104, 117, 123)
 
     val configuration: SafetyConfigurationVersion = SafetyConfigurationVersion(
-        model = SafetyComponentVersion(OpenNsfw2ModelContract.modelId, "unbundled"),
+        model = SafetyComponentVersion(OpenNsfw2ModelContract.modelId, "051a21bf697858c1"),
         preprocessing = SafetyComponentVersion("opennsfw2-bgr-mean-104-117-123", "1"),
         policy = SafetyComponentVersion("opennsfw2-still-policy", "1"),
     )
@@ -62,7 +62,7 @@ sealed interface OpenNsfw2ModelAssetStatus {
 }
 
 /**
- * A temporary fail-closed evaluator used until a verified model can be bundled and executed.
+ * Fail-closed evaluator for callers that need an explicit integrity result before opening the runtime.
  * It is intentionally unable to return an Allow outcome.
  */
 class OpenNsfw2ModelPreflightEvaluator<Input : Any>(

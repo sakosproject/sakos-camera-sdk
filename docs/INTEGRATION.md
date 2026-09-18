@@ -37,7 +37,7 @@ Review. These rules have synthetic tests only.
 ## Runtime limits
 
 The exact OpenNSFW2 asset and conversion provenance are unresolved. The SDK
-therefore has no real inference runtime, usable live camera flow, corpus parity,
+therefore has no real inference runtime, usable live camera flow, independent validation,
 physical-device validation, or remote distribution. A host can bypass an
 app-level SDK; managed-path guarantees do not control other applications or a
 modified host.

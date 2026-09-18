@@ -19,9 +19,9 @@ The public upstream notices are retained under `third_party/licenses/`. The
 exact converted asset remains excluded pending the provenance record.
 
 Alternative models, preprocessing changes, or policy changes require their own
-version identity and corpus/device evaluation. The existing temporal engine
+version identity and independent/device evaluation. The existing temporal engine
 samples a bounded set of frames; it does not inspect every frame. Its preserved
 source-policy behavior can allow an isolated, uncorroborated, non-extreme final
 block only under the documented absence of review, high-risk, and unresolved
 crop evidence. This behavior has synthetic characterization only, not model or
-corpus validation.
+device validation.

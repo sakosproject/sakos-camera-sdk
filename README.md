@@ -6,7 +6,7 @@ Part of **SakOS — Safe Kids OS**. We are developing a modular Android SDK inte
 
 [Project plan](docs/PROJECT_PLAN.md) · [SakOS on GitHub](https://github.com/sakosproject) · [Apache-2.0 license](LICENSE)
 
-> **In development.** The repository contains extracted contract and policy seams, local-only Maven verification, and a sample-app contract demonstrator. A real bundled model, Android file-store adapter, CameraX recorder start/finalize integration, and remote installation coordinates are not available yet.
+> **In development.** The repository contains extracted contract and policy seams, a bundled on-device model runtime, local-only Maven verification, and a sample-app contract demonstrator. Device verification and remote installation coordinates are not available yet.
 
 ## What we are building
 
@@ -31,7 +31,7 @@ Detection is probabilistic, and sampled video review cannot guarantee detection 
 
 ## Model and attribution
 
-The existing detection work uses OpenNSFW2/Yahoo Open NSFW lineage together with additional capture, sampling, and policy logic. Exact model redistribution rights, conversion provenance, and third-party notices must be verified before any model is included here.
+The bundled detection work uses OpenNSFW2/Yahoo Open NSFW lineage together with additional capture, sampling, and policy logic. The source record, checksum, project-owner authorization, and retained upstream notices are documented in [the provenance record](docs/PROVENANCE.md).
 
 Project-owned material is licensed under [Apache License 2.0](LICENSE). Future third-party code and model assets retain their applicable licenses; this repository's license does not replace those terms.
 
@@ -60,8 +60,8 @@ This creates `build/local-maven` temporarily and runs
 `integration-tests/consumer` without `project(...)` dependencies. The later
 clean build removes the directory; rerun the script to recreate it. See
 [the consumer report](docs/validation/CONSUMER_REPORT.md) and
-[integration guide](docs/INTEGRATION.md). This is not remote publication or a
-claim that the model/runtime works.
+[integration guide](docs/INTEGRATION.md). This is not remote publication or
+device verification.
 
 ## Website and project feedback
 
@@ -71,4 +71,4 @@ Repository owners and collaborators can use [issues](https://github.com/sakospro
 
 ## Sample app
 
-The sample demonstrates the Photo/Video mode, runtime availability, and approved-media status without fabricating a capture result. Its capture actions remain disabled until the model runtime, private file-store adapter, and CameraX recorder integration pass their recorded gates. It requests no network permission and writes no media by itself.
+The sample demonstrates the Photo/Video mode, runtime availability, and approved-media status without fabricating a capture result. Its capture actions remain disabled until the private file-store adapter and CameraX recorder integration pass their recorded gates. It requests no network permission and writes no media by itself.

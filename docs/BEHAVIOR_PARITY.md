@@ -1,7 +1,7 @@
 # Spatial policy characterization
 
 Phase 4A characterizes the user-authorized spatial policy at source commit
-`historical source revision omitted`. It is not model, corpus, camera,
+`historical source revision omitted`. It is not model, device, camera,
 or device parity evidence.
 
 ## Imported policy surface

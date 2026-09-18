@@ -18,7 +18,7 @@ preview. The independently verified local Maven flow uses provisional
 ## Limits that must remain in a candidate note until evidence changes
 
 - No exact bundled model or real inference runtime is included.
-- No corpus parity, accuracy, latency, or physical-device validation result is
+- No independent validation, accuracy, latency, or physical-device result is
   available.
 - No real CameraX recording start/finalize or Android private-file-store path
   has been validated.
