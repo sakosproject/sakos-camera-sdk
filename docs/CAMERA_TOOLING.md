@@ -34,7 +34,13 @@ val graph = CameraGraphTooling.bind(
 ```
 
 Use `runner.run(retry = true)` after a recoverable failure. A matching ready cache
-skips probes. Schema/device/build/app/model/strategy/graph/step/inventory changes,
+skips probes. The runner validates the returned lens/preset/mode/tier/purpose,
+mandatory flag and gate coverage on both initial and full-temporal retry records,
+and exact zoom stop identity/count. Malformed contracts cannot establish
+readiness. Cleanup exceptions invalidate readiness and always release runner
+ownership so explicit retry remains possible.
+
+Schema/device/build/app/model/strategy/graph/step/inventory changes,
 unreadable ciphertext or interrupted writes cannot create readiness. The SDK uses
 AES-GCM with an app-local Android Keystore key, a no-backup directory and a synced
 pending-file commit. Profiles contain measurements, never image/video inputs.

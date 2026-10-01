@@ -104,6 +104,43 @@ class SyntheticVideoDecoderTest {
         sessions.recoverAbandonedSessions()
     }
 
+    @Test fun twoPlaybackClientsRetainLiveLeasesAndRetryOrphanCleanup() = runBlocking<Unit> {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val library = PrivateReviewedMediaLibrary(File(context.noBackupFilesDir, "sakos-synthetic-playback-owners"), OpenNsfw2ModelPreflight.configuration)
+        val capture = SafetyCaptureContext(SafetyCaptureId("synthetic-lease:${java.util.UUID.randomUUID()}"), 0, 64, 64, 0, false)
+        val decision = SafetyEvaluationOutcome.Decision(capture.captureId, SafetyEvaluationReceiptId("simulated-lease-allow"), OpenNsfw2ModelPreflight.configuration, SafetyDecision.Allow)
+        val input = File(context.noBackupFilesDir, "synthetic-lease-input.mp4")
+        encodePatterns(input)
+        val item = library.save(ReviewedMediaKind.Video, capture, requireNotNull(decision.approvalForManagedCapture(capture))) { output -> input.inputStream().use { it.copyTo(output) } }
+        val first = org.sakos.camera.capture.camerax.AndroidReviewedMediaClient(context, library)
+        val firstLease = first.playback(item); val firstFile = File(requireNotNull(firstLease.uri.path))
+        try {
+            val second = org.sakos.camera.capture.camerax.AndroidReviewedMediaClient(context, library)
+            assertTrue(firstFile.exists())
+            val secondLease = second.playback(item); val secondFile = File(requireNotNull(secondLease.uri.path))
+            try {
+                val orphan = File(firstFile.parentFile, "synthetic-orphan.mp4").apply { writeBytes(byteArrayOf(1)) }
+                second.retryCleanup(); assertFalse(orphan.exists()); assertTrue(firstFile.exists()); assertTrue(secondFile.exists())
+                val blocked = File(firstFile.parentFile, "synthetic-cleanup-failure.mp4").apply { mkdir() }
+                val child = File(blocked, "synthetic-partial").apply { writeBytes(byteArrayOf(1)) }
+                try { assertThrows(IllegalStateException::class.java) { second.retryCleanup() }; assertTrue(firstFile.exists()) }
+                finally { child.delete(); blocked.delete() }
+                second.retryCleanup(); assertTrue(firstFile.exists()); assertTrue(secondFile.exists())
+                // Synthetic filesystem obstruction exercises retryable lease
+                // cleanup without device-gallery or private input access.
+                check(firstFile.delete()); check(firstFile.mkdir())
+                val obstruction = File(firstFile, "synthetic-obstruction").apply { writeBytes(byteArrayOf(1)) }
+                try {
+                    assertThrows(IllegalStateException::class.java) { firstLease.close() }
+                    org.sakos.camera.capture.camerax.AndroidReviewedMediaClient(context, library).retryCleanup()
+                    assertTrue(firstFile.isDirectory); assertTrue(secondFile.exists())
+                } finally { obstruction.delete(); firstFile.delete() }
+                firstLease.close(); assertFalse(firstFile.exists()); assertTrue(secondFile.exists())
+            } finally { secondLease.close() }
+            assertFalse(secondFile.exists())
+        } finally { firstLease.close(); input.delete(); library.delete(item) }
+    }
+
     private fun encodePatterns(file: File) {
         val codec = MediaCodec.createEncoderByType("video/avc")
         val muxer = MediaMuxer(file.absolutePath, MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4)

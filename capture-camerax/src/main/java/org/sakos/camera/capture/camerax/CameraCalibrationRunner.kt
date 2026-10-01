@@ -41,11 +41,14 @@ class CameraCalibrationRunner(
             for (step in steps) {
                 currentCoroutineContext().ensureActive()
                 var record = quality(step, false)
-                require(record.graphPreset == step.preset && cameraQualityCalibrationLensToken(record.lensLabel) == step.lens)
+                validateRecord(step, record, false)
+                require(record.fastProbeRetried != true)
+                var retried = false
                 if (cameraQualityCalibrationNeedsFullTemporalRetry(record)) {
                     record = quality(step, true).copy(fastProbeRetried = true)
+                    retried = true
                 }
-                require(record.graphPreset == step.preset && cameraQualityCalibrationLensToken(record.lensLabel) == step.lens && record.mode == step.preset.mode && record.tier == step.preset.tier)
+                validateRecord(step, record, retried)
                 currentCoroutineContext().ensureActive()
                 storage.record(record)
                 progress(++completed, steps.size + 2)
@@ -67,7 +70,25 @@ class CameraCalibrationRunner(
                 progress(++completed, steps.size + 2)
             }
             return storage.load()
-        } finally { probe.cancel(); mutex.unlock() }
+        } finally {
+            try { probe.cancel() }
+            catch (cleanup: Exception) {
+                // Never retain a ready profile after unproven terminal cleanup.
+                try {
+                    storage.reset()
+                    storage.record(failureRecord(requiredSteps.first(), false, "Probe cleanup failed"))
+                } catch (storageFailure: Exception) { cleanup.addSuppressed(storageFailure) }
+                throw cleanup
+            } finally { mutex.unlock() }
+        }
+    }
+
+    private fun validateRecord(step: CameraCalibrationStep, record: CameraQualityCalibrationRecord, fullTemporal: Boolean) {
+        require(record.graphPreset == step.preset && cameraQualityCalibrationLensToken(record.lensLabel) == step.lens &&
+            record.mode == step.preset.mode && record.tier == step.preset.tier && record.probePurpose == step.purpose &&
+            record.mandatoryForReadiness == (step.purpose != CameraQualityCalibrationProbePurpose.OptionalDiagnostics))
+        require(record.gateCoverage == if (step.preset.mode == CameraQualityCalibrationMode.Photo) CameraQualityCalibrationGateCoverage.StillGate
+            else if (fullTemporal) CameraQualityCalibrationGateCoverage.FullTemporalFallback else CameraQualityCalibrationGateCoverage.FastSingleFrame)
     }
 
     private suspend fun quality(step: CameraCalibrationStep, fullTemporal: Boolean): CameraQualityCalibrationRecord =
@@ -78,14 +99,16 @@ class CameraCalibrationRunner(
 
     private fun failedProbe(step: CameraCalibrationStep, fullTemporal: Boolean, reason: String): CameraQualityCalibrationRecord {
         probe.cancel()
-        return CameraQualityCalibrationRecord(step.preset.mode, step.lens, step.preset.tier, CameraQualityCalibrationStatus.Failed,
+        return failureRecord(step, fullTemporal, reason)
+    }
+    private fun failureRecord(step: CameraCalibrationStep, fullTemporal: Boolean, reason: String): CameraQualityCalibrationRecord =
+        CameraQualityCalibrationRecord(step.preset.mode, step.lens, step.preset.tier, CameraQualityCalibrationStatus.Failed,
             step.preset.requestedCameraXQuality, null, null, null, null, null, null, null, reason, System.currentTimeMillis(),
             graphPreset = step.preset, previewStable = false, gateStatusLabel = "runtime failure",
             calibrationArtifactCleanupSucceeded = false, probePurpose = step.purpose,
             mandatoryForReadiness = step.purpose != CameraQualityCalibrationProbePurpose.OptionalDiagnostics,
             gateCoverage = if (step.preset.mode == CameraQualityCalibrationMode.Photo) CameraQualityCalibrationGateCoverage.StillGate
                 else if (fullTemporal) CameraQualityCalibrationGateCoverage.FullTemporalFallback else CameraQualityCalibrationGateCoverage.FastSingleFrame)
-    }
 
     companion object {
         val requiredSteps = listOf(

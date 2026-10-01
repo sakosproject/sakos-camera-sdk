@@ -157,4 +157,71 @@ class CameraCalibrationRunnerTest {
         assertTrue(storage.profile.zoomRecords.isEmpty())
         assertFalse(storage.profile.mandatoryReadiness(environment).ready)
     }
+    @Test fun cleanupExceptionInvalidatesReadyProfileUnlocksAndPermitsRetry() = runBlocking {
+        val storage = Storage(); var failCleanup = true
+        val probe = object : Probe() { override fun cancel() { super.cancel(); if (failCleanup) error("simulated cleanup error") } }
+        val runner = CameraCalibrationRunner(environment, storage, probe)
+        assertFailsWith<IllegalStateException> { runner.run() }
+        assertFalse(storage.profile.mandatoryReadiness(environment).ready)
+        assertTrue(storage.profile.records.any { it.calibrationArtifactCleanupSucceeded == false && it.status == CameraQualityCalibrationStatus.Failed })
+        failCleanup = false
+        assertTrue(runner.run(retry = true).mandatoryReadiness(environment).ready)
+    }
+    @Test fun mismatchedPurposeAndQualityIdentityFailClosedAndPermitRetry() = runBlocking {
+        for (variant in 0..4) {
+            val storage = Storage(); var malformed = true
+            val probe = object : Probe() {
+                override suspend fun quality(step: CameraCalibrationStep, fullTemporal: Boolean): CameraQualityCalibrationRecord {
+                    val record = super.quality(step, fullTemporal)
+                    if (!malformed) return record
+                    return when (variant) {
+                        0 -> record.copy(probePurpose = CameraQualityCalibrationProbePurpose.OptionalDiagnostics)
+                        1 -> record.copy(lensLabel = "front")
+                        2 -> record.copy(mode = CameraQualityCalibrationMode.Video)
+                        3 -> record.copy(mandatoryForReadiness = false)
+                        else -> record.copy(graphPreset = CameraQualityGraphPreset.PhotoHighProbe)
+                    }
+                }
+            }
+            val runner = CameraCalibrationRunner(environment, storage, probe)
+            assertFailsWith<IllegalArgumentException> { runner.run() }; assertFalse(storage.profile.mandatoryReadiness(environment).ready)
+            malformed = false; assertTrue(runner.run(retry = true).mandatoryReadiness(environment).ready)
+        }
+    }
+    @Test fun mismatchedFullTemporalRetryCannotPersistVerifiedSupport() = runBlocking {
+        for (variant in 0..2) {
+            val storage = Storage(); val probe = object : Probe() {
+                override suspend fun quality(step: CameraCalibrationStep, fullTemporal: Boolean): CameraQualityCalibrationRecord {
+                    val record = super.quality(step, fullTemporal)
+                    if (step.preset.mode != CameraQualityCalibrationMode.Video) return record
+                    if (!fullTemporal) return record.copy(status = CameraQualityCalibrationStatus.Failed, gateEvaluatedFrameCount = 0)
+                    return when (variant) {
+                        0 -> record.copy(probePurpose = CameraQualityCalibrationProbePurpose.OptionalDiagnostics)
+                        1 -> record.copy(gateCoverage = CameraQualityCalibrationGateCoverage.FastSingleFrame)
+                        else -> record.copy(lensLabel = "front")
+                    }
+                }
+            }
+            assertFailsWith<IllegalArgumentException> { CameraCalibrationRunner(environment, storage, probe).run() }
+            assertFalse(storage.profile.mandatoryReadiness(environment).ready)
+            assertFalse(storage.profile.records.any { it.mode == CameraQualityCalibrationMode.Video && it.status == CameraQualityCalibrationStatus.Verified })
+        }
+    }
+    @Test fun mismatchedZoomLensModeOrCountCannotCreateReadiness() = runBlocking {
+        for (variant in 0..2) {
+            val storage = Storage(); val probe = object : Probe() {
+                override suspend fun zoom(lens: String, mode: CameraQualityCalibrationMode, ratios: List<Float>): List<CameraZoomCalibrationRecord> {
+                    val records = super.zoom(lens, mode, ratios)
+                    return when (variant) {
+                        0 -> records.map { it.copy(lensLabel = "front") }
+                        1 -> records.map { it.copy(mode = CameraQualityCalibrationMode.Video) }
+                        else -> records.drop(1)
+                    }
+                }
+            }
+            assertFailsWith<IllegalArgumentException> { CameraCalibrationRunner(environment, storage, probe).run() }
+            assertFalse(storage.profile.mandatoryReadiness(environment).ready); assertTrue(storage.profile.zoomRecords.isEmpty())
+        }
+    }
+
 }

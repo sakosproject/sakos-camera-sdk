@@ -9,6 +9,7 @@ import org.sakos.camera.safety.opennsfw2.OpenNsfw2BitmapRuntime
 import org.sakos.camera.capture.video.VideoGatePolicy
 import org.sakos.camera.capture.video.VideoTemporalReviewDecision
 import org.sakos.camera.safety.core.SafetyCaptureId
+import org.sakos.camera.safety.core.approvalForManagedCapture
 import org.sakos.camera.safety.opennsfw2.IntegratedStillGatePolicyDefaults
 
 class ConsumerActivity : Activity() {
@@ -38,6 +39,30 @@ class ConsumerActivity : Activity() {
                 graphPreset = step.preset, calibrationArtifactCleanupSucceeded = true))
             check(storage.load().records.isNotEmpty())
             check(!storage.load().mandatoryReadiness(environment).ready)
+            // Simulated approval verifies standalone private save/preview/export
+            // contracts after shrinking; it is not a classifier result.
+            kotlinx.coroutines.runBlocking {
+                val configuration = org.sakos.camera.safety.opennsfw2.OpenNsfw2ModelPreflight.configuration
+                val approved = org.sakos.camera.capture.camerax.AndroidReviewedMediaLibrary(this@ConsumerActivity, configuration)
+                val capture = org.sakos.camera.safety.core.SafetyCaptureContext(SafetyCaptureId("synthetic-consumer:${java.util.UUID.randomUUID()}"), 0, 224, 224, 0, false)
+                val outcome = org.sakos.camera.safety.core.SafetyEvaluationOutcome.Decision(capture.captureId,
+                    org.sakos.camera.safety.core.SafetyEvaluationReceiptId("simulated-consumer-allow"), configuration, org.sakos.camera.safety.core.SafetyDecision.Allow)
+                val item = approved.savePhoto(bitmap, capture, requireNotNull(outcome.approvalForManagedCapture(capture)))
+                try {
+                    org.sakos.camera.capture.camerax.AndroidReviewedMediaClient(this@ConsumerActivity, approved.library).decodePreview(item, 64)?.let {
+                        check(it.width <= 64 && it.height <= 64); it.recycle()
+                    } ?: error("Synthetic approved preview unavailable")
+                    val bytes = java.io.ByteArrayOutputStream(); var committed = false
+                    val result = org.sakos.camera.safety.core.ReviewedMediaExporter(approved.library).export(listOf(item), { true }) {
+                        object : org.sakos.camera.safety.core.ReviewedExportTransaction {
+                            override fun output(): java.io.OutputStream = bytes
+                            override fun commit() { committed = true }
+                            override fun close() {}
+                        }
+                    }
+                    check(result.saved == 1 && result.failed == 0 && committed && bytes.size() > 0)
+                } finally { check(approved.library.delete(item)) }
+            }
             setContentView(TextView(this).apply { text = "Synthetic packaged runtime: OK" })
         } finally { bitmap.recycle() }
     }

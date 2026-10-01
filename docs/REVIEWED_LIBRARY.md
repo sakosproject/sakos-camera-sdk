@@ -9,7 +9,10 @@ gallery and performs no automatic external saving.
 `ManagedCaptureApproval`. `AndroidReviewedMediaLibrary` places it under app-private
 no-backup storage and supplies a JPEG photo adapter. Pending media and approval
 metadata commit as one directory rename after sync and final cancellation/host
-guard checks. Interrupted pending entries are removed on reopen; missing,
+guard checks. Shared adapters serialize writes by canonical private root. Initialization cannot
+remove another adapter's live pending write. A filesystem lock rejects competing
+process ownership during writes/recovery; callers may retry after that operation.
+Interrupted orphan pending entries are removed on reopen; missing,
 uncommitted, stale-configuration or digest-mismatched entries are unavailable.
 Capture IDs prevent replay. The library's named-item open/delete APIs validate
 membership and do not expose unapproved staging.
@@ -38,8 +41,11 @@ enforce equivalent source/destination binding themselves.
 
 `AndroidReviewedMediaClient` decodes bounded previews from named approved items.
 Video playback uses a private no-backup copy with an `ApprovedPlaybackLease` that
-must close on viewer dismissal/backgrounding. Startup removes abandoned playback
-copies. `ReviewedLibraryController` accepts a host coroutine scope/repository,
+must close on viewer dismissal/backgrounding. Clients coordinate active leases by canonical playback root and filesystem
+ownership. Another client retains live leases while recovering true orphan
+copies. `retryCleanup()` retries orphan deletion failures; a failed lease close
+retains ownership and can be retried. Process restart releases filesystem locks
+and permits orphan recovery. `ReviewedLibraryController` accepts a host coroutine scope/repository,
 retains prior inventory on recoverable load failure and rejects late responses
 after a newer refresh or close. Gallery UI, cross-app migration and recycle-bin
 UI are host integrations; explicit permanent private deletion is provided.
@@ -48,7 +54,11 @@ For an explicit save action, inject `ReviewedExportAuthorization` and
 `ReviewedExportDestination` into `ReviewedMediaExporter`. Authorization is required
 for each approved item and is separate from model Allow. Denial creates no
 destination. Copy checks cancellation; failure/cancellation closes the transaction
-to roll back pending output. Successful copy commits once. The optional
+to roll back pending output. Successful copy commits once. `committedCleanupFailures` is a subset of `saved`;
+a post-commit close failure never also counts as a failed save. Results retain
+exact `committedEntryIds`. Cancellation
+throws `ReviewedExportCancelledException` with partial counts and exact committed
+entry IDs; do not retry those outputs. The optional
 `AndroidMediaStoreReviewedDestination(context, album)` requires API 29+, uses
 IS_PENDING and checks publish/delete results. Album is caller configuration,
 without source package names or production values. API 26–28 callers can provide

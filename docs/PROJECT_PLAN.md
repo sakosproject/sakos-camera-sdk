@@ -8,10 +8,11 @@ same worktree/branch and all private/synthetic-only restrictions above.
 | Work | Concrete scope | Acceptance gate | Status |
 | --- | --- | --- | --- |
 | E. Source inventory | Allowlisted camera/runtime/gallery Kotlin code; current source revision and snapshot; reusable versus app integrations | Pin source evidence and inventory graph, selector, zoom, focus, orientation, profile and first-run behavior before code edits | Inventoried in TOOLING_PARITY; snapshots pinned |
-| F. Live strategies | Pure score driver and Bitmap runtime; Fixed14 default, optional Adaptive14; evaluator identity | Deterministic early exits, portrait/sentinel/refinement/fallback/duplicate/invalid tests; both strategies on synthetic Bitmap and minified consumer | JVM and synthetic Bitmap gates passed; minified repeat pending |
-| G. Camera tooling | capture-camerax discovery, source graph plans, actual probes, selection, secure no-backup profile/cache identity, retries/cancellation; minimal sample lens/quality/zoom/focus/rotation wiring | Mocked capability matrices and lifecycle failures; first-run/retry gates; actual isolated emulator probes; no probe output promotion; front/back/recreation checks | Pending |
+| F. Live strategies | Pure score driver and Bitmap runtime; Fixed14 default, optional Adaptive14; evaluator identity | Deterministic early exits, portrait/sentinel/refinement/fallback/duplicate/invalid tests; both strategies on synthetic Bitmap and minified consumer | Driver JVM/Bitmap and minified strategies passed; final clean repeat pending |
+| G. Camera tooling | capture-camerax discovery, source graph plans, actual probes, selection, secure no-backup profile/cache identity, retries/cancellation; minimal sample lens/quality/zoom/focus/rotation wiring | Mocked capability matrices and lifecycle failures; first-run/retry gates; actual isolated emulator probes; no probe output promotion; front/back/recreation checks | Implemented; JVM and isolated emulator gates passed |
 | H. Corrected candidate | All relevant docs/site/examples, local artifacts/notices/audit/checksums and repeat verifier | Full clean JVM/debug/lint and synthetic Android tests; Maven/minified consumer; exact model hash; truthful deferred validation and hardware/efficacy/legal gates | Pending |
-| I. Standalone reviewed gallery core | Source camera repositories/provider and gallery client/repository/exporter; reusable approved private library and caller-authorized transactional destination | Capture/configuration-bound approval, no private intermediate exposure, cancel/failure cleanup, approved-only inventory/open/export; mocked save failures and synthetic Android integration without host application | Pending |
+| I. Standalone reviewed gallery core | Source camera repositories/provider and gallery client/repository/exporter; reusable approved private library and caller-authorized transactional destination | Capture/configuration-bound approval, no private intermediate exposure, cancel/failure cleanup, approved-only inventory/open/export; mocked save failures and synthetic Android integration without host application | Implemented; private save/playback and authorization gates passed |
+| J. Final ownership review | Probe-contract validation and unconditional runner unlock; shared-root private write ownership; shared playback leases; truthful committed-export cleanup results | Deterministic malformed/retry/cleanup/concurrent ownership and post-commit failure tests; two-client synthetic Android playback; repeat full clean candidate | 184 JVM, 11 source Android and minified standalone API tests passed; clean repeat pending |
 
 Local narrow commits remain authorized. Advertised capabilities never alone make
 a graph usable. Calibration tests establish mechanics only; no universal phone
@@ -43,7 +44,7 @@ emulator or external gates do not stop independent implementation and packaging.
 The records below retain earlier outcomes; their old stop instructions and
 release-preparation restrictions are historical and superseded for local work.
 
-## Earlier implementation milestones (updated local status)
+## Earlier implementation milestones (prior candidate)
 
 | Phase | Outcome | Status |
 | --- | --- | --- |
@@ -60,7 +61,7 @@ release-preparation restrictions are historical and superseded for local work.
 No private validation material, identifying paths, outputs, or process details
 belong in this repository.
 
-## Completion record — 2026-10-01
+## Earlier candidate completion record — 2026-10-01
 
 The earlier four completion phases passed before the expanded acceptance above.
 This dated snapshot is superseded by the expanded work. The complete repeat verifier
@@ -68,7 +69,7 @@ ran at clean commit `e76718e`: 94 JVM tests, six synthetic Android tests, zero
 lint errors, local Maven/notices/permissions inspection and separate minified
 consumer runtime integration. All 16 Maven deliverables matched the earlier
 complete candidate byte-for-byte. Of 24 inventoried artifacts, 23 matched;
-the test-key localRuntime APK differed and its exact current hash is recorded.
+the test-key localRuntime APK differed and its hash was recorded with that candidate.
 No universal signed-APK reproducibility is claimed. See BUILD_NOTES and the
 ignored private candidate manifest. The final ledger-only commit changes no
 artifact code. Owner/legal, physical/API-range, real-world efficacy,
