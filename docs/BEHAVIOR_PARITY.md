@@ -1,5 +1,11 @@
 # Spatial policy characterization
 
+This is the retained Phase 4A historical record. Later authorized work bundled
+the exact model and added a fixed-view Bitmap runtime. Statements below about
+exclusion describe Phase 4A only. Current synthetic mechanics checks establish
+neither source/runtime parity nor real-world efficacy; see BUILD_NOTES and
+MODEL_CARD for current status.
+
 Phase 4A characterizes the user-authorized spatial policy at source commit
 `historical source revision omitted`. It is not model, device, camera,
 or device parity evidence.
@@ -55,5 +61,5 @@ lower-lateral evidence, corroboration, early allow/block conditions and score
 mapping.
 
 Real-model equivalence, classifier accuracy, latency and false-accept/false-
-reject evidence remain later gates. The exact model asset remains blocked by
-the provenance record.
+reject evidence remain later gates. External model redistribution remains gated
+by the provenance review.

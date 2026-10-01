@@ -1,43 +1,58 @@
 # Integration guide
 
-## Current supported verification path
+The four Android libraries require minSdk 26 and use compileSdk 36 / Java 11
+bytecode. The local candidate uses CameraX 1.5.3 and LiteRT 1.4.2. There are no
+remote Maven coordinates. Run `scripts/verify-local-consumer.ps1` to build local
+AARs, sources, POMs and a separate minified Maven consumer.
 
-The only verified install path is the provisional local Maven flow:
+## Photo
 
-```powershell
-.\scripts\verify-local-consumer.ps1
-```
+Open `OpenNsfw2BitmapRuntime` with an application context and adapt it through
+`OpenNsfw2BitmapEvaluator`. Use `OpenNsfw2ModelPreflight.configuration` for the
+request. Capture in memory with CameraX `OnImageCapturedCallback`, then feed
+`ManagedPhotoReviewPipeline.reviewImageProxy` with a capture ID unique to that
+input, its dimensions/rotation and a converter. The pipeline closes the proxy
+exactly once, including failures. Caller-owned converted Bitmaps also need
+recycling after review. Only a matching capture/configuration Allow reaches
+`ApprovedPhotoSink`. Keep sinks transactional and check host cancellation before
+committing an output. `ManagedPhotoCaptureCallback` also accepts a coroutine
+context for host cancellation; its default context has no host lifecycle.
 
-It publishes `org.sakos.camera:*:0.0.0-local` under `build/local-maven` and
-builds the separate, minified `integration-tests/consumer` app. It does not
-publish remotely. See `docs/validation/CONSUMER_REPORT.md` for the exact scope.
+## Video
 
-## Modules
+Construct `AndroidVideoPrivateStagingStore(context)` and
+`VideoStagingSessionManager`; call startup recovery before accepting a recording.
+Do not recover sessions while a recording/review is live. Use
+`CameraXPrivateVideoRecordingFactory` to prepare private output, then pass the
+CameraX finalization to `CameraXVideoFinalizationBridge`. A clean event produces a
+Reviewing session. Any finalization error discards staging without review.
 
-| Module | Current responsibility |
-| --- | --- |
-| `safety-core` | Capture/configuration identities, decisions, failures, and fail-closed approval tokens. |
-| `safety-opennsfw2` | Policy, score mapping, spatial sampling, and model preflight. No model asset or live inference is bundled. |
-| `capture-camerax` | Injected in-memory photo review that delivers only capture-bound Allow results to an approved-output sink. |
-| `capture-video` | Temporal planning/aggregation, private-staging state machine, and injected managed promotion seam. |
+`AndroidVideoReviewBridge` opens only that session's staged clip, reads the
+container duration, decodes planned timestamps with MediaMetadataRetriever and
+recycles each frame. `OpenNsfw2VideoFrameEvaluator` applies the shared fixed-view
+runtime. The managed pipeline permits a promoter only after temporal Allow and
+an exclusive Reviewing-to-Promoting transition. The promoter must bind its source
+to that session and commit only approved output transactionally. Block, Review,
+decode/runtime failure and cancellation do not promote. Decoder-open failures
+request staging cleanup. Cleanup failures remain visible and block recording.
+If approved output commits but staging cleanup fails, the pipeline returns
+`PromotedCleanupPending`; retry cleanup without promoting that output again.
 
-Evaluation-only callers own their inputs and outputs. The managed photo path
-writes only after a matching Allow approval. The managed video path requires an
-application-provided private staging store and approved-output promoter; see
-`docs/VIDEO_STORAGE.md`.
+## Host responsibilities and sample
 
-## Video behavior
+The host owns permission, CameraX lifecycle/executor, unique capture identities,
+cancellation, approved destination and viewer. Share runtime access through its
+synchronized API and close it after outstanding evaluations. Stop/close a live
+recording, wait for finalization before cleanup and discard abandoned sessions
+on next startup. Do not expose staging, thumbnails, providers or backup paths.
 
-Video review is sampled, not every-frame coverage. The temporal engine preserves
-the source policy's isolated, uncorroborated, non-extreme final-block Allow rule
-only when no review, unresolved high-risk, or unresolved base-crop evidence is
-present. Decode/evaluation failures are Failure and unsupported duration is
-Review. These rules have synthetic tests only.
+`sample-app` demonstrates camera permission, preview, in-memory rotated photos,
+silent video, cancellation/backgrounding, cleanup retry and an approved-only
+private viewer. It binds preview plus one capture use case at a time. No account,
+host application authorization, microphone, storage or network permission is used.
 
-## Runtime limits
-
-The exact OpenNSFW2 asset and conversion provenance are unresolved. The SDK
-therefore has no real inference runtime, usable live camera flow, independent validation,
-physical-device validation, or remote distribution. A host can bypass an
-app-level SDK; managed-path guarantees do not control other applications or a
-modified host.
+Current verification uses synthetic patterns, simulated scores and an isolated
+emulator scene. See BUILD_NOTES for executed evidence. Fixed-view runtime and
+sampled video are probabilistic; neither every-frame coverage nor accuracy,
+parity or physical-device behavior is established. A modified host can bypass
+an app-level SDK. External redistribution and delivery remain gated.

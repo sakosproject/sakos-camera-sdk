@@ -1,27 +1,41 @@
 # OpenNSFW2 runtime model card
 
-Status: no model asset is bundled as of Phase 4B preflight.
+Status: exact owner-authorized asset bundled for private local verification.
+External redistribution and real-world efficacy remain gated.
 
-The planned runtime contract is OpenNSFW2/Yahoo Open NSFW lineage with model ID
-`opennsfw2_resnet50_v1`, float32 input `[1, 224, 224, 3]`, BGR mean subtraction
-`[104, 117, 123]`, and float32 output `[1, 2]` representing SFW and NSFW
-probabilities. The preflight expects a 6,128,536-byte asset at
-`model/sakos_nudity_model.tflite` with SHA-256
-`051A21BF697858C1E2537354A99BE09A48D26BBFBA0C35216B340F16DE7528D7`.
+| Property | Recorded contract |
+| --- | --- |
+| Model ID | opennsfw2_resnet50_v1 |
+| Asset | model/sakos_nudity_model.tflite |
+| Bytes | 6,128,536 |
+| SHA-256 | 051A21BF697858C1E2537354A99BE09A48D26BBFBA0C35216B340F16DE7528D7 |
+| Input | One float32 tensor [1,224,224,3], BGR subtraction [104,117,123] |
+| Output | One float32 tensor [1,2], SFW/NSFW probabilities |
+| Runtime | LiteRT 1.4.2, fixed spatial-view evaluation over caller-owned Bitmap |
 
-The SDK presently provides only a streaming size/digest preflight and a
-fail-closed evaluator. It cannot perform inference until the exact conversion
-provenance and redistribution notices for the asset are verified. It makes no
-accuracy, latency, coverage, child-safety certification, or every-frame video
-claims.
+The runtime checks size/digest, tensor count, shape and dtype before use. It
+rejects recycled input, closed runtime and invalid/non-finite output. The safety
+adapter matches request configuration and returns failures without approval.
+Owned scratch/native resources close deterministically; the input stays caller-owned.
+Adaptive geometry/policy helpers are available; the runner uses fixed views.
+The bundled configuration accepts only its recorded version-1 policy values;
+a custom policy must have a separate versioned configuration/runtime contract.
 
-The public upstream notices are retained under `third_party/licenses/`. The
-exact converted asset remains excluded pending the provenance record.
+Current Android runtime checks use generated benign shapes or solid-color
+patterns. JVM policy checks use simulated scores. Temporal decoding checks encode
+solid YUV patterns locally; camera flows use an isolated emulator scene. These
+checks establish runtime, ownership and managed-path mechanics only. No accuracy,
+latency distribution, source parity, efficacy or physical-camera claim follows.
+This is a description of the current suite, not a historical assurance.
 
-Alternative models, preprocessing changes, or policy changes require their own
-version identity and independent/device evaluation. The existing temporal engine
-samples a bounded set of frames; it does not inspect every frame. Its preserved
-source-policy behavior can allow an isolated, uncorroborated, non-extreme final
-block only under the documented absence of review, high-risk, and unresolved
-crop evidence. This behavior has synthetic characterization only, not model or
-device validation.
+Video review samples a bounded timeline (at most 35 decoded samples), not every
+frame. The retained policy permits an isolated, uncorroborated, non-extreme
+final block only in the documented absence of review, high-risk and unresolved
+crop evidence. That behavior has synthetic characterization only.
+
+[Provenance](PROVENANCE.md) records the exact imported bytes and retained
+OpenNSFW2 MIT / Yahoo BSD-2-Clause notices. Owner authorization is not complete
+legal clearance of upstream weights or conversion/redistribution. Remaining
+owner/legal, physical-device, real-world efficacy and external-delivery gates
+are in RELEASE_CHECKLIST. Model/preprocessing/policy changes need new identities
+and evidence; do not reuse this candidate's results for a replacement.

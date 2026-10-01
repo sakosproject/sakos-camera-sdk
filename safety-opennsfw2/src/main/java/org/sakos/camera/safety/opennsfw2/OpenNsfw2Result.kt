@@ -1,7 +1,7 @@
 package org.sakos.camera.safety.opennsfw2
 
 /**
- * Model-specific result metadata used by spatial policy before the model runtime is available.
+ * Model-specific result metadata used by spatial policy and the bundled Bitmap runtime.
  * It deliberately has no host-trust or capture-save semantics; those belong to safety-core and
  * the managed capture modules.
  */
@@ -31,7 +31,7 @@ data class OpenNsfw2CheckResult(
     }
 }
 
-/** Stable identity for the cleared policy code; it does not imply a bundled model asset. */
+/** Stable policy/model identity; it does not establish legal redistribution clearance. */
 object OpenNsfw2ModelContract {
     const val modelId: String = "opennsfw2_resnet50_v1"
 }

@@ -1,33 +1,20 @@
-# Draft release notes — not for publication
+# Draft candidate notes — private, unreleased
 
-Status: **no release exists**. This is a private wording template, not a public
-announcement, hosted release note, package description, or support commitment.
+The local `0.0.0-local` candidate includes four independent Android libraries,
+the exact owner-authorized bundled model, fixed-view Bitmap review, in-memory
+photo delivery and private staged/sampled video review. The sample provides
+camera permission/preview, photo/video capture and a private approved-only viewer.
 
-## Title
+Local AAR/source/POM/notices inspection, JVM tests, lint, synthetic Android tests
+and a separate minified consumer are described in BUILD_NOTES/RELEASE_EVIDENCE.
+Current fixtures use benign generated patterns, mocks, simulated scores and an
+isolated emulator scene. Runtime execution demonstrates mechanics, not accuracy.
 
-`UNSET: version and delivery target`
+No real-world efficacy, source parity, physical-device coverage, final dependency
+or model rights clearance, remote package, public security intake, hosted website
+or public release is established. Video sampling is bounded; it does not inspect
+every frame. Rejected video can touch private temporary disk; deletion is not
+forensic erasure. A host can bypass library controls.
 
-## Verified development status
-
-SakOS Camera currently contains extracted safety contracts, spatial-policy and
-temporal-review characterization, managed capture/staging seams, a contract
-demonstrator, local Maven consumer verification, and a local static website
-preview. The independently verified local Maven flow uses provisional
-`org.sakos.camera:*:0.0.0-local` artifacts only.
-
-## Limits that must remain in a candidate note until evidence changes
-
-- No exact bundled model or real inference runtime is included.
-- No independent validation, accuracy, latency, or physical-device result is
-  available.
-- No real CameraX recording start/finalize or Android private-file-store path
-  has been validated.
-- No remote package, hosted website, public security-reporting channel, or
-  public release is available.
-
-## Finalization checklist
-
-Before replacing this draft with a release note, complete the candidate
-manifest, release checklist, and private runbook; then obtain explicit user
-authorization for the precise external action. Add only claims supported by
-that candidate's evidence, not by prior local checks.
+Do not publish these notes without owner/legal review and explicit external-action
+authorization. Independent validation remains private and outside the repository.

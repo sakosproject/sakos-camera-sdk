@@ -1,19 +1,20 @@
-# Managed CameraX photo callback
+# Managed CameraX photo integration
 
-`ManagedPhotoCaptureCallback` is the in-memory CameraX boundary for a single
-capture. Construct it with a `ManagedPhotoReviewPipeline`, capture context,
-`ImageProxy` converter, and result listener; then provide it to
-`ManagedPhotoCaptureLauncher(imageCapture).capture(executor, callback)`.
+`ManagedPhotoCaptureCallback` connects CameraX in-memory callbacks to
+`ManagedPhotoReviewPipeline`. Supply a unique capture context, converter,
+evaluator, approved sink and optional host coroutine context. The default
+callback context does not own a host lifecycle.
 
-On a CameraX success callback, the bridge invokes `reviewImageProxy`. That
-pipeline owns exactly-once proxy closure and sends input to the approved sink
-only when the evaluator returns a capture-bound Allow receipt. CameraX capture
-errors are reported as `CaptureFailure`; converter/evaluator/sink failures are
-reported as `PipelineFailure` or the corresponding review result.
+The pipeline closes every proxy exactly once, including converter/evaluator
+failures. It matches the capture ID and full model/preprocessing/policy
+configuration before delivering an Allow to the sink. Block, Review, Failure,
+mismatched results and cancellation do not deliver. It suppresses duplicate
+capture IDs within the pipeline instance. Caller-owned converted Bitmaps must
+also be recycled when review ends; output sinks must commit transactionally.
 
-The bridge does not choose a camera, request permission, enable network access,
-serialize a frame, write a file, add EXIF/location data, create a thumbnail, or
-provide a real evaluator. It must be wired to a host-owned camera lifecycle and
-an injected evaluator/output sink. Model inference, physical orientation/front
-camera behavior, cancellation/lifecycle behavior and device validation remain
-pending gates.
+The sample demonstrates this path with the bundled Bitmap evaluator, rotated
+CameraX input, cancellation tokens and private no-backup approved output. Camera
+permission, executor, preview and lifecycle remain host responsibilities. No
+public media provider, EXIF/location intake, network or rejected-image file is
+created by the bridge. Synthetic tests exercise closure, failure, approval and
+cancellation; physical orientation/front-camera verification remains pending.

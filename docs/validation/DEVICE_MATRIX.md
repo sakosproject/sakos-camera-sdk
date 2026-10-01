@@ -1,13 +1,13 @@
 # Device and lifecycle validation matrix
 
-Status: **pending**. No physical Android device, functional bundled model, or
-Android private file-store/CameraX recorder integration is available in this
-checkout. Emulator results never close the physical-camera gate.
+Status: **physical verification pending**. The bundled runtime and functional
+CameraX/private-storage sample exist. Current synthetic emulator checks are
+recorded in BUILD_NOTES; they never close the physical-camera gate.
 
 Record only sanitized evidence. Each executed row needs device model, Android
 API level, SDK commit, model/preprocessing/policy identity, test build hash,
-operator date, observed result, relevant log reference, and any remaining
-private staged-data location. Do not copy media, identifiers, raw paths, or
+operator date, observed result, relevant log reference, and aggregate cleanup
+state. Do not copy media, identifiers, raw paths, or
 credentials into this file.
 
 | Area | Scenario | Required observation | Status |
@@ -18,7 +18,7 @@ credentials into this file.
 | Camera | Repeated photo/video captures | No resource leak, stale result, duplicate promotion, or unexpected memory growth | Pending |
 | Model | Missing/corrupt model and invalid/non-finite result | Fail closed; no approved output | Pending |
 | Model | Inference failure/cancellation/backgrounding | No late Allow; owned inputs/handles release | Pending |
-| Permission | Camera/microphone denial and revocation | Useful recovery state; no capture begins without permission | Pending |
+| Permission | Camera denial and revocation (sample has no audio) | Useful recovery state; no capture begins without permission | Pending |
 | Storage | Low storage and deletion/metadata failure | Cleanup failure is visible and blocks new recording | Pending |
 | Video | Kill during recording/review/promotion, then relaunch | Recovery occurs before new recording; no unreviewed exposure | Pending |
 | Exposure | Staging, sidecars, thumbnails, gallery/provider and backup inspection | Staging stays private and excluded from backups/public surfaces | Pending |

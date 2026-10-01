@@ -1,57 +1,35 @@
-# Private release-preparation runbook
+# Private local candidate preparation runbook
 
-Status: **stopped before external actions**. Follow this only after every gate
-in [the release checklist](RELEASE_CHECKLIST.md) is marked passed with linked,
-sanitized evidence. Completing local steps below does not authorize public
-delivery.
+Local candidate preparation is authorized; external actions remain unapproved.
+The owner expressly superseded the previous requirement to stop local preparation
+on missing external release decisions.
 
-## Inputs required before a candidate exists
+1. Confirm the existing worktree/branch and reviewed source revision. Preserve
+   unrelated changes. Local narrow commits are authorized.
+2. Run `scripts/verify-local-candidate.ps1` using the installed cached toolchain.
+   Provide `-Serial` only for an explicitly authorized isolated emulator. The
+   script checks emulator identity and targets every adb action to that serial.
+   It never creates/wipes an AVD, alters a VM or accesses a physical device.
+3. The script runs clean debug assembly, all JVM tests, synthetic instrumented
+   APK compilation and lint before local-only Maven packaging. It builds a
+   separate minified consumer and an additional test-key-only runtime variant.
+   Direct adb instrumentation avoids uncached Gradle UTP runner dependencies.
+4. Review `build/private-candidate/manifest.json`, `SHA256SUMS.txt`, sanitized logs,
+   source/POM/dependency/notices inventory and exact bundled-model fingerprint.
+   APK permission inspection rejects network/audio/public-storage permission.
+   Inspect the private text-audit report outside the repository; do not copy
+   sensitive historical wording or validation details into public artifacts.
+5. Repeat the script to verify it succeeds from clean output. Compare library
+   artifact hashes for the same code/toolchain. Do not claim universal byte
+   reproducibility of signed APKs or builds on different machines.
+6. Record sanitized current synthetic outcomes in BUILD_NOTES/RELEASE_EVIDENCE.
+   Candidate manifests explicitly identify a dirty tree if built before final
+   commits; regenerate at a clean reviewed commit for the final local candidate.
 
-Record these in an approved private review location, not in this repository:
+Keep model rights, independent-validation status, real-world efficacy,
+physical-device/API-range coverage, dependency notice clearance, intake and
+external destinations unresolved until evidence/owner decisions arrive.
 
-- the immutable source revision and intended release version;
-- approved package registry, namespace, account and publishing procedure;
-- approved website host, domain/DNS account and rollback owner;
-- signing/material handling procedure, without keys or tokens in source;
-- verified private security-reporting path and approved public wording;
-- model authorization, independent validation status, and completed
-  physical-device matrix.
-
-If any input is absent, stop and update `docs/RELEASE_CHECKLIST.md` with the
-missing decision or evidence.
-
-## Private preparation sequence
-
-1. Recheck repository status and pin the reviewed commit. Confirm all intended
-   changes are included and unrelated work is excluded.
-2. Re-run only the focused checks invalidated by the candidate changes. Keep
-   raw logs private; record sanitized exit status and conclusions.
-3. Inspect the candidate artifact contents against a finalized artifact
-   manifest: modules, model/policy identity, licenses/notices and hashes.
-4. Compare every public statement in README, model card, changelog and website
-   with the evidence table. Remove or block unsupported claims.
-5. Have the named reviewers confirm model rights, security intake, device
-   evidence, independent-validation status, package destination and website/DNS destination.
-6. Prepare a rollback record that identifies the exact artifact and website
-   revision to restore. Keep contact details in the approved private system.
-
-## Mandatory stop before each external action
-
-Stop after private review. Obtain a fresh, specific user instruction before
-performing any one of these distinct actions:
-
-- creating a commit/tag or pushing a branch;
-- changing repository visibility or creating a hosted release;
-- signing, uploading or publishing a package;
-- deploying the website or changing DNS;
-- posting release notes, security details or other public communication.
-
-The instruction must name the intended action and target. Approval for one does
-not imply approval for the others.
-
-## If a later authorized action fails
-
-Stop dependent actions, preserve the observed error and current external state,
-and update the private review record. Do not retry with changed credentials,
-targets, DNS, release metadata or visibility settings unless separately
-authorized. Report which artifacts or routes, if any, actually became public.
+Stop before any push, tag, merge, visibility change, real release signing,
+upload/publication, deployment, DNS action or public communication. Each needs
+an explicit instruction naming the target. This runbook grants none of them.

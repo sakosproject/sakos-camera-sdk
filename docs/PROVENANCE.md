@@ -2,6 +2,11 @@
 
 Status: **model import authorized by the project owner** as of 2026-09-17.
 
+The exact imported bytes may be used for the authorized private local candidate
+checks. Owner import authorization and checksum identity do not clear the
+complete upstream weight/conversion provenance or legal redistribution rights.
+Those remain explicit owner/legal gates before external delivery.
+
 ## Imported model
 
 The project owner explicitly authorized importing the exact asset from the
