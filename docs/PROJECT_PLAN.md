@@ -1,9 +1,30 @@
 # SakOS Camera SDK implementation plan
 
-Use Terra with High reasoning for each implementation phase. Complete one phase,
-record its result here, run its required checks, and commit it before beginning
-the next phase. Do not push, publish, tag, upload, deploy, or change DNS unless
-the project owner explicitly asks for that action.
+## Authorized local completion — 2026-10-01
+
+The owner's current instruction supersedes the former Terra/High and phase-stop
+handoff. Continue all remaining authorized local work on
+`codex/phase-7-finalization-bridge`, starting clean at `853f651`. Use only
+gpt-6.1-sol at high reasoning or lower, without agents. Local narrow commits are
+authorized. No merge, push, public publication, tag, upload, deployment, DNS,
+visibility, signing, physical-device access, VM changes, or security changes.
+
+Only synthetic benign patterns/shapes, mocks, simulated scores and an explicitly
+provided isolated emulator may be used. Do not read a media corpus. Independent
+validation remains outside the repository. Preserve provenance and notices;
+synthetic runtime checks do not establish accuracy, parity or redistribution rights.
+
+| Local completion phase | Scope and files | Acceptance gate | Status |
+| --- | --- | --- | --- |
+| A. Managed Android bridges | capture-camerax close/approval/configuration; capture-video Android decoder/evaluator, cancellation, cleanup and staging recovery; safety-opennsfw2 runtime checks | Relevant JVM failure/ownership tests; instrumented synthetic decoder/runtime tests compile; no failed or cancelled review promotes | In progress |
+| B. Functional sample | sample-app permission, CameraX preview/lifecycle, in-memory photo, silent private video, approved-only private viewer and recovery | Build and UI/instrumented coverage; only matching Allow reaches approved storage; background cancellation cleans staging | Pending |
+| C. Private candidate verification | scripts, local Maven AAR/source/POM/notices, separate minified consumer and synthetic runtime integration | Clean debug build, all JVM tests, lint, instrumented APKs; supplied emulator checks if available; repeat script succeeds and hashes artifacts | Pending |
+| D. Sanitized evidence and docs | README, docs, website, changelog, candidate manifest and private text audit | Claims match executed checks; historical contrary textual findings only in private output; unresolved owner/legal/physical/efficacy gates explicit | Pending |
+
+Each phase records exact checks in BUILD_NOTES and commits locally. Missing
+emulator or external gates do not stop independent implementation and packaging.
+The records below retain earlier outcomes; their old stop instructions and
+release-preparation restrictions are historical and superseded for local work.
 
 ## Current progress
 
