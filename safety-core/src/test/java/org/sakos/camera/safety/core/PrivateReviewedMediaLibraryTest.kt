@@ -172,5 +172,19 @@ class PrivateReviewedMediaLibraryTest {
         assertEquals(ReviewedExportResult(2, 1, 0, 0, 1, listOf(first.id)), cancelled.partialResult)
         assertEquals(listOf(first.id), cancelled.committedEntryIds); assertEquals(1, begins)
     }
+    @Test fun commitCollisionFailsClosedCleansPendingAndAllowsRetryAfterRepair() = fixture { root, library ->
+        var collision: File? = null
+        assertFailsWith<IllegalStateException> {
+            library.save(ReviewedMediaKind.Photo, capture(), approval(capture())) { output ->
+                output.write(1)
+                val pending = root.listFiles().orEmpty().single { it.name.endsWith(".pending") }
+                collision = File(root, pending.name.removeSuffix(".pending")).apply { check(mkdir()) }
+            }
+        }
+        assertTrue(library.items().isEmpty()); assertFalse(root.listFiles().orEmpty().any { it.name.endsWith(".pending") })
+        check(requireNotNull(collision).delete())
+        val item = library.save(ReviewedMediaKind.Photo, capture(), approval(capture())) { it.write(2) }
+        assertContentEquals(byteArrayOf(2), library.open(item).use { it.readBytes() })
+    }
 
 }

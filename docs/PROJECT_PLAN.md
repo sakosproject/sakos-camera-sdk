@@ -110,8 +110,9 @@ success and failure events to the existing close-safe review pipeline. The
 adapter owns no output location, model input retention, permission, metadata,
 or network behavior. Local verification is recorded in `docs/BUILD_NOTES.md`.
 
-**Later gate:** perform real camera lifecycle and orientation verification only
-after a device is connected.
+**Later physical gate:** the isolated emulator covers synthetic lifecycle and
+orientation mechanics. Physical-camera verification needs separate authorization
+and an owner-connected device.
 
 ## Phase 5 — video capture bridge
 
@@ -121,8 +122,9 @@ implemented. Error finalization discards the staged session; only a clean
 finalization reaches the injected review seam. Local verification is recorded
 in `docs/BUILD_NOTES.md`.
 
-**Later gate:** perform actual recording, staging, cleanup, recovery, and
-approved-output verification only after a device is connected.
+**Later physical gate:** isolated-emulator recording, staging, cleanup, recovery
+and approved-output mechanics are recorded in BUILD_NOTES. Physical-camera
+verification still needs separate authorization and an owner-connected device.
 
 ## Phase 6 — independent validation
 
@@ -139,9 +141,11 @@ details. Keep any supporting material outside this repository.
 
 ## Phase 8 — release preparation
 
-Before any release work, establish the artifact identity, notice inventory,
-security intake, package destination, website destination, and owner sign-off.
-No release output or external action is authorized by this plan.
+Private local candidate compilation, tests, Maven artifacts, checksums and
+sanitized evidence are authorized by the expanded scope above. External release
+still requires cleared rights/notices, owner-approved version/destinations,
+verified intake and explicit action-specific authorization. No external action
+or real release signing is authorized by this plan.
 
 ## Phase 9 — public launch
 

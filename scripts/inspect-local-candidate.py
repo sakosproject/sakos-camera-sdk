@@ -86,8 +86,10 @@ def main():
         source = root / "build-logs" / name
         if not source.exists():
             continue
-        text = source.read_text(encoding="utf-8-sig", errors="replace").replace(str(root), "[workspace]")
-        text = text.replace(str(Path.home()), "[user]")
+        text = source.read_text(encoding="utf-8-sig", errors="replace")
+        for path, replacement in [(root, "[workspace]"), (Path.home(), "[user]")]:
+            for variant in {str(path), path.as_posix(), path.as_posix().replace(" ", "%20")}:
+                text = text.replace(variant, replacement)
         (logs / name).write_text(text, encoding="utf-8")
         if args.emulator_tested and name in {"candidate-emulator.log", "candidate-consumer-runtime.log"}:
             counts = [int(count) for count in re.findall(r"OK \((\d+) tests?\)", text)]

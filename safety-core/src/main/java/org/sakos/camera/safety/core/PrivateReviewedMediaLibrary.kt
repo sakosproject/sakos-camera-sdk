@@ -4,6 +4,10 @@ import java.io.*
 import java.security.MessageDigest
 import java.util.Properties
 import java.util.concurrent.ConcurrentHashMap
+import java.nio.file.AtomicMoveNotSupportedException
+import java.nio.file.Files
+import java.nio.file.StandardCopyOption
+import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.*
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -56,12 +60,28 @@ class PrivateReviewedMediaLibrary(private val root: File, private val configurat
                                 setProperty("sha256", entry.contentSha256); setProperty("configuration", entry.configurationIdentity)
                             }
                             FileOutputStream(File(pending, "approval.properties")).use { facts.store(it, "SDK approved private output"); it.fd.sync() }
-                            operationContext.ensureActive(); check(stillActive())
-                            check(pending.renameTo(target)) { "Private output could not be committed." }
+                            commitPending(pending, target, operationContext, stillActive)
                             entry
                         } finally { if (pending.exists()) check(pending.deleteRecursively()) { "Private pending cleanup failed." } }
                     } finally { ownership.writing = false }
                 }
+            }
+        }
+    }
+
+    private fun commitPending(pending: File, target: File, context: CoroutineContext, stillActive: () -> Boolean) {
+        // Keep one atomic directory commit. Short sharing/access failures can be
+        // retried; unsupported atomic moves and collisions never fall back to copy.
+        repeat(5) { attempt ->
+            context.ensureActive(); check(stillActive()); check(!target.exists()) { "Capture destination already exists." }
+            try {
+                Files.move(pending.toPath(), target.toPath(), StandardCopyOption.ATOMIC_MOVE)
+                return
+            } catch (unsupported: AtomicMoveNotSupportedException) { throw unsupported }
+            catch (failure: IOException) {
+                if (attempt == 4) throw failure
+                try { Thread.sleep(25) }
+                catch (interrupted: InterruptedException) { Thread.currentThread().interrupt(); throw interrupted }
             }
         }
     }

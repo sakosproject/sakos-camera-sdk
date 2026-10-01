@@ -8,8 +8,9 @@ gallery and performs no automatic external saving.
 `PrivateReviewedMediaLibrary` accepts only a capture/configuration-matching
 `ManagedCaptureApproval`. `AndroidReviewedMediaLibrary` places it under app-private
 no-backup storage and supplies a JPEG photo adapter. Pending media and approval
-metadata commit as one directory rename after sync and final cancellation/host
-guard checks. Shared adapters serialize writes by canonical private root. Initialization cannot
+metadata commit as one atomic directory move after sync and final cancellation/host
+guard checks. Short filesystem commit failures have bounded retries with those
+guards checked again; unsupported atomic moves fail closed without a copy fallback. Shared adapters serialize writes by canonical private root. Initialization cannot
 remove another adapter's live pending write. A filesystem lock rejects competing
 process ownership during writes/recovery; callers may retry after that operation.
 Interrupted orphan pending entries are removed on reopen; missing,
