@@ -21,9 +21,23 @@ class ConsumerActivity : Activity() {
         // Locally generated benign pixels exercise the packaged native runtime, not accuracy.
         val bitmap = Bitmap.createBitmap(224, 224, Bitmap.Config.ARGB_8888).apply { eraseColor(Color.BLUE) }
         try {
-            OpenNsfw2BitmapRuntime.open(this, threadCount = 1).use { runtime ->
-                check(runtime.evaluate(bitmap).evaluatedViews.all { it.scores.nsfwProbability.isFinite() })
+            for (strategy in org.sakos.camera.safety.opennsfw2.IntegratedOpenNsfw2Strategy.entries) {
+                OpenNsfw2BitmapRuntime.open(this, threadCount = 1, strategy = strategy).use { runtime ->
+                    val result = runtime.evaluate(bitmap)
+                    check(result.strategyId == strategy.id && result.evaluatedViews.isNotEmpty())
+                    check(result.evaluatedViews.all { it.scores.nsfwProbability.isFinite() })
+                }
             }
+            // Source-derived calibration serialization/selector path must survive R8 too.
+            val environment = org.sakos.camera.capture.camerax.CameraQualityCalibrationEnvironment.current(this, "synthetic-model", "synthetic-inventory")
+            val storage = org.sakos.camera.capture.camerax.AndroidCameraCalibrationProfileStorage(this, environment)
+            storage.reset()
+            val step = org.sakos.camera.capture.camerax.CameraCalibrationRunner.requiredSteps.first()
+            storage.record(org.sakos.camera.capture.camerax.CameraQualityCalibrationRecord(step.preset.mode, step.lens, step.preset.tier,
+                org.sakos.camera.capture.camerax.CameraQualityCalibrationStatus.Failed, "synthetic", null, null, null, null, null, null, null, "simulated", 0,
+                graphPreset = step.preset, calibrationArtifactCleanupSucceeded = true))
+            check(storage.load().records.isNotEmpty())
+            check(!storage.load().mandatoryReadiness(environment).ready)
             setContentView(TextView(this).apply { text = "Synthetic packaged runtime: OK" })
         } finally { bitmap.recycle() }
     }
