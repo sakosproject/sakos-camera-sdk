@@ -89,6 +89,17 @@ class AndroidVideoPrivateStagingStoreTest {
     }
 
     @Test
+    fun interruptedFirstMetadataWriteIsRecovered() {
+        val store = AndroidVideoPrivateStagingStore(root)
+        store.sessions()
+        File(root, "metadata/interrupted.properties.tmp").writeText("state=Recording")
+        val manager = VideoStagingSessionManager(store)
+        assertIs<VideoRecordingStartResult.BlockedByCleanup>(manager.startRecording(0))
+        assertEquals(listOf(VideoStagingSessionId("interrupted")), manager.recoverAbandonedSessions().removedSessionIds)
+        assertTrue(store.sessions().isEmpty())
+    }
+
+    @Test
     fun traversalLikeSessionIdsAreRejected() {
         assertFailsWith<IllegalArgumentException> { VideoStagingSessionId("../outside") }
         assertFailsWith<IllegalArgumentException> { VideoStagingSessionId("has/slash") }

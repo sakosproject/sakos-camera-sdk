@@ -11,6 +11,7 @@ import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.nio.channels.FileChannel
 import org.tensorflow.lite.Interpreter
+import org.tensorflow.lite.DataType
 
 /**
  * On-device OpenNSFW2 runner for caller-owned [Bitmap] instances.
@@ -133,6 +134,7 @@ class OpenNsfw2BitmapRuntime private constructor(
         return scores to elapsedMillis
     }
 
+    @Synchronized
     override fun close() {
         if (closed) return
         closed = true
@@ -153,6 +155,13 @@ class OpenNsfw2BitmapRuntime private constructor(
             }
             val interpreter = Interpreter(openModelBuffer(context), Interpreter.Options().setNumThreads(threadCount))
             try {
+                check(interpreter.inputTensorCount == 1 && interpreter.outputTensorCount == 1) {
+                    "The bundled model has an unexpected tensor count."
+                }
+                check(interpreter.getInputTensor(0).dataType() == DataType.FLOAT32 &&
+                    interpreter.getOutputTensor(0).dataType() == DataType.FLOAT32) {
+                    "The bundled model requires float32 tensors."
+                }
                 check(interpreter.getInputTensor(0).shape().contentEquals(OpenNsfw2ModelPreflight.inputShape.toIntArray())) {
                     "The bundled OpenNSFW2 model has an unexpected input tensor shape."
                 }

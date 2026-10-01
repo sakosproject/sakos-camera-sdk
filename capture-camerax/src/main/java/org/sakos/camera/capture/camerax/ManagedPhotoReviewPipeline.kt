@@ -2,6 +2,9 @@ package org.sakos.camera.capture.camerax
 
 import androidx.camera.core.ImageProxy
 import java.util.concurrent.ConcurrentHashMap
+import kotlin.coroutines.coroutineContext
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.ensureActive
 import org.sakos.camera.safety.core.ManagedCaptureApproval
 import org.sakos.camera.safety.core.SafetyCaptureContext
 import org.sakos.camera.safety.core.SafetyConfigurationVersion
@@ -34,20 +37,30 @@ class ManagedPhotoReviewPipeline<Input : Any>(
         if (delivered.contains(id)) { frame.close(); return ManagedPhotoResult.AlreadyDelivered }
         if (!inFlight.add(id)) { frame.close(); return ManagedPhotoResult.AlreadyProcessing }
         try {
+            coroutineContext.ensureActive()
             val outcome = evaluator.evaluate(SafetyEvaluationRequest(frame.input, capture, configuration))
+            coroutineContext.ensureActive()
+            if (outcome.configuration != configuration) return ManagedPhotoResult.NotApproved(
+                SafetyEvaluationOutcome.Failure(capture.captureId, configuration,
+                    org.sakos.camera.safety.core.SafetyFailureReason.InvalidModelOutput))
             val approval = outcome.approvalForManagedCapture(capture) ?: return ManagedPhotoResult.NotApproved(outcome)
             return try {
                 sink.save(frame.input, capture, approval)
                 delivered.add(id)
                 ManagedPhotoResult.Delivered(approval)
-            } catch (error: Throwable) { ManagedPhotoResult.OutputFailure(error) }
+            } catch (error: CancellationException) { throw error }
+            catch (error: Exception) { ManagedPhotoResult.OutputFailure(error) }
         } finally {
             inFlight.remove(id)
             frame.close()
         }
     }
 
-    suspend fun reviewImageProxy(image: ImageProxy, capture: SafetyCaptureContext, convert: (ImageProxy) -> Input): ManagedPhotoResult =
-        try { review(object : InMemoryPhoto<Input> { override val input = convert(image); override fun close() = image.close() }, capture) }
-        catch (error: Throwable) { image.close(); throw error }
+    suspend fun reviewImageProxy(image: ImageProxy, capture: SafetyCaptureContext, convert: (ImageProxy) -> Input): ManagedPhotoResult {
+        val input = try { convert(image) } catch (error: Throwable) { image.close(); throw error }
+        return review(object : InMemoryPhoto<Input> {
+            override val input = input
+            override fun close() = image.close()
+        }, capture)
+    }
 }

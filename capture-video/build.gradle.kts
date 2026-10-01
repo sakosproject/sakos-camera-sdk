@@ -9,6 +9,7 @@ android {
 
     defaultConfig {
         minSdk = 26
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     compileOptions {
@@ -26,4 +27,6 @@ dependencies {
     implementation(project(":safety-opennsfw2"))
     implementation(libs.androidx.camera.video)
     testImplementation(kotlin("test"))
+    androidTestImplementation(libs.androidx.test.runner)
+    androidTestImplementation(libs.androidx.test.junit)
 }

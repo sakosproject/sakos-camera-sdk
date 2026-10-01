@@ -16,8 +16,8 @@ synthetic runtime checks do not establish accuracy, parity or redistribution rig
 
 | Local completion phase | Scope and files | Acceptance gate | Status |
 | --- | --- | --- | --- |
-| A. Managed Android bridges | capture-camerax close/approval/configuration; capture-video Android decoder/evaluator, cancellation, cleanup and staging recovery; safety-opennsfw2 runtime checks | Relevant JVM failure/ownership tests; instrumented synthetic decoder/runtime tests compile; no failed or cancelled review promotes | In progress |
-| B. Functional sample | sample-app permission, CameraX preview/lifecycle, in-memory photo, silent private video, approved-only private viewer and recovery | Build and UI/instrumented coverage; only matching Allow reaches approved storage; background cancellation cleans staging | Pending |
+| A. Managed Android bridges | capture-camerax close/approval/configuration; capture-video Android decoder/evaluator, cancellation, cleanup and staging recovery; safety-opennsfw2 runtime checks | Relevant JVM failure/ownership tests; instrumented synthetic decoder/runtime tests compile; no failed or cancelled review promotes | Local implementation gate passed |
+| B. Functional sample | sample-app permission, CameraX preview/lifecycle, in-memory photo, silent private video, approved-only private viewer and recovery | Build and UI/instrumented coverage; only matching Allow reaches approved storage; background cancellation cleans staging | Implemented; emulator checks in progress |
 | C. Private candidate verification | scripts, local Maven AAR/source/POM/notices, separate minified consumer and synthetic runtime integration | Clean debug build, all JVM tests, lint, instrumented APKs; supplied emulator checks if available; repeat script succeeds and hashes artifacts | Pending |
 | D. Sanitized evidence and docs | README, docs, website, changelog, candidate manifest and private text audit | Claims match executed checks; historical contrary textual findings only in private output; unresolved owner/legal/physical/efficacy gates explicit | Pending |
 

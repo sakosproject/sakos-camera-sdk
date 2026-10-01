@@ -24,9 +24,9 @@ class AndroidVideoPrivateStagingStore private constructor(
         ensureDirectories()
         val metadataIds = metadataDirectory.listFiles()
             ?.asSequence()
-            ?.filter { it.isFile && (it.name.endsWith(METADATA_SUFFIX) || it.name.endsWith("$METADATA_SUFFIX.bak")) }
+            ?.filter { it.isFile && (it.name.endsWith(METADATA_SUFFIX) || it.name.endsWith("$METADATA_SUFFIX.bak") || it.name.endsWith("$METADATA_SUFFIX.tmp")) }
             ?.mapNotNull { file ->
-                val name = file.name.removeSuffix(".bak").removeSuffix(METADATA_SUFFIX)
+                val name = file.name.removeSuffix(".bak").removeSuffix(".tmp").removeSuffix(METADATA_SUFFIX)
                 parseSessionId(name)
             }
             ?.toSet()
@@ -109,7 +109,7 @@ class AndroidVideoPrivateStagingStore private constructor(
     private fun writePropertiesAtomically(target: File, properties: Properties) {
         val temporary = temporaryMetadataFileFor(target)
         val backup = File(target.parentFile, "${target.name}.bak")
-        FileOutputStream(temporary).use { output -> properties.store(output, null) }
+        FileOutputStream(temporary).use { output -> properties.store(output, null); output.fd.sync() }
         if (target.exists() && !target.renameTo(backup)) {
             temporary.delete()
             throw IOException("Could not preserve existing staging metadata for ${target.name}.")

@@ -4,6 +4,9 @@ import org.sakos.camera.safety.core.SafetyDecision
 import org.sakos.camera.safety.core.SafetyFailureReason
 import org.sakos.camera.safety.opennsfw2.IntegratedStillGatePolicyConstants
 import org.sakos.camera.safety.opennsfw2.IntegratedStillGatePolicyDefaults
+import kotlin.coroutines.coroutineContext
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.ensureActive
 
 /** The evidence role reported by the model-specific evaluator for one sampled frame. */
 enum class VideoFrameEvidenceKind {
@@ -79,7 +82,10 @@ class VideoTemporalReviewEngine(
         decoder: VideoFrameDecoder<Frame>,
         evaluator: VideoFrameEvaluator<Frame>,
     ): VideoTemporalReviewResult {
+        // Resource-close failures must also produce a non-Allow result.
         return try {
+        decoder.use {
+        coroutineContext.ensureActive()
         val plan = VideoTemporalSamplePlanner.buildBasePlan(durationMillis)
         if (!plan.supportsNormalAllow) {
             return VideoTemporalReviewResult(
@@ -109,6 +115,9 @@ class VideoTemporalReviewEngine(
         } else {
             aggregate(plan.durationMillis, samples, unresolvedHighRiskCount)
         }
+        }
+    } catch (error: CancellationException) {
+        throw error
     } catch (error: Exception) {
         VideoTemporalReviewResult(
             decision = VideoTemporalReviewDecision.Failure,
@@ -116,8 +125,6 @@ class VideoTemporalReviewEngine(
             samples = emptyList(),
             detail = "Temporal video review could not finish: ${error.message ?: error.javaClass.simpleName}.",
         )
-    } finally {
-        decoder.close()
     }
     }
 
@@ -126,9 +133,14 @@ class VideoTemporalReviewEngine(
         decoder: VideoFrameDecoder<Frame>,
         evaluator: VideoFrameEvaluator<Frame>,
     ): VideoTemporalReviewSample = try {
+        coroutineContext.ensureActive()
         decoder.decode(sample).use { decoded ->
-            VideoTemporalReviewSample(sample, evaluator.evaluate(decoded.value, sample))
+            val evaluation = evaluator.evaluate(decoded.value, sample)
+            coroutineContext.ensureActive()
+            VideoTemporalReviewSample(sample, evaluation)
         }
+    } catch (error: CancellationException) {
+        throw error
     } catch (error: Exception) {
         VideoTemporalReviewSample(
             sample,

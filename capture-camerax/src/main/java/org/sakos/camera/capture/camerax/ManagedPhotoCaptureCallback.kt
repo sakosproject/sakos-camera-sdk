@@ -6,6 +6,7 @@ import androidx.camera.core.ImageProxy
 import java.util.concurrent.Executor
 import kotlin.coroutines.Continuation
 import kotlin.coroutines.EmptyCoroutineContext
+import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.startCoroutine
 import org.sakos.camera.safety.core.SafetyCaptureContext
 
@@ -28,6 +29,7 @@ class ManagedPhotoCaptureCallback<Input : Any>(
     private val capture: SafetyCaptureContext,
     private val convert: (ImageProxy) -> Input,
     private val listener: ManagedPhotoCaptureListener,
+    private val coroutineContext: CoroutineContext = EmptyCoroutineContext,
 ) : ImageCapture.OnImageCapturedCallback() {
     override fun onCaptureSuccess(image: ImageProxy) {
         val review: suspend () -> ManagedPhotoResult = {
@@ -35,7 +37,7 @@ class ManagedPhotoCaptureCallback<Input : Any>(
         }
         review.startCoroutine(
             object : Continuation<ManagedPhotoResult> {
-                override val context = EmptyCoroutineContext
+                override val context = coroutineContext
 
                 override fun resumeWith(result: Result<ManagedPhotoResult>) {
                     listener.onResult(
