@@ -41,8 +41,9 @@ emulator identity. The verifier resets only its own synthetic sample package.
 ## Complete private candidate gate — 2026-10-01
 
 `scripts/verify-local-candidate.ps1 -Serial <isolated-emulator-serial>` completed
-successfully with the installed offline toolchain. A clean-commit repeat is the
-remaining finalization check.
+successfully with the installed offline toolchain, then passed a complete repeat
+from clean reviewed commit `e76718e`. The final ledger-only commit changes no
+artifact code; the generated manifest records build and generation commits separately.
 
 | Check | Result |
 | --- | --- |
@@ -72,6 +73,12 @@ API 26/physical-camera coverage, real-world efficacy/parity, owner/legal model
 and dependency clearance, independent-validation status, intake and all external
 release decisions remain open. Historical private wording findings stay outside
 this repository and are not evidence that historical validation was performed.
+
+The repeat compared all 24 inventoried hashes with the first complete candidate:
+23 matched, including every one of the 16 Maven AAR/source/POM/module files.
+Only the test-key localRuntime APK differed. The current exact hash is in
+SHA256SUMS and the manifest; this observation does not establish universally
+reproducible APK bytes or reproducibility on another toolchain/machine.
 
 ## Historical Phase 3 — bundled model runtime — 2026-09-17
 

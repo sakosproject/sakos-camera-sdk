@@ -18,8 +18,8 @@ synthetic runtime checks do not establish accuracy, parity or redistribution rig
 | --- | --- | --- | --- |
 | A. Managed Android bridges | capture-camerax close/approval/configuration; capture-video Android decoder/evaluator, cancellation, cleanup and staging recovery; safety-opennsfw2 runtime checks | Relevant JVM failure/ownership tests; instrumented synthetic decoder/runtime tests compile; no failed or cancelled review promotes | Local implementation gate passed |
 | B. Functional sample | sample-app permission, CameraX preview/lifecycle, in-memory photo, silent private video, approved-only private viewer and recovery | Build and UI/instrumented coverage; only matching Allow reaches approved storage; background cancellation cleans staging | Passed on isolated synthetic emulator |
-| C. Private candidate verification | scripts, local Maven AAR/source/POM/notices, separate minified consumer and synthetic runtime integration | Clean debug build, all JVM tests, lint, instrumented APKs; supplied emulator checks; repeat script succeeds and hashes artifacts | Complete verifier passed; clean-commit repeat pending |
-| D. Sanitized evidence and docs | README, docs, website, changelog, candidate manifest and private text audit | Claims match executed checks; historical contrary textual findings only in private output; unresolved owner/legal/physical/efficacy gates explicit | Reconciled; final evidence pin pending |
+| C. Private candidate verification | scripts, local Maven AAR/source/POM/notices, separate minified consumer and synthetic runtime integration | Clean debug build, all JVM tests, lint, instrumented APKs; supplied emulator checks; repeat script succeeds and hashes artifacts | Passed including clean-commit repeat |
+| D. Sanitized evidence and docs | README, docs, website, changelog, candidate manifest and private text audit | Claims match executed checks; historical contrary textual findings only in private output; unresolved owner/legal/physical/efficacy gates explicit | Complete for authorized local scope |
 
 Each phase records exact checks in BUILD_NOTES and commits locally. Missing
 emulator or external gates do not stop independent implementation and packaging.
@@ -37,13 +37,26 @@ release-preparation restrictions are historical and superseded for local work.
 | 5. Video capture bridge | Private staging, CameraX recording/finalization boundary, and temporal review seam | Complete for local verification |
 | 6. Independent validation | Private work performed outside this repository | Deferred |
 | 7. Physical-device verification | Camera, storage, cleanup, and recovery verification | Deferred until a device is connected |
-| 8. Release preparation | Private local candidate artifacts and evidence; external decisions remain gated | Authorized local work in progress |
+| 8. Release preparation | Private local candidate artifacts and evidence; external decisions remain gated | Local candidate preparation complete |
 | 9. Public launch | Any external release, publication, or website deployment | Not started |
 
 No private validation material, identifying paths, outputs, or process details
 belong in this repository.
 
-## Phase 3 — bundled model runtime
+## Completion record — 2026-10-01
+
+All four authorized local completion phases passed. The complete repeat verifier
+ran at clean commit `e76718e`: 94 JVM tests, six synthetic Android tests, zero
+lint errors, local Maven/notices/permissions inspection and separate minified
+consumer runtime integration. All 16 Maven deliverables matched the earlier
+complete candidate byte-for-byte. Of 24 inventoried artifacts, 23 matched;
+the test-key localRuntime APK differed and its exact current hash is recorded.
+No universal signed-APK reproducibility is claimed. See BUILD_NOTES and the
+ignored private candidate manifest. The final ledger-only commit changes no
+artifact code. Owner/legal, physical/API-range, real-world efficacy,
+independent-validation, intake and all external-action gates remain unresolved.
+
+## Historical Phase 3 — bundled model runtime
 
 **Scope:** Keep the authorized model only in `safety-opennsfw2`. Verify its
 checksum before LiteRT opens it. Run the documented BGR preprocessing and the
