@@ -5,6 +5,8 @@ $repoRoot = Split-Path -Parent $PSScriptRoot
 Set-Location $repoRoot
 . (Join-Path $PSScriptRoot 'local-toolchain.ps1')
 New-Item -ItemType Directory -Force build-logs | Out-Null
+@{ source_commit = (git rev-parse HEAD).Trim(); tracked_worktree_dirty = [bool](git status --porcelain --untracked-files=no) } |
+    ConvertTo-Json | Set-Content -LiteralPath 'build-logs/candidate-source-state.json' -Encoding utf8
 if ($Serial) {
     $adb = Join-Path $env:ANDROID_HOME 'platform-tools\adb.exe'
     if ($Serial -notmatch '^127\.0\.0\.1:\d+$|^emulator-\d+$') { throw 'Explicit isolated emulator serial required.' }

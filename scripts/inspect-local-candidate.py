@@ -91,8 +91,12 @@ def main():
     shutil.copyfile(root / "LICENSE", candidate / "LICENSE")
     revision = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=root).decode().strip()
     dirty = bool(subprocess.check_output(["git", "status", "--porcelain", "--untracked-files=no"], cwd=root).strip())
+    build_state_file = root / "build-logs/candidate-source-state.json"
+    build_state = json.loads(build_state_file.read_text(encoding="utf-8-sig")) if build_state_file.exists() else {}
     manifest = {"schema": 1, "status": "private local candidate; no external release", "source_commit": revision,
         "tracked_worktree_dirty": dirty, "coordinates": "org.sakos.camera:*:0.0.0-local",
+        "artifact_build_commit": build_state.get("source_commit"),
+        "build_tracked_worktree_dirty": build_state.get("tracked_worktree_dirty"),
         "toolchain": {"gradle": "8.13", "agp": "8.13.2", "kotlin": "2.0.21", "compile_sdk": 36, "min_sdk": 26},
         "model_sha256": MODEL_SHA,
         "configuration": {"model": "opennsfw2_resnet50_v1@051a21bf697858c1",
