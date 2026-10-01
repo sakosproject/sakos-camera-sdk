@@ -1,5 +1,21 @@
 # SakOS Camera SDK implementation plan
 
+## Expanded acceptance — camera tooling and strategy execution, 2026-10-01
+
+The owner's newer instruction reopens local completion after `d1f24fe`. Keep the
+same worktree/branch and all private/synthetic-only restrictions above.
+
+| Work | Concrete scope | Acceptance gate | Status |
+| --- | --- | --- | --- |
+| E. Source inventory | Allowlisted camera/runtime Kotlin code; current source revision and snapshot; reusable versus app integrations | Pin source evidence and inventory graph, selector, zoom, focus, orientation, profile and first-run behavior before code edits | In progress |
+| F. Live strategies | Pure score driver and Bitmap runtime; Fixed14 default, optional Adaptive14; evaluator identity | Deterministic early exits, portrait/sentinel/refinement/fallback/duplicate/invalid tests; both strategies on synthetic Bitmap and minified consumer | Pending |
+| G. Camera tooling | capture-camerax discovery, source graph plans, actual probes, selection, secure no-backup profile/cache identity, retries/cancellation; minimal sample lens/quality/zoom/focus/rotation wiring | Mocked capability matrices and lifecycle failures; first-run/retry gates; actual isolated emulator probes; no probe output promotion; front/back/recreation checks | Pending |
+| H. Corrected candidate | All relevant docs/site/examples, local artifacts/notices/audit/checksums and repeat verifier | Full clean JVM/debug/lint and synthetic Android tests; Maven/minified consumer; exact model hash; truthful deferred validation and hardware/efficacy/legal gates | Pending |
+
+Local narrow commits remain authorized. Advertised capabilities never alone make
+a graph usable. Calibration tests establish mechanics only; no universal phone
+compatibility, model quality or real-world efficacy is inferred.
+
 ## Authorized local completion — 2026-10-01
 
 The owner's current instruction supersedes the former Terra/High and phase-stop
@@ -35,7 +51,7 @@ release-preparation restrictions are historical and superseded for local work.
 | 3. Bundled model runtime | Verified asset, LiteRT Bitmap runtime, and fail-closed evaluator | Complete for local verification |
 | 4. Photo capture bridge | In-memory CameraX callback to a caller-owned approved-output boundary | Complete for local verification |
 | 5. Video capture bridge | Private staging, CameraX recording/finalization boundary, and temporal review seam | Complete for local verification |
-| 6. Independent validation | Private work performed outside this repository | Deferred |
+| 6. Independent validation | Deferred; completion and results are unverified | Deferred |
 | 7. Physical-device verification | Camera, storage, cleanup, and recovery verification | Deferred until a device is connected |
 | 8. Release preparation | Private local candidate artifacts and evidence; external decisions remain gated | Local candidate preparation complete |
 | 9. Public launch | Any external release, publication, or website deployment | Not started |
