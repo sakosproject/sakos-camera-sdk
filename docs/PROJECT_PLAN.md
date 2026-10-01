@@ -8,7 +8,7 @@ same worktree/branch and all private/synthetic-only restrictions above.
 | Work | Concrete scope | Acceptance gate | Status |
 | --- | --- | --- | --- |
 | E. Source inventory | Allowlisted camera/runtime/gallery Kotlin code; current source revision and snapshot; reusable versus app integrations | Pin source evidence and inventory graph, selector, zoom, focus, orientation, profile and first-run behavior before code edits | Inventoried in TOOLING_PARITY; snapshots pinned |
-| F. Live strategies | Pure score driver and Bitmap runtime; Fixed14 default, optional Adaptive14; evaluator identity | Deterministic early exits, portrait/sentinel/refinement/fallback/duplicate/invalid tests; both strategies on synthetic Bitmap and minified consumer | Pending |
+| F. Live strategies | Pure score driver and Bitmap runtime; Fixed14 default, optional Adaptive14; evaluator identity | Deterministic early exits, portrait/sentinel/refinement/fallback/duplicate/invalid tests; both strategies on synthetic Bitmap and minified consumer | JVM and synthetic Bitmap gates passed; minified repeat pending |
 | G. Camera tooling | capture-camerax discovery, source graph plans, actual probes, selection, secure no-backup profile/cache identity, retries/cancellation; minimal sample lens/quality/zoom/focus/rotation wiring | Mocked capability matrices and lifecycle failures; first-run/retry gates; actual isolated emulator probes; no probe output promotion; front/back/recreation checks | Pending |
 | H. Corrected candidate | All relevant docs/site/examples, local artifacts/notices/audit/checksums and repeat verifier | Full clean JVM/debug/lint and synthetic Android tests; Maven/minified consumer; exact model hash; truthful deferred validation and hardware/efficacy/legal gates | Pending |
 | I. Standalone reviewed gallery core | Source camera repositories/provider and gallery client/repository/exporter; reusable approved private library and caller-authorized transactional destination | Capture/configuration-bound approval, no private intermediate exposure, cancel/failure cleanup, approved-only inventory/open/export; mocked save failures and synthetic Android integration without host application | Pending |
@@ -62,7 +62,8 @@ belong in this repository.
 
 ## Completion record — 2026-10-01
 
-All four authorized local completion phases passed. The complete repeat verifier
+The earlier four completion phases passed before the expanded acceptance above.
+This dated snapshot is superseded by the expanded work. The complete repeat verifier
 ran at clean commit `e76718e`: 94 JVM tests, six synthetic Android tests, zero
 lint errors, local Maven/notices/permissions inspection and separate minified
 consumer runtime integration. All 16 Maven deliverables matched the earlier
@@ -124,7 +125,8 @@ approved-output verification only after a device is connected.
 
 ## Phase 6 — independent validation
 
-This work remains private and outside this repository. Do not add input
+Independent validation is deferred; completion and results are unverified here.
+If undertaken, it must remain private and outside this repository. Do not add input
 material, identifiers, paths, outputs, descriptions of procedures, or results
 to the SDK repository.
 
