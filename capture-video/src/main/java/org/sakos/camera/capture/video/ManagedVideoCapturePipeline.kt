@@ -16,10 +16,17 @@ interface VideoRecordingHandle : AutoCloseable {
     fun stop()
 }
 
+interface PausableVideoRecordingHandle : VideoRecordingHandle {
+    fun pause()
+    fun resume()
+}
+
 /** A CameraX adapter with no output-path, file-store, or promotion responsibility. */
 class CameraXVideoRecordingHandle(
     private val recording: Recording,
-) : VideoRecordingHandle {
+) : PausableVideoRecordingHandle {
+    override fun pause() { recording.pause() }
+    override fun resume() { recording.resume() }
     override fun stop() {
         recording.stop()
     }
@@ -101,11 +108,17 @@ class ManagedVideoCapturePipeline(
 
     /** Reviews a session already moved to Reviewing by [CameraXVideoFinalizationBridge]. */
     suspend fun <Frame : Any> reviewPrepared(
+        session: VideoStagingSession, durationMillis: Long, decoder: VideoFrameDecoder<Frame>,
+        evaluator: VideoFrameEvaluator<Frame>, promoter: ApprovedVideoPromoter,
+    ): ManagedVideoReviewResult = reviewPreparedBound(session, durationMillis, decoder, evaluator) { promoting, _ -> promoter.promote(promoting) }
+
+    /** Bound delivery seam: called only after temporal Allow and durable promotion transition. */
+    suspend fun <Frame : Any> reviewPreparedBound(
         session: VideoStagingSession,
         durationMillis: Long,
         decoder: VideoFrameDecoder<Frame>,
         evaluator: VideoFrameEvaluator<Frame>,
-        promoter: ApprovedVideoPromoter,
+        promoter: suspend (VideoStagingSession, VideoTemporalReviewResult) -> Unit,
     ): ManagedVideoReviewResult {
         if (!inFlight.add(session.id)) {
             decoder.close()
@@ -132,7 +145,7 @@ class ManagedVideoCapturePipeline(
         var outputCommitted = false
         return try {
             coroutineContext.ensureActive()
-            promoter.promote(promoting.session)
+            promoter(promoting.session, review)
             outputCommitted = true
             when (val completed = sessions.completePromotion(session.id)) {
                 is VideoStagingTransitionResult.Updated -> ManagedVideoReviewResult.Promoted(review)

@@ -12,6 +12,9 @@ import kotlinx.coroutines.ensureActive
 enum class VideoFrameEvidenceKind {
     Context,
     Crop,
+    CorroboratedDetection,
+    NearFloorLateral,
+    IsolatedExtreme,
 }
 
 /** A frame result accepted by the temporal aggregator. Scores are model-policy evidence in 0..1. */

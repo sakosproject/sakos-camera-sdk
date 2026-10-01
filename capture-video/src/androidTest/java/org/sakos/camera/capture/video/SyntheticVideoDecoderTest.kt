@@ -11,7 +11,8 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.sakos.camera.safety.core.SafetyDecision
+import org.sakos.camera.safety.core.*
+import org.sakos.camera.safety.opennsfw2.OpenNsfw2ModelPreflight
 
 /** Encodes solid YUV patterns locally; never imports or reads external media. */
 @RunWith(AndroidJUnit4::class)
@@ -50,6 +51,33 @@ class SyntheticVideoDecoderTest {
         sessions.recoverAbandonedSessions()
     }
 
+    @Test fun simulatedTemporalAllowSavesStandaloneLibraryAndPrivatePlaybackLease() = runBlocking<Unit> {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val store = AndroidVideoPrivateStagingStore(context); val sessions = VideoStagingSessionManager(store)
+        sessions.recoverAbandonedSessions()
+        val session = (sessions.startRecording(0) as VideoRecordingStartResult.Started).session
+        val file = store.recordingOutputFile(session.id); encodePatterns(file); sessions.markReviewing(session.id)
+        val library = PrivateReviewedMediaLibrary(File(context.noBackupFilesDir, "sakos-synthetic-reviewed-library"), OpenNsfw2ModelPreflight.configuration)
+        val decoder = AndroidVideoFrameDecoder(file)
+        val result = ManagedVideoCapturePipeline(sessions).reviewPreparedBound(session, decoder.durationMillis, decoder,
+            VideoFrameEvaluator { _, _ -> VideoFrameEvaluation.Decision(SafetyDecision.Allow, .01f, VideoFrameEvidenceKind.Context) }) { promoting, review ->
+            assertEquals(VideoTemporalReviewDecision.Allow, review.decision); assertEquals(session.id, promoting.id)
+            val capture = SafetyCaptureContext(SafetyCaptureId("synthetic:${session.id.value}"), 0, 64, 64, 0, false)
+            val decision = SafetyEvaluationOutcome.Decision(capture.captureId, SafetyEvaluationReceiptId("simulated-temporal-allow"), OpenNsfw2ModelPreflight.configuration, SafetyDecision.Allow)
+            library.save(ReviewedMediaKind.Video, capture, requireNotNull(decision.approvalForManagedCapture(capture))) { output -> file.inputStream().use { it.copyTo(output) } }
+        }
+        assertTrue(result is ManagedVideoReviewResult.Promoted); assertFalse(file.exists())
+        val item = library.items().first()
+        val client = org.sakos.camera.capture.camerax.AndroidReviewedMediaClient(context, library)
+        val bitmap = client.decodePreview(item, 64); assertNotNull(bitmap); bitmap?.recycle()
+        val lease = client.playback(item); val playback = File(requireNotNull(lease.uri.path))
+        assertTrue(playback.exists()); lease.close(); assertFalse(playback.exists())
+        var authorized = false; var copied = false
+        val export = ReviewedMediaExporter(library).export(listOf(item), { authorized = true; false }) { copied = true; error("No destination without authorization") }
+        assertTrue(authorized); assertFalse(copied); assertEquals(1, export.denied)
+        library.items().forEach { library.delete(it) }
+    }
+
     @Test fun missingAndMalformedClipsFailClosed() {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
         val file = File(context.noBackupFilesDir, "synthetic-invalid.mp4")
@@ -58,6 +86,22 @@ class SyntheticVideoDecoderTest {
             assertThrows(Exception::class.java) { AndroidVideoFrameDecoder(file) }
         } finally { file.delete() }
         assertThrows(Exception::class.java) { AndroidVideoFrameDecoder(file) }
+    }
+
+    @Test fun missingFinalizedInputRequestsCleanupWithoutSaving() = runBlocking<Unit> {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val store = AndroidVideoPrivateStagingStore(context); val sessions = VideoStagingSessionManager(store)
+        sessions.recoverAbandonedSessions()
+        val session = (sessions.startRecording(0) as VideoRecordingStartResult.Started).session
+        sessions.markReviewing(session.id)
+        val library = PrivateReviewedMediaLibrary(File(context.noBackupFilesDir, "sakos-synthetic-missing-library"), OpenNsfw2ModelPreflight.configuration)
+        org.sakos.camera.safety.opennsfw2.OpenNsfw2BitmapRuntime.open(context).use { runtime ->
+            val result = AndroidVideoReviewBridge(store, ManagedVideoCapturePipeline(sessions)).reviewInto(session, runtime, library, false)
+            assertTrue(result is ManagedVideoReviewResult.Rejected)
+            assertTrue(library.items().isEmpty())
+            assertFalse(store.recordingOutputFile(session.id).exists())
+        }
+        sessions.recoverAbandonedSessions()
     }
 
     private fun encodePatterns(file: File) {
