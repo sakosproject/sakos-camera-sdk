@@ -1,15 +1,32 @@
 # Local build notes
 
-## Expanded local acceptance in progress � 2026-10-01
+## Expanded implementation gate - 2026-10-01
 
-The owner reopened completion after `d1f24fe` to require first-run camera tooling,
-live adaptive spatial execution and standalone gallery privacy/save contracts.
-TOOLING_PARITY records the code-only source inventory. The live strategy driver
-passes 13 deterministic simulated-score tests. Fixed14 remains the default;
-explicit Adaptive14 has a distinct configuration/receipt identity. Updated full
-candidate evidence will supersede the earlier 94-JVM/six-Android snapshot below.
+The owner expanded completion after `d1f24fe` to require source-derived first-run
+camera tooling, live Adaptive14 execution and standalone gallery privacy/save.
+TOOLING_PARITY pins the read-only code inventory and deliberate SDK differences.
+The current source gate passes 184 JVM tests (core 18, model/policy 46, camera
+68, video 49, sample 3), with no failures/errors/skips. Eleven source Android
+tests pass: decoder/private playback/recovery 5, bundled strategies 2 and sample
+permission/capture/calibration/front-back/recreation/orientation/cancellation 4.
+The separate minified Maven consumer also passes both real runtime strategies,
+calibration serialization and simulated-approval private save/preview/export.
+The earlier 94-JVM/six-Android snapshots below are retained historical build
+records and are superseded by this expanded implementation.
 
-## Authorized completion — 2026-10-01 — bridge implementation gate
+Final clean candidate and Maven repeat evidence will be recorded here after
+completion. Current checks use generated benign geometry/solid colors, simulated
+scores, mocks and the isolated emulator scene only. They establish managed-path,
+ownership/cache/serialization/runtime mechanics; no accuracy, numerical parity,
+physical camera/API-range or legal redistribution conclusion follows.
+
+The final ownership gate adds unconditional calibration unlock after cleanup
+exceptions, full probe-contract validation, shared private-root write ownership,
+active playback leases across clients, retryable orphan cleanup and export
+counts/committed IDs that preserve a successful save after terminal cleanup fails.
+Standalone details are in CAMERA_TOOLING and REVIEWED_LIBRARY.
+
+## Earlier authorized completion — 2026-10-01 — bridge implementation gate
 
 The installed Gradle 8.13 / AGP 8.13.2 / Kotlin 2.0.21 / JBR 21.0.10
 toolchain completed `testDebugUnitTest assembleDebug assembleDebugAndroidTest`
@@ -29,7 +46,7 @@ These notes contain sanitized current synthetic build/runtime evidence and
 dated earlier local outcomes. Independent validation details remain outside
 the repository.
 
-## Functional sample gate — 2026-10-01
+## Earlier functional sample gate — 2026-10-01
 
 Direct instrumentation on the coordinator-provided isolated API 36 x86_64
 emulator passed two decoder/recovery tests, one bundled-runtime test and two
@@ -47,7 +64,7 @@ toolchain and executes the same AndroidJUnitRunner tests directly through adb.
 Every command targets the explicitly supplied emulator serial and verifies
 emulator identity. The verifier resets only its own synthetic sample package.
 
-## Complete private candidate gate — 2026-10-01
+## Earlier complete private candidate gate — 2026-10-01
 
 `scripts/verify-local-candidate.ps1 -Serial <isolated-emulator-serial>` completed
 successfully with the installed offline toolchain, then passed a complete repeat

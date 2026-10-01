@@ -1,7 +1,8 @@
 # Spatial policy characterization
 
 This is the retained Phase 4A historical record. Later authorized work bundled
-the exact model and added a fixed-view Bitmap runtime. Statements below about
+the exact model and added a Bitmap runtime. Later expanded work executes both
+Fixed14/default and Adaptive14/optional source-derived drivers. Statements below about
 exclusion describe Phase 4A only. Current synthetic mechanics checks establish
 neither source/runtime parity nor real-world efficacy; see BUILD_NOTES and
 MODEL_CARD for current status.
@@ -63,3 +64,15 @@ mapping.
 Real-model equivalence, classifier accuracy, latency and false-accept/false-
 reject evidence remain later gates. External model redistribution remains gated
 by the provenance review.
+
+## Expanded live driver mechanics - 2026-10-01
+
+The source-derived live driver now calls the retained helpers in their staged
+order, skips duplicate bounds and stops at documented Allow/Block exits. Thirteen
+deterministic simulated-score tests cover Fixed14 short circuit/full safe sweep,
+Adaptive14 landscape/portrait early Allow/Block, sentinel and ambiguous portrait
+stages, refinement, targeted escalation/fallback, duplicates and invalid outputs.
+Both strategies also execute on generated benign Bitmaps in Android runtime and
+minified local consumer checks. These establish control flow/identity mechanics,
+not classifier efficacy or numerical source/model parity. Thresholds and BGR
+preprocessing remain unchanged; alternate policy identity prevents receipt reuse.

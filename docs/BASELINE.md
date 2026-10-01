@@ -87,3 +87,13 @@ the source snapshot, not independently validated suitability claims.
 - The source's normal non-Allow video path may retain staging. The independent
   SDK must introduce explicit cleanup/recovery in later phases; that is an
   intentional lifecycle difference, not evidence of source parity.
+
+## Expanded code-only snapshot - 2026-10-01
+
+The reusable tooling inventory references clean source HEAD
+`source revision omitted`. Calibration, diagnostics, foundation
+and live runtime match pinned `historical source revision omitted` after
+CRLF normalization. Current camera activity and gallery save/review code were
+inspected read-only. TOOLING_PARITY records exact allowlisted code hashes and
+included/deferred behavior. This supplements the earlier extraction baseline;
+no source media or production configuration is included.

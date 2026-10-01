@@ -33,3 +33,40 @@ cancellation, cleanup and default selector safeguards remain required.
 Missing front/back or failed required default/1x probes do not establish readiness.
 The SDK does not claim to make every advertised camera usable. Owners must test
 physical devices, API ranges and real-world efficacy separately.
+
+## Code snapshot identity
+
+Current source was clean at the recorded HEAD during code-only inspection.
+The following SHA-256 values normalize CRLF to LF and describe allowlisted Kotlin
+source only; they make no statement about historical inputs or validation.
+
+| Current source path | Normalized SHA-256 |
+| --- | --- |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Deliberate standalone ownership differences
+
+The source app uses its own singleton repository/client lifecycle. Independent
+SDK adapters can share a canonical private root: writes and recovery coordinate
+through shared ownership and filesystem locks, preserving live pending writes
+and playback leases across another adapter initialization. Competing process
+operations fail closed instead of recovering live content. Playback cleanup is
+retryable. Export results preserve committed-save status when terminal cleanup
+fails, including committed IDs on cancellation. Calibration additionally rejects
+malformed probe contracts and releases its run lock after cleanup exceptions.
+These reliability differences preserve the source privacy/save boundary; they
+are not classifier or hardware parity claims.

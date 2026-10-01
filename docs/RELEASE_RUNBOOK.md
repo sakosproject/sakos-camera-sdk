@@ -15,7 +15,9 @@ on missing external release decisions.
    separate minified consumer and an additional test-key-only runtime variant.
    Direct adb instrumentation avoids uncached Gradle UTP runner dependencies.
 4. Review `build/private-candidate/manifest.json`, `SHA256SUMS.txt`, sanitized logs,
-   source/POM/dependency/notices inventory and exact bundled-model fingerprint.
+   source/POM/dependency/notices inventory, per-module unit/lint and per-suite
+   synthetic counts, both strategy identities, code-only tooling references and
+   exact bundled-model fingerprint. Local documentation/site links are also checked.
    APK permission inspection rejects network/audio/public-storage permission.
    Inspect the private text-audit report outside the repository; do not copy
    sensitive historical wording or validation details into public artifacts.

@@ -6,7 +6,9 @@ phase records remain dated; compilation is distinguished from runtime evidence.
 | Claim | Evidence | Limit |
 | --- | --- | --- |
 | Exact model is bundled | PROVENANCE size/digest; artifact and runtime preflight | Owner import authorization is not full redistribution clearance |
-| Fixed-view inference is implemented | OpenNsfw2BitmapRuntime; synthetic Android runtime test | No accuracy, parity or efficacy claim; adaptive helpers are not the live staged runner |
+| Fixed14/default and Adaptive14/optional inference are implemented | Source-derived pure driver tests, synthetic Android runtime and separate minified consumer | Exact policy and distinct alternate identity; no accuracy, parity or efficacy claim |
+| First-run camera tooling is implemented | Source calibration policy, mocked failures/cache matrices, actual isolated emulator graph probes | Advertised facts alone are insufficient; missing defaults block readiness; no universal phone claim |
+| Approved private library and explicit saving are implemented | Capture/configuration binding, atomic pending commit, named access and cancellation/authorization destination tests | Same-process host interfaces replace app-specific trust; API29 MediaStore adapter; no physical-gallery coverage |
 | Photos review before managed output | ManagedPhotoReviewPipeline and sample; receipt/configuration, close and cancellation tests | Host must keep its approved sink transactional; physical-camera coverage remains pending |
 | Video decoding/review is implemented | AndroidVideoReviewBridge; locally encoded benign patterns and emulator scene | Bounded timestamp samples, not every-frame coverage |
 | Non-Allow cleanup/recovery is implemented | No-backup staging manager; JVM faults and synthetic Android recovery/cancellation | Delete/metadata failures block recording; no forensic-erasure claim |

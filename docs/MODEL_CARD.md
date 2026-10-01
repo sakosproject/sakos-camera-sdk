@@ -11,13 +11,16 @@ External redistribution and real-world efficacy remain gated.
 | SHA-256 | 051A21BF697858C1E2537354A99BE09A48D26BBFBA0C35216B340F16DE7528D7 |
 | Input | One float32 tensor [1,224,224,3], BGR subtraction [104,117,123] |
 | Output | One float32 tensor [1,2], SFW/NSFW probabilities |
-| Runtime | LiteRT 1.4.2, fixed spatial-view evaluation over caller-owned Bitmap |
+| Runtime | LiteRT 1.4.2, Fixed14/default and Adaptive14/optional evaluation over caller-owned Bitmap |
 
 The runtime checks size/digest, tensor count, shape and dtype before use. It
 rejects recycled input, closed runtime and invalid/non-finite output. The safety
 adapter matches request configuration and returns failures without approval.
 Owned scratch/native resources close deterministically; the input stays caller-owned.
-Adaptive geometry/policy helpers are available; the runner uses fixed views.
+Fixed14 uses the documented early Block exit. Optional Adaptive14 executes the
+source staged context, portrait sentinel/ambiguity/refinement, targeted escalation
+and fallback policy. Its policy identity is `opennsfw2-still-policy-adaptive14@1`;
+the default retains `opennsfw2-still-policy@1`. No threshold is retuned.
 The bundled configuration accepts only its recorded version-1 policy values;
 a custom policy must have a separate versioned configuration/runtime contract.
 

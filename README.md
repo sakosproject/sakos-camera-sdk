@@ -7,12 +7,13 @@ release are available.
 
 | Module | Implemented boundary |
 | --- | --- |
-| safety-core | Capture/configuration identities, fail-closed outcomes and matching Allow approvals. |
-| safety-opennsfw2 | Exact bundled OpenNSFW2-lineage model, integrity/tensor preflight, BGR preprocessing and fixed-view Bitmap runtime. |
-| capture-camerax | In-memory CameraX photo review with owned-input closure and capture/configuration-bound delivery. |
-| capture-video | No-backup staging, CameraX start/finalization, Android timestamp decoding, bounded temporal review and Allow-only promotion. |
+| safety-core | Capture/configuration identities, fail-closed outcomes, matching Allow approvals, private reviewed library and authorized export interfaces. |
+| safety-opennsfw2 | Exact bundled OpenNSFW2-lineage model, integrity/tensor preflight, BGR preprocessing and Fixed14/default or Adaptive14/optional Bitmap runtime. |
+| capture-camerax | In-memory photo review, advertised capability discovery, source-derived calibration/profile/selector tooling, private preview and optional authorized MediaStore saving. |
+| capture-video | No-backup staging, CameraX start/finalization, Android timestamp decoding, bounded temporal review, real graph probes and approval-bound private promotion. |
 
-The sample requests camera permission, binds a lifecycle preview, captures photos
+The sample requests camera permission, completes first-run usable-graph calibration,
+provides back/front, quality, verified zoom, focus and flash controls, captures photos
 in memory, records silent video into private staging and displays only approved
 sample-owned output. It requests no microphone, storage or network permission.
 The approved viewer uses app-private no-backup storage and has no import/export
@@ -38,7 +39,9 @@ For packaging/consumer verification alone:
 Provisional coordinates are `org.sakos.camera:<module>:0.0.0-local` in
 `build/local-maven`. They are local review artifacts, not remote availability.
 See [build evidence](docs/BUILD_NOTES.md), [integration](docs/INTEGRATION.md),
-[model card](docs/MODEL_CARD.md) and [release gates](docs/RELEASE_CHECKLIST.md).
+[camera tooling](docs/CAMERA_TOOLING.md), [reviewed library/save](docs/REVIEWED_LIBRARY.md),
+[source tooling map](docs/TOOLING_PARITY.md), [model card](docs/MODEL_CARD.md) and
+[release gates](docs/RELEASE_CHECKLIST.md).
 
 ## Privacy and limits
 
@@ -51,8 +54,9 @@ Current tests use generated benign geometric/solid-color inputs, mocks, simulate
 scores and an isolated emulator scene. Bundled-runtime checks verify mechanics,
 not accuracy. This statement describes the current suite only. Historical
 characterization records are dated and do not establish current runtime parity.
-The runtime uses fixed spatial views; adaptive geometry/policy helpers also
-exist, but the live runner does not execute the adaptive staged strategy.
+Fixed14 remains the default and short-circuits on policy Block. Optional Adaptive14
+executes the source contextual, portrait/sentinel/refinement, targeted escalation
+and fallback stages with its own configuration/approval identity.
 Sampled video review does not inspect every frame. The preserved temporal policy
 can allow an isolated, uncorroborated, non-extreme final block under its documented
 conditions. A modified host can bypass a library's managed path.

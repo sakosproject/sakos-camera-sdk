@@ -3,6 +3,7 @@ import argparse
 import hashlib
 import io
 import json
+import re
 from pathlib import Path
 import shutil
 import subprocess
@@ -80,6 +81,7 @@ def main():
         tests.append({"module": module, "tests": count, "failures": failures, "errors": errors, "skipped": skipped})
     logs = candidate / "logs"
     logs.mkdir(exist_ok=True)
+    instrumentation = []
     for name in ["candidate-build.log", "local-maven.log", "local-consumer.log", "candidate-emulator.log", "candidate-consumer-runtime.log"]:
         source = root / "build-logs" / name
         if not source.exists():
@@ -87,6 +89,20 @@ def main():
         text = source.read_text(encoding="utf-8-sig", errors="replace").replace(str(root), "[workspace]")
         text = text.replace(str(Path.home()), "[user]")
         (logs / name).write_text(text, encoding="utf-8")
+        if args.emulator_tested and name in {"candidate-emulator.log", "candidate-consumer-runtime.log"}:
+            counts = [int(count) for count in re.findall(r"OK \((\d+) tests?\)", text)]
+            assert counts and "FAILURES!!!" not in text and "Process crashed" not in text
+            instrumentation.append({"log": name, "suite_counts": counts, "tests": sum(counts)})
+    if args.emulator_tested:
+        assert len(instrumentation) == 2, "Missing current emulator evidence"
+    lint = []
+    for module in MODULES + ["sample-app", "integration-tests/consumer/app"]:
+        files = list((root / module / "build/reports").glob("lint-results-*.xml"))
+        assert files, f"No lint evidence for {module}"
+        issues = [issue for file in files for issue in ET.parse(file).getroot().findall("issue")]
+        errors = sum(issue.get("severity") in {"Error", "Fatal"} for issue in issues)
+        assert errors == 0, f"Lint errors for {module}"
+        lint.append({"module": module, "errors": errors, "warnings": sum(issue.get("severity") == "Warning" for issue in issues)})
     shutil.copytree(root / "third_party", candidate / "third_party", dirs_exist_ok=True)
     shutil.copyfile(root / "LICENSE", candidate / "LICENSE")
     revision = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=root).decode().strip()
@@ -102,7 +118,14 @@ def main():
         "configuration": {"model": "opennsfw2_resnet50_v1@051a21bf697858c1",
             "preprocessing": "opennsfw2-bgr-mean-104-117-123@1", "policy": "opennsfw2-still-policy@1",
             "policy_asset_sha256": digest((root / "safety-opennsfw2/src/main/assets/policy/opennsfw2_still_gate_policy.json").read_bytes())},
+        "strategies": {"default": "Fixed14", "optional": "Adaptive14",
+            "optional_policy": "opennsfw2-still-policy-adaptive14@1", "thresholds": "unchanged source policy"},
+        "tooling_source": {"current_code_revision": None,
+            "pinned_runtime_calibration_revision": None,
+            "code_snapshot_inventory": "docs/TOOLING_PARITY.md"},
         "artifacts": artifacts, "pom_dependencies": dependencies, "unit_tests": tests,
+        "lint": lint, "android_instrumentation": instrumentation,
+        "local_links": json.loads((root / "build-logs/site-link-check.json").read_text(encoding="utf-8")),
         "emulator_instrumentation_executed": args.emulator_tested,
         "input_scope": "Current suite: generated benign patterns, mocks, simulated scores and isolated emulator scene only.",
         "signing": "release consumer unsigned; debug/test-key APKs only for local runtime verification",

@@ -32,6 +32,8 @@ foreach ($apk in @('sample-app/build/outputs/apk/debug/sample-app-debug.apk',
     }
 }
 $auditFile = Join-Path ([IO.Path]::GetTempPath()) 'sakos-private-text-audit.json'
+& python (Join-Path $PSScriptRoot 'check-local-links.py')
+if ($LASTEXITCODE -ne 0) { throw 'Local documentation/site link check failed.' }
 $auditSummary = & python (Join-Path $PSScriptRoot 'audit-local-text.py') --private-output $auditFile
 if ($LASTEXITCODE -ne 0) { throw 'Private text audit failed; findings are redacted in the private temporary report.' }
 $inspectionArguments = @((Join-Path $PSScriptRoot 'inspect-local-candidate.py'))

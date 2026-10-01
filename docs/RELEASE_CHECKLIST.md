@@ -7,7 +7,7 @@ authorized. The candidate remains provisional `0.0.0-local`.
 | Gate | Current evidence/status | Remaining requirement |
 | --- | --- | --- |
 | Exact asset identity | Owner-authorized bundled bytes; size/digest/tensor checks | Complete upstream conversion/weight provenance and owner/legal redistribution clearance |
-| Local runtime | Fixed-view Bitmap inference and Android temporal decoder implemented; current synthetic checks in BUILD_NOTES | Real-world efficacy and source parity are not established |
+| Local runtime | Fixed14/default and Adaptive14/optional Bitmap inference, source-derived camera calibration and Android temporal decoder implemented; current synthetic checks in BUILD_NOTES | Real-world efficacy and source parity are not established |
 | Managed sample | Permission/lifecycle photos, silent private video and approved-only viewer implemented | Broader API-range and physical-camera/lifecycle/storage coverage |
 | Private artifacts | Four local AARs, sources, POMs, notices and minified consumer | Final dependency/license inventory and release version approval |
 | Independent validation | Private/outside repository; no completion claim here | Owner-approved status outside repository |

@@ -17,4 +17,5 @@ CameraX input, cancellation tokens and private no-backup approved output. Camera
 permission, executor, preview and lifecycle remain host responsibilities. No
 public media provider, EXIF/location intake, network or rejected-image file is
 created by the bridge. Synthetic tests exercise closure, failure, approval and
-cancellation; physical orientation/front-camera verification remains pending.
+cancellation. The isolated emulator also exercises front/back and recreation/
+orientation; physical-device orientation/front-camera verification remains pending.

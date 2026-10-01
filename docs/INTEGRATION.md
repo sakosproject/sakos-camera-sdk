@@ -8,8 +8,10 @@ AARs, sources, POMs and a separate minified Maven consumer.
 ## Photo
 
 Open `OpenNsfw2BitmapRuntime` with an application context and adapt it through
-`OpenNsfw2BitmapEvaluator`. Use `OpenNsfw2ModelPreflight.configuration` for the
-request. Capture in memory with CameraX `OnImageCapturedCallback`, then feed
+`OpenNsfw2BitmapEvaluator`. Use `runtime.configuration` for the
+request. Fixed14 is the compatible default. Pass `strategy =
+IntegratedOpenNsfw2Strategy.Adaptive14` to `open` for the optional staged driver;
+its configuration/approval identity differs from the default. Capture in memory with CameraX `OnImageCapturedCallback`, then feed
 `ManagedPhotoReviewPipeline.reviewImageProxy` with a capture ID unique to that
 input, its dimensions/rotation and a converter. The pipeline closes the proxy
 exactly once, including failures. Caller-owned converted Bitmaps also need
@@ -29,8 +31,8 @@ Reviewing session. Any finalization error discards staging without review.
 
 `AndroidVideoReviewBridge` opens only that session's staged clip, reads the
 container duration, decodes planned timestamps with MediaMetadataRetriever and
-recycles each frame. `OpenNsfw2VideoFrameEvaluator` applies the shared fixed-view
-runtime. The managed pipeline permits a promoter only after temporal Allow and
+recycles each frame. `OpenNsfw2VideoFrameEvaluator` uses the source contextual
+base sweep and the selected full spatial strategy on temporal escalation. The managed pipeline permits a promoter only after temporal Allow and
 an exclusive Reviewing-to-Promoting transition. The promoter must bind its source
 to that session and commit only approved output transactionally. Block, Review,
 decode/runtime failure and cancellation do not promote. Decoder-open failures
@@ -47,12 +49,19 @@ recording, wait for finalization before cleanup and discard abandoned sessions
 on next startup. Do not expose staging, thumbnails, providers or backup paths.
 
 `sample-app` demonstrates camera permission, preview, in-memory rotated photos,
-silent video, cancellation/backgrounding, cleanup retry and an approved-only
-private viewer. It binds preview plus one capture use case at a time. No account,
+silent video with pause/resume and Back protection, cancellation/backgrounding,
+cleanup retry and an approved-only private viewer. Mandatory first-run calibration
+distinguishes advertised from verified usable configurations. It binds preview,
+closing latest-only analysis and one capture use case at a time; High still has
+an independent capture viewport. No account,
 host application authorization, microphone, storage or network permission is used.
 
 Current verification uses synthetic patterns, simulated scores and an isolated
-emulator scene. See BUILD_NOTES for executed evidence. Fixed-view runtime and
+emulator scene. See BUILD_NOTES for executed evidence. Spatial runtime and
 sampled video are probabilistic; neither every-frame coverage nor accuracy,
 parity or physical-device behavior is established. A modified host can bypass
 an app-level SDK. External redistribution and delivery remain gated.
+
+See [camera discovery/calibration and controls](CAMERA_TOOLING.md),
+[approved library and explicit saving](REVIEWED_LIBRARY.md) and
+[source inclusion/deferment map](TOOLING_PARITY.md) for standalone APIs.

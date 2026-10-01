@@ -2,8 +2,9 @@
 
 `safety-core` is independent of CameraX, Compose, LiteRT and any host product.
 It describes evaluation results and whether a managed capture module may
-deliver output. It does not classify content, save media, inspect host trust,
-or provide a user interface.
+deliver output. It also supplies a transactional approval-bound private library
+and caller-authorized export contracts. It does not classify content, inspect
+host trust or provide a user interface. See REVIEWED_LIBRARY for save ownership.
 
 ## Inputs and ownership
 

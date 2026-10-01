@@ -1,7 +1,9 @@
 # Draft candidate notes — private, unreleased
 
 The local `0.0.0-local` candidate includes four independent Android libraries,
-the exact owner-authorized bundled model, fixed-view Bitmap review, in-memory
+the exact owner-authorized bundled model, Fixed14/default and Adaptive14/optional
+Bitmap review, first-run camera discovery/calibration and controls, standalone
+approval-bound private library and explicit authorized-save adapters, in-memory
 photo delivery and private staged/sampled video review. The sample provides
 camera permission/preview, photo/video capture and a private approved-only viewer.
 
