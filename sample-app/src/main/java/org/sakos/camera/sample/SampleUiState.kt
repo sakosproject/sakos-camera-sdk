@@ -23,7 +23,7 @@ data class SampleUiState(
     val availabilityMessage: String
         get() = when (availability) {
             SampleCaptureAvailability.RuntimeUnavailable ->
-                "Capture is unavailable until the bundled model, private file store, and CameraX recorder are connected."
+                "Camera, bundled runtime or private storage is currently unavailable."
             SampleCaptureAvailability.CleanupRetryRequired ->
                 "Private staging cleanup needs attention before another recording can start."
             SampleCaptureAvailability.Ready -> "Ready to capture and review in the managed SDK path."

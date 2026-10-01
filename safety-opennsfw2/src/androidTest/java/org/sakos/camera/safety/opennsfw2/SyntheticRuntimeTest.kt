@@ -17,6 +17,9 @@ import org.sakos.camera.safety.core.*
 class SyntheticRuntimeTest {
     @Test fun bundledAssetTensorContractInferenceAndClosedFailure() = runBlocking {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
+        assertThrows(IllegalArgumentException::class.java) {
+            OpenNsfw2BitmapRuntime.open(context, policy = IntegratedStillGatePolicyDefaults.fallback.copy(highTierThreshold = 1f))
+        }
         assertEquals(OpenNsfw2ModelAssetStatus.Verified, context.assets.open(OpenNsfw2ModelPreflight.assetPath).use(OpenNsfw2ModelPreflight::verify))
         val bitmap = Bitmap.createBitmap(320, 240, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)

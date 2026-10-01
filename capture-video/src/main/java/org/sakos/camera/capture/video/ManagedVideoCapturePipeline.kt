@@ -52,6 +52,11 @@ fun interface ApprovedVideoPromoter {
 
 sealed interface ManagedVideoReviewResult {
     data class Promoted(val review: VideoTemporalReviewResult) : ManagedVideoReviewResult
+    /** Approved output committed, but staging cleanup still needs attention. Never retry promotion. */
+    data class PromotedCleanupPending(
+        val review: VideoTemporalReviewResult,
+        val cleanup: VideoStagingTransitionResult,
+    ) : ManagedVideoReviewResult
     data class NotPromoted(
         val review: VideoTemporalReviewResult,
         val cleanup: VideoStagingTransitionResult,
@@ -124,18 +129,22 @@ class ManagedVideoCapturePipeline(
         if (promoting !is VideoStagingTransitionResult.Updated) {
             return ManagedVideoReviewResult.NotPromoted(review, sessions.discard(session.id))
         }
+        var outputCommitted = false
         return try {
             coroutineContext.ensureActive()
             promoter.promote(promoting.session)
+            outputCommitted = true
             when (val completed = sessions.completePromotion(session.id)) {
                 is VideoStagingTransitionResult.Updated -> ManagedVideoReviewResult.Promoted(review)
-                else -> ManagedVideoReviewResult.NotPromoted(review, completed)
+                else -> ManagedVideoReviewResult.PromotedCleanupPending(review, completed)
             }
         } catch (error: CancellationException) {
             sessions.discard(session.id)
             throw error
         } catch (_: Exception) {
-            ManagedVideoReviewResult.NotPromoted(review, sessions.discard(session.id))
+            val cleanup = sessions.discard(session.id)
+            if (outputCommitted) ManagedVideoReviewResult.PromotedCleanupPending(review, cleanup)
+            else ManagedVideoReviewResult.NotPromoted(review, cleanup)
         }
         } catch (error: CancellationException) {
             sessions.discard(session.id)

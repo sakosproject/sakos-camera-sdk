@@ -16,8 +16,27 @@ Gradle cache; local build execution used the existing toolchain outside that
 sandbox. The wrapper attempted a download before explicit GRADLE_USER_HOME was
 set; subsequent checks use the already installed offline Gradle distribution.
 
-These notes record only repository-level build status. They contain no private
-validation material, process details, inputs, outputs, or device records.
+These notes contain sanitized current synthetic build/runtime evidence and
+dated earlier local outcomes. Independent validation details remain outside
+the repository.
+
+## Functional sample gate — 2026-10-01
+
+Direct instrumentation on the coordinator-provided isolated API 36 x86_64
+emulator passed two decoder/recovery tests, one bundled-runtime test and two
+sample tests. The sample flow covers initially denied camera permission,
+grant/recreation, photo review, silent video review, cancel, background cleanup,
+approved-store receipt matching and interrupted pending-write recovery. A later
+run also exercises the approved photo viewer. Inputs are locally generated
+benign shapes/solid-color frames, simulated decisions and the emulator scene.
+These outcomes do not establish model accuracy, physical camera behavior or
+source parity. No physical device was accessed.
+
+Gradle connected-test execution required uncached UTP runner components. The
+repeat verifier instead compiles instrumented APKs with the installed offline
+toolchain and executes the same AndroidJUnitRunner tests directly through adb.
+Every command targets the explicitly supplied emulator serial and verifies
+emulator identity. The verifier resets only its own synthetic sample package.
 
 ## Phase 3 — bundled model runtime — 2026-09-17
 

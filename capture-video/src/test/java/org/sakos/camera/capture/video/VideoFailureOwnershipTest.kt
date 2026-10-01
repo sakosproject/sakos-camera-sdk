@@ -5,12 +5,12 @@ import kotlinx.coroutines.*
 import org.sakos.camera.safety.core.SafetyDecision
 
 class VideoFailureOwnershipTest {
-    private class Store : VideoPrivateStagingStore {
+    private class Store(private val failDelete: Boolean = false) : VideoPrivateStagingStore {
         val records = linkedMapOf<VideoStagingSessionId, VideoStagingSession>()
         var deletes = 0
         override fun sessions() = records.values.toList()
         override fun writeSession(session: VideoStagingSession) { records[session.id] = session }
-        override fun deleteStagedContent(id: VideoStagingSessionId) { deletes++ }
+        override fun deleteStagedContent(id: VideoStagingSessionId) { deletes++; if (failDelete) error("synthetic deletion failure") }
         override fun removeSession(id: VideoStagingSessionId) { records.remove(id) }
     }
     private class Decoder(private val failClose: Boolean = false) : VideoFrameDecoder<Int> {
@@ -69,5 +69,23 @@ class VideoFailureOwnershipTest {
         assertTrue(closed)
         assertEquals(1, store.deletes)
         assertTrue(store.sessions().isEmpty())
+    }
+
+    @Test fun committedAllowWithCleanupFailureIsNotMisreportedOrPromotedAgain() = runBlocking {
+        val store = Store(failDelete = true)
+        val sessions = VideoStagingSessionManager(store)
+        val session = assertIs<VideoRecordingStartResult.Started>(sessions.startRecording(0)).session
+        val pipeline = ManagedVideoCapturePipeline(sessions)
+        var writes = 0
+        val result = pipeline.reviewFinalized(session, 1000, Decoder(),
+            VideoFrameEvaluator { _, _ -> VideoFrameEvaluation.Decision(SafetyDecision.Allow, .1f, VideoFrameEvidenceKind.Context) },
+            ApprovedVideoPromoter { writes++ })
+        assertIs<ManagedVideoReviewResult.PromotedCleanupPending>(result)
+        assertEquals(1, writes)
+        assertEquals(VideoStagingState.CleanupFailed, store.sessions().single().state)
+        assertIs<VideoRecordingStartResult.BlockedByCleanup>(sessions.startRecording(1))
+        assertIs<ManagedVideoReviewResult.Rejected>(pipeline.reviewPrepared(session, 1000, Decoder(),
+            VideoFrameEvaluator { _, _ -> error("Must not evaluate again") }, ApprovedVideoPromoter { writes++ }))
+        assertEquals(1, writes)
     }
 }

@@ -24,8 +24,8 @@ android {
 
 dependencies {
     api(project(":safety-core"))
-    implementation(project(":safety-opennsfw2"))
-    implementation(libs.androidx.camera.video)
+    api(project(":safety-opennsfw2"))
+    api(libs.androidx.camera.video)
     testImplementation(kotlin("test"))
     androidTestImplementation(libs.androidx.test.runner)
     androidTestImplementation(libs.androidx.test.junit)

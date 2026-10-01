@@ -89,6 +89,28 @@ class ManagedPhotoCaptureCallbackTest {
         assertEquals(1, image.closes)
     }
 
+    @Test
+    fun conversionAndEvaluatorFailuresEachCloseProxyExactlyOnce() {
+        for (conversionFailure in listOf(true, false)) {
+            val image = TestImageProxy()
+            var saves = 0
+            var received: ManagedPhotoCaptureCallbackResult? = null
+            val evaluator = object : SafetyEvaluator<String> {
+                override suspend fun evaluate(request: SafetyEvaluationRequest<String>): SafetyEvaluationOutcome = error("synthetic evaluator failure")
+                override fun close() = Unit
+            }
+            val callback = ManagedPhotoCaptureCallback(
+                ManagedPhotoReviewPipeline(evaluator, object : ApprovedPhotoSink<String> {
+                    override suspend fun save(input: String, capture: SafetyCaptureContext, approval: org.sakos.camera.safety.core.ManagedCaptureApproval) { saves++ }
+                }, configuration), capture, { if (conversionFailure) error("synthetic conversion failure") else "synthetic pixels" },
+                ManagedPhotoCaptureListener { received = it })
+            callback.onCaptureSuccess(image)
+            assertIs<ManagedPhotoCaptureCallbackResult.PipelineFailure>(received)
+            assertEquals(0, saves)
+            assertEquals(1, image.closes)
+        }
+    }
+
     private fun allowEvaluator() = object : SafetyEvaluator<String> {
         override suspend fun evaluate(request: SafetyEvaluationRequest<String>) = SafetyEvaluationOutcome.Decision(
             request.capture.captureId,

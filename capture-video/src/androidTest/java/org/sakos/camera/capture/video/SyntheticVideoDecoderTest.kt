@@ -16,7 +16,7 @@ import org.sakos.camera.safety.core.SafetyDecision
 /** Encodes solid YUV patterns locally; never imports or reads external media. */
 @RunWith(AndroidJUnit4::class)
 class SyntheticVideoDecoderTest {
-    @Test fun encodedPatternsDecodeCloseReviewPromoteAndRecover() = runBlocking {
+    @Test fun encodedPatternsDecodeCloseReviewPromoteAndRecover() = runBlocking<Unit> {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
         val store = AndroidVideoPrivateStagingStore(context)
         val sessions = VideoStagingSessionManager(store)

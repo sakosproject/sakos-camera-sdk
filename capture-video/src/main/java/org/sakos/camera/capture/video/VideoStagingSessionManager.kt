@@ -79,9 +79,10 @@ class VideoStagingSessionManager(
     private val store: VideoPrivateStagingStore,
     private val nextId: () -> VideoStagingSessionId = { VideoStagingSessionId(UUID.randomUUID().toString()) },
 ) {
+    @Synchronized
     fun startRecording(createdAtEpochMillis: Long): VideoRecordingStartResult {
         val unresolvedCleanup = store.sessions()
-            .filter { it.state == VideoStagingState.CleanupFailed }
+            .filter { it.state != VideoStagingState.Completed }
             .map { it.id }
         if (unresolvedCleanup.isNotEmpty()) {
             return VideoRecordingStartResult.BlockedByCleanup(unresolvedCleanup)
@@ -91,13 +92,16 @@ class VideoStagingSessionManager(
         return VideoRecordingStartResult.Started(session)
     }
 
+    @Synchronized
     fun markReviewing(id: VideoStagingSessionId): VideoStagingTransitionResult =
         transition(id, VideoStagingState.Recording, VideoStagingState.Reviewing)
 
     /** Returns the durable Reviewing session without changing its state. */
+    @Synchronized
     fun requireReviewing(id: VideoStagingSessionId): VideoStagingTransitionResult =
         requireState(id, VideoStagingState.Reviewing)
 
+    @Synchronized
     fun beginPromotion(id: VideoStagingSessionId): VideoStagingTransitionResult =
         transition(id, VideoStagingState.Reviewing, VideoStagingState.Promoting)
 
@@ -105,6 +109,7 @@ class VideoStagingSessionManager(
      * Call only after the owner has promoted an approved output. It removes private staging before
      * recording the completed state, so a cleanup failure remains visible and blocks new captures.
      */
+    @Synchronized
     fun completePromotion(id: VideoStagingSessionId): VideoStagingTransitionResult {
         val session = find(id) ?: return VideoStagingTransitionResult.Rejected("Unknown staging session ${id.value}.")
         if (session.state != VideoStagingState.Promoting) {
@@ -121,6 +126,7 @@ class VideoStagingSessionManager(
     }
 
     /** Removes a non-approved or abandoned session's staged clip, sidecars, and metadata. */
+    @Synchronized
     fun discard(id: VideoStagingSessionId): VideoStagingTransitionResult {
         val session = find(id) ?: return VideoStagingTransitionResult.Removed
         if (session.state == VideoStagingState.Completed) {
@@ -135,6 +141,7 @@ class VideoStagingSessionManager(
         }
     }
 
+    @Synchronized
     fun retryCleanup(id: VideoStagingSessionId): VideoStagingTransitionResult {
         val session = find(id) ?: return VideoStagingTransitionResult.Removed
         if (session.state != VideoStagingState.CleanupFailed) {
@@ -144,6 +151,7 @@ class VideoStagingSessionManager(
     }
 
     /** Purges every non-completed session discovered at startup; completed output remains untouched. */
+    @Synchronized
     fun recoverAbandonedSessions(): VideoStagingRecoveryReport {
         val results = store.sessions()
             .filter { it.state != VideoStagingState.Completed }

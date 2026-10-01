@@ -23,6 +23,6 @@ android {
 
 dependencies {
     api(project(":safety-core"))
-    implementation(libs.androidx.camera.core)
+    api(libs.androidx.camera.core)
     testImplementation(kotlin("test"))
 }

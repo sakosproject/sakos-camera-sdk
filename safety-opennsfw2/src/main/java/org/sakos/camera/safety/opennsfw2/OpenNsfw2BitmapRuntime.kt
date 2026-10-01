@@ -131,6 +131,9 @@ class OpenNsfw2BitmapRuntime private constructor(
         require(scores.sfwProbability in 0f..1f && scores.nsfwProbability in 0f..1f) {
             "The model produced a result outside the expected probability range."
         }
+        require(kotlin.math.abs(scores.sfwProbability + scores.nsfwProbability - 1f) <= 0.01f) {
+            "The model produced an invalid probability distribution."
+        }
         return scores to elapsedMillis
     }
 
@@ -149,6 +152,9 @@ class OpenNsfw2BitmapRuntime private constructor(
             policy: IntegratedStillGatePolicyConstants = IntegratedStillGatePolicyDefaults.load(context),
         ): OpenNsfw2BitmapRuntime {
             require(threadCount > 0) { "threadCount must be positive." }
+            require(policy == IntegratedStillGatePolicyDefaults.fallback) {
+                "The bundled configuration requires the recorded version-1 policy."
+            }
             val status = context.assets.open(OpenNsfw2ModelPreflight.assetPath).use(OpenNsfw2ModelPreflight::verify)
             check(status == OpenNsfw2ModelAssetStatus.Verified) {
                 "The bundled OpenNSFW2 model did not pass integrity preflight: $status"

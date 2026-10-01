@@ -37,6 +37,7 @@ class ManagedPhotoReviewPipeline<Input : Any>(
         if (delivered.contains(id)) { frame.close(); return ManagedPhotoResult.AlreadyDelivered }
         if (!inFlight.add(id)) { frame.close(); return ManagedPhotoResult.AlreadyProcessing }
         try {
+            if (delivered.contains(id)) return ManagedPhotoResult.AlreadyDelivered
             coroutineContext.ensureActive()
             val outcome = evaluator.evaluate(SafetyEvaluationRequest(frame.input, capture, configuration))
             coroutineContext.ensureActive()
