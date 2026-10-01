@@ -24,6 +24,7 @@ class OpenNsfw2BitmapRuntime private constructor(
     private val interpreter: Interpreter,
     private val threadCount: Int,
     private val policy: IntegratedStillGatePolicyConstants,
+    val strategy: IntegratedOpenNsfw2Strategy,
 ) : AutoCloseable {
     private val inputWidth = OpenNsfw2ModelPreflight.inputShape[1]
     private val inputHeight = OpenNsfw2ModelPreflight.inputShape[2]
@@ -38,68 +39,24 @@ class OpenNsfw2BitmapRuntime private constructor(
     private val output = Array(1) { FloatArray(OpenNsfw2ModelPreflight.outputShape[1]) }
     private var closed = false
 
-    /** Evaluates the existing fixed spatial policy and returns its full local evidence record. */
+    /** Evaluates the selected spatial policy and returns its full local evidence record. */
     @Synchronized
     fun evaluate(bitmap: Bitmap): LiveSakosRuntimeEvaluation {
         check(!closed) { "The OpenNSFW2 runtime has been closed." }
         require(!bitmap.isRecycled) { "The input bitmap has been recycled." }
 
-        val samplingProfile = GateSamplingProfile.detect(bitmap.width, bitmap.height)
-        val views = SakosCompatibleMultiCropStrategy.fixed14Windows(
-            sourceWidth = bitmap.width,
-            sourceHeight = bitmap.height,
-            samplingProfile = samplingProfile,
-        ).map { window ->
-            val (scores, inferenceMillis) = evaluateView(bitmap, window)
-            LiveSakosRuntimeViewEvaluation(window, scores, inferenceMillis)
-        }
-        val signal = SakosCompatibleMultiCropStrategy.policySignal(views, policy)
-        val representative = signal.representativeView
-        val checkResult = SakosCompatibleResultMapper.toCheckResult(
-            scores = representative.scores,
-            strongestViewLabel = representative.cropWindow.label,
-            policyNsfwEvidence = signal.policyNsfwEvidence,
-            safeLeadingOverride = signal.safeLeading,
-            policyTriggerLabel = signal.triggerLabel,
-        )
+        return OpenNsfw2StrategyDriver(strategy, policy) { window -> evaluateView(bitmap, window) }
+            .evaluate(bitmap.width, bitmap.height)
+    }
 
-        return LiveSakosRuntimeEvaluation(
-            scores = representative.scores,
-            checkResult = checkResult,
-            inferenceMillis = views.sumOf(LiveSakosRuntimeViewEvaluation::inferenceMillis),
-            sourceSize = "${bitmap.width}x${bitmap.height}",
-            evaluationStrategy = SakosCompatibleMultiCropStrategy.fixed14StrategyLabel(),
-            strategyId = IntegratedOpenNsfw2Strategy.Fixed14.id,
-            strategyDisplayName = IntegratedOpenNsfw2Strategy.Fixed14.displayName,
-            policyNsfwEvidence = signal.policyNsfwEvidence,
-            policyTriggerLabel = signal.triggerLabel,
-            representativeViewLabel = representative.cropWindow.label,
-            representativeViewBounds = representative.cropWindow.boundsLabel(),
-            strongestViewLabel = signal.strongestView.cropWindow.label,
-            strongestViewBounds = signal.strongestView.cropWindow.boundsLabel(),
-            stageReached = IntegratedOpenNsfw2Strategy.Fixed14.id,
-            stageEvaluations = listOf(
-                LiveSakosRuntimeStageEvaluation(
-                    stageId = IntegratedOpenNsfw2Strategy.Fixed14.id,
-                    stageLabel = IntegratedOpenNsfw2Strategy.Fixed14.displayName,
-                    decisionLabel = if (SakosCompatibleMultiCropStrategy.policyWouldBlock(signal, policy)) "Block" else "Final policy",
-                    elapsedMillis = views.sumOf(LiveSakosRuntimeViewEvaluation::inferenceMillis),
-                    cumulativeEvaluatedViews = views.size,
-                ),
-            ),
-            supportiveDetectionCount = signal.supportiveDetectionCount,
-            elevatedDetectionCount = signal.elevatedDetectionCount,
-            evaluatedViews = views,
-            runtimeProfileId = "opennsfw2-fixed14",
-            runtimeProfileDisplayName = "OpenNSFW2 fixed 14-view",
-            modelDisplayName = "SakOS Nudity Model",
-            executionMode = "LiteRT",
-            samplingProfileId = samplingProfile.id,
-            samplingProfileLabel = samplingProfile.displayLabel,
-            samplingRatio = samplingProfile.normalizedRatio,
-            samplingOrientation = samplingProfile.orientation.displayLabel,
-            samplingProfileSelectorEligible = samplingProfile.selectorEligible,
-        )
+    val configuration get() = OpenNsfw2ModelPreflight.configurationFor(strategy)
+
+    /** Mechanical video probe sweep; never a still approval receipt. */
+    @Synchronized
+    fun evaluateVideoBaseSweep(bitmap: Bitmap): LiveSakosRuntimeEvaluation {
+        check(!closed); require(!bitmap.isRecycled)
+        return OpenNsfw2StrategyDriver(strategy, policy) { window -> evaluateView(bitmap, window) }
+            .evaluateVideoBaseSweep(bitmap.width, bitmap.height)
     }
 
     private fun evaluateView(
@@ -150,6 +107,7 @@ class OpenNsfw2BitmapRuntime private constructor(
             context: Context,
             threadCount: Int = 4,
             policy: IntegratedStillGatePolicyConstants = IntegratedStillGatePolicyDefaults.load(context),
+            strategy: IntegratedOpenNsfw2Strategy = IntegratedOpenNsfw2Strategy.Fixed14,
         ): OpenNsfw2BitmapRuntime {
             require(threadCount > 0) { "threadCount must be positive." }
             require(policy == IntegratedStillGatePolicyDefaults.fallback) {
@@ -174,7 +132,7 @@ class OpenNsfw2BitmapRuntime private constructor(
                 check(interpreter.getOutputTensor(0).shape().contentEquals(OpenNsfw2ModelPreflight.outputShape.toIntArray())) {
                     "The bundled OpenNSFW2 model has an unexpected output tensor shape."
                 }
-                return OpenNsfw2BitmapRuntime(interpreter, threadCount, policy)
+                return OpenNsfw2BitmapRuntime(interpreter, threadCount, policy, strategy)
             } catch (failure: Throwable) {
                 interpreter.close()
                 throw failure

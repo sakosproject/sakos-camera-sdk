@@ -24,6 +24,13 @@ object OpenNsfw2ModelPreflight {
         policy = SafetyComponentVersion("opennsfw2-still-policy", "1"),
     )
 
+    /** The original default identity is preserved; alternate execution has its own policy identity. */
+    fun configurationFor(strategy: IntegratedOpenNsfw2Strategy): SafetyConfigurationVersion = when (strategy) {
+        IntegratedOpenNsfw2Strategy.Fixed14 -> configuration
+        IntegratedOpenNsfw2Strategy.Adaptive14 -> configuration.copy(
+            policy = SafetyComponentVersion("opennsfw2-still-policy-adaptive14", "1"))
+    }
+
     fun verify(asset: InputStream?): OpenNsfw2ModelAssetStatus {
         if (asset == null) return OpenNsfw2ModelAssetStatus.Missing
 

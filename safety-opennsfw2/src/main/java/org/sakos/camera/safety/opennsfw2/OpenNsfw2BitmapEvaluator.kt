@@ -20,7 +20,7 @@ class OpenNsfw2BitmapEvaluator(
     override suspend fun evaluate(request: SafetyEvaluationRequest<Bitmap>): SafetyEvaluationOutcome {
         coroutineContext.ensureActive()
         if (closed) return failure(request, SafetyFailureReason.EvaluatorClosed, "The OpenNSFW2 evaluator has been closed.")
-        if (request.configuration != OpenNsfw2ModelPreflight.configuration) {
+        if (request.configuration != runtime.configuration) {
             return failure(request, SafetyFailureReason.InvalidInput, "The request configuration does not match the bundled model.")
         }
 
@@ -29,7 +29,7 @@ class OpenNsfw2BitmapEvaluator(
             coroutineContext.ensureActive()
             SafetyEvaluationOutcome.Decision(
                 captureId = request.capture.captureId,
-                receiptId = SafetyEvaluationReceiptId("${request.capture.captureId.value}:opennsfw2"),
+                receiptId = SafetyEvaluationReceiptId("${request.capture.captureId.value}:opennsfw2:${runtime.strategy.id}"),
                 configuration = request.configuration,
                 decision = if (evaluation.checkResult.isSafe) SafetyDecision.Allow else SafetyDecision.Block,
                 rationale = listOf(evaluation.checkResult.reason),

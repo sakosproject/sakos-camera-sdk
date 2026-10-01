@@ -15,6 +15,23 @@ import org.sakos.camera.safety.core.*
 /** Runtime mechanics only: generated geometric inputs make no classifier accuracy claim. */
 @RunWith(AndroidJUnit4::class)
 class SyntheticRuntimeTest {
+    @Test fun adaptiveGeometryAndStrategyBoundReceipts() = runBlocking {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val bitmap = Bitmap.createBitmap(240, 320, Bitmap.Config.ARGB_8888)
+        Canvas(bitmap).apply { drawColor(Color.BLUE); drawRect(20f, 30f, 150f, 200f, Paint().apply { color = Color.GREEN }) }
+        OpenNsfw2BitmapRuntime.open(context, threadCount = 1, strategy = IntegratedOpenNsfw2Strategy.Adaptive14).use { runtime ->
+            val result = runtime.evaluate(bitmap)
+            assertEquals("adaptive14", result.strategyId); assertTrue(result.evaluatedViews.isNotEmpty())
+            val capture = SafetyCaptureContext(SafetyCaptureId("synthetic-adaptive"), 0, 240, 320, 0, false)
+            val evaluator = OpenNsfw2BitmapEvaluator(runtime)
+            assertTrue(evaluator.evaluate(SafetyEvaluationRequest(bitmap, capture, OpenNsfw2ModelPreflight.configuration)) is SafetyEvaluationOutcome.Failure)
+            val outcome = evaluator.evaluate(SafetyEvaluationRequest(bitmap, capture, runtime.configuration))
+            assertTrue(outcome is SafetyEvaluationOutcome.Decision)
+            assertEquals(runtime.configuration, outcome.configuration)
+        }
+        bitmap.recycle()
+    }
+
     @Test fun bundledAssetTensorContractInferenceAndClosedFailure() = runBlocking {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
         assertThrows(IllegalArgumentException::class.java) {

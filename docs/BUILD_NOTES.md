@@ -1,5 +1,14 @@
 # Local build notes
 
+## Expanded local acceptance in progress � 2026-10-01
+
+The owner reopened completion after `d1f24fe` to require first-run camera tooling,
+live adaptive spatial execution and standalone gallery privacy/save contracts.
+TOOLING_PARITY records the code-only source inventory. The live strategy driver
+passes 13 deterministic simulated-score tests. Fixed14 remains the default;
+explicit Adaptive14 has a distinct configuration/receipt identity. Updated full
+candidate evidence will supersede the earlier 94-JVM/six-Android snapshot below.
+
 ## Authorized completion — 2026-10-01 — bridge implementation gate
 
 The installed Gradle 8.13 / AGP 8.13.2 / Kotlin 2.0.21 / JBR 21.0.10
