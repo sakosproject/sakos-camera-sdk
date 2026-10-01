@@ -24,6 +24,7 @@ android {
 
 dependencies {
     api(project(":safety-core"))
+    api(project(":capture-camerax"))
     api(project(":safety-opennsfw2"))
     api(libs.androidx.camera.video)
     testImplementation(kotlin("test"))
