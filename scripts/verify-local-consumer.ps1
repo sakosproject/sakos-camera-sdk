@@ -1,22 +1,20 @@
 [CmdletBinding()]
-param()
+param([string]$Serial)
 
 $ErrorActionPreference = 'Stop'
 $repoRoot = Split-Path -Parent $PSScriptRoot
 Set-Location $repoRoot
+. (Join-Path $PSScriptRoot 'local-toolchain.ps1')
+New-Item -ItemType Directory -Force build-logs | Out-Null
 
-& .\gradlew.bat --no-daemon `
-    :safety-core:publishReleasePublicationToSakosLocalRepository `
-    :safety-opennsfw2:publishReleasePublicationToSakosLocalRepository `
-    :capture-camerax:publishReleasePublicationToSakosLocalRepository `
-    :capture-video:publishReleasePublicationToSakosLocalRepository
-if ($LASTEXITCODE -ne 0) {
-    throw "Local Maven publication failed with exit code $LASTEXITCODE."
-}
+Invoke-LocalGradle -Log 'build-logs/local-maven.log' -Arguments @(
+    ':safety-core:publishReleasePublicationToSakosLocalRepository',
+    ':safety-opennsfw2:publishReleasePublicationToSakosLocalRepository',
+    ':capture-camerax:publishReleasePublicationToSakosLocalRepository',
+    ':capture-video:publishReleasePublicationToSakosLocalRepository')
 
-& .\gradlew.bat --no-daemon -p integration-tests\consumer :app:assembleRelease
-if ($LASTEXITCODE -ne 0) {
-    throw "Separate minified consumer build failed with exit code $LASTEXITCODE."
-}
+Invoke-LocalGradle -Log 'build-logs/local-consumer.log' -Arguments @('-p', 'integration-tests/consumer',
+    'clean', ':app:assembleRelease', ':app:assembleLocalRuntime', ':app:assembleLocalRuntimeAndroidTest', ':app:lintLocalRuntime')
+if ($Serial) { & (Join-Path $PSScriptRoot 'run-synthetic-instrumentation.ps1') -Serial $Serial -ConsumerOnly }
 
 Write-Output 'Local Maven consumer verification: OK'

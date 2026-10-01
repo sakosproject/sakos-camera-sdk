@@ -1,6 +1,7 @@
 import com.android.build.api.dsl.LibraryExtension
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
+import org.gradle.api.tasks.bundling.AbstractArchiveTask
 
 plugins {
     alias(libs.plugins.android.application) apply false
@@ -15,9 +16,20 @@ allprojects {
 }
 
 subprojects {
+    tasks.withType<AbstractArchiveTask>().configureEach {
+        isPreserveFileTimestamps = false
+        isReproducibleFileOrder = true
+    }
     plugins.withId("com.android.library") {
         apply(plugin = "maven-publish")
+        val prepareNotices = tasks.register<Copy>("prepareArtifactNotices") {
+            into(layout.buildDirectory.dir("generated/artifact-notices/META-INF/sakos/${project.name}"))
+            from(rootProject.file("LICENSE"))
+            from(rootProject.file("third_party"))
+        }
+        tasks.matching { it.name == "preBuild" }.configureEach { dependsOn(prepareNotices) }
         extensions.configure<LibraryExtension> {
+            sourceSets.getByName("main").resources.srcDir(layout.buildDirectory.dir("generated/artifact-notices"))
             publishing {
                 singleVariant("release") {
                     withSourcesJar()
@@ -25,6 +37,10 @@ subprojects {
             }
         }
         afterEvaluate {
+            tasks.withType<org.gradle.api.tasks.bundling.Jar>().matching { it.name == "sourceReleaseJar" }.configureEach {
+                dependsOn(prepareNotices)
+                from(layout.buildDirectory.dir("generated/artifact-notices"))
+            }
             extensions.configure<PublishingExtension> {
                 publications {
                     register<MavenPublication>("release") {

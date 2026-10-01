@@ -17,16 +17,16 @@ synthetic runtime checks do not establish accuracy, parity or redistribution rig
 | Local completion phase | Scope and files | Acceptance gate | Status |
 | --- | --- | --- | --- |
 | A. Managed Android bridges | capture-camerax close/approval/configuration; capture-video Android decoder/evaluator, cancellation, cleanup and staging recovery; safety-opennsfw2 runtime checks | Relevant JVM failure/ownership tests; instrumented synthetic decoder/runtime tests compile; no failed or cancelled review promotes | Local implementation gate passed |
-| B. Functional sample | sample-app permission, CameraX preview/lifecycle, in-memory photo, silent private video, approved-only private viewer and recovery | Build and UI/instrumented coverage; only matching Allow reaches approved storage; background cancellation cleans staging | Implemented; emulator checks in progress |
-| C. Private candidate verification | scripts, local Maven AAR/source/POM/notices, separate minified consumer and synthetic runtime integration | Clean debug build, all JVM tests, lint, instrumented APKs; supplied emulator checks if available; repeat script succeeds and hashes artifacts | Pending |
-| D. Sanitized evidence and docs | README, docs, website, changelog, candidate manifest and private text audit | Claims match executed checks; historical contrary textual findings only in private output; unresolved owner/legal/physical/efficacy gates explicit | Pending |
+| B. Functional sample | sample-app permission, CameraX preview/lifecycle, in-memory photo, silent private video, approved-only private viewer and recovery | Build and UI/instrumented coverage; only matching Allow reaches approved storage; background cancellation cleans staging | Passed on isolated synthetic emulator |
+| C. Private candidate verification | scripts, local Maven AAR/source/POM/notices, separate minified consumer and synthetic runtime integration | Clean debug build, all JVM tests, lint, instrumented APKs; supplied emulator checks; repeat script succeeds and hashes artifacts | Complete verifier passed; clean-commit repeat pending |
+| D. Sanitized evidence and docs | README, docs, website, changelog, candidate manifest and private text audit | Claims match executed checks; historical contrary textual findings only in private output; unresolved owner/legal/physical/efficacy gates explicit | Reconciled; final evidence pin pending |
 
 Each phase records exact checks in BUILD_NOTES and commits locally. Missing
 emulator or external gates do not stop independent implementation and packaging.
 The records below retain earlier outcomes; their old stop instructions and
 release-preparation restrictions are historical and superseded for local work.
 
-## Current progress
+## Earlier implementation milestones (updated local status)
 
 | Phase | Outcome | Status |
 | --- | --- | --- |
@@ -37,7 +37,7 @@ release-preparation restrictions are historical and superseded for local work.
 | 5. Video capture bridge | Private staging, CameraX recording/finalization boundary, and temporal review seam | Complete for local verification |
 | 6. Independent validation | Private work performed outside this repository | Deferred |
 | 7. Physical-device verification | Camera, storage, cleanup, and recovery verification | Deferred until a device is connected |
-| 8. Release preparation | Artifact, notices, security intake, destination, and hosting decisions | Deferred |
+| 8. Release preparation | Private local candidate artifacts and evidence; external decisions remain gated | Authorized local work in progress |
 | 9. Public launch | Any external release, publication, or website deployment | Not started |
 
 No private validation material, identifying paths, outputs, or process details
@@ -115,7 +115,7 @@ No release output or external action is authorized by this plan.
 This phase requires a separate explicit instruction naming each external
 action. It is not authorized by implementation or release preparation.
 
-## Terra / High handoff prompt
+## Historical Terra / High handoff (superseded)
 
 > Work only on the current phase in `docs/PROJECT_PLAN.md`. Use Terra with High
 > reasoning. Inspect the current checkout first, preserve unrelated changes,
