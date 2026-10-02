@@ -163,6 +163,31 @@ Only the test-key localRuntime APK differed. The current exact hash is in
 SHA256SUMS and the manifest; this observation does not establish universally
 reproducible APK bytes or reproducibility on another toolchain/machine.
 
+## Final local candidate continuation — 2026-10-01
+
+Clean commit `0ad514d` passed `scripts/verify-local-candidate.ps1` without an
+emulator serial: 185 JVM tests, clean debug and Android-test APK compilation,
+zero lint errors, four local Maven release publications, the separate minified
+consumer build, 24 inspected artifacts, exact model/notices inspection, APK
+permission inspection, `git diff --check`, and offline static-link inspection
+(26 files and 38 links; zero broken). The generated manifest records a clean
+tracked worktree. Its private text audit scanned 134 current text files and
+found zero secret candidates and zero tracked media/signing filenames. It
+recorded 122 current and 734 historical wording-review candidates under
+redacted paths; these are review prompts, not findings of real-data testing or
+historical validation, and their details remain only in the private temporary
+audit output.
+
+Before the local ADB transport became unavailable, the supplied isolated
+emulator completed the synthetic suite after the sample cleanup repair: five
+video-decoder tests, two bundled-runtime tests, four sample permission,
+lifecycle, capture, cleanup, viewer and recovery tests, plus a separate
+minified consumer runtime test. The runner now self-cleans only its own
+generated no-backup state and retries a transient local ADB daemon disconnect
+during test-APK installation. A final whole-candidate rerun with a supplied
+emulator serial remains pending; no AVD, VM, physical device, media corpus, or
+external service was changed to recover the disconnected transport.
+
 ## Historical Phase 3 — bundled model runtime — 2026-09-17
 
 The `safety-opennsfw2` focused local verification and the common clean debug
