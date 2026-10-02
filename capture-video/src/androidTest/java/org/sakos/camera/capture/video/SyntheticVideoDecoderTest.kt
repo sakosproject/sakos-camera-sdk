@@ -2,6 +2,7 @@ package org.sakos.camera.capture.video
 
 import android.media.MediaCodec
 import android.media.MediaCodecInfo
+import android.media.MediaCodecList
 import android.media.MediaFormat
 import android.media.MediaMuxer
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -17,6 +18,8 @@ import org.sakos.camera.safety.opennsfw2.OpenNsfw2ModelPreflight
 /** Encodes solid YUV patterns locally; never imports or reads external media. */
 @RunWith(AndroidJUnit4::class)
 class SyntheticVideoDecoderTest {
+    private val syntheticWidth = 320
+    private val syntheticHeight = 240
     @Test fun encodedPatternsDecodeCloseReviewPromoteAndRecover() = runBlocking<Unit> {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
         val store = AndroidVideoPrivateStagingStore(context)
@@ -29,7 +32,8 @@ class SyntheticVideoDecoderTest {
         assertTrue(decoder.durationMillis > 0)
         val sample = VideoTemporalSamplePlanner.buildBasePlan(decoder.durationMillis).baseSamples.first()
         val decoded = decoder.decode(sample)
-        assertTrue(decoded.value.width > 0)
+        assertEquals(syntheticWidth, decoded.value.width)
+        assertEquals(syntheticHeight, decoded.value.height)
         decoded.close()
         assertTrue(decoded.value.isRecycled)
         decoder.close()
@@ -62,7 +66,7 @@ class SyntheticVideoDecoderTest {
         val result = ManagedVideoCapturePipeline(sessions).reviewPreparedBound(session, decoder.durationMillis, decoder,
             VideoFrameEvaluator { _, _ -> VideoFrameEvaluation.Decision(SafetyDecision.Allow, .01f, VideoFrameEvidenceKind.Context) }) { promoting, review ->
             assertEquals(VideoTemporalReviewDecision.Allow, review.decision); assertEquals(session.id, promoting.id)
-            val capture = SafetyCaptureContext(SafetyCaptureId("synthetic:${session.id.value}"), 0, 64, 64, 0, false)
+            val capture = SafetyCaptureContext(SafetyCaptureId("synthetic:${session.id.value}"), 0, syntheticWidth, syntheticHeight, 0, false)
             val decision = SafetyEvaluationOutcome.Decision(capture.captureId, SafetyEvaluationReceiptId("simulated-temporal-allow"), OpenNsfw2ModelPreflight.configuration, SafetyDecision.Allow)
             library.save(ReviewedMediaKind.Video, capture, requireNotNull(decision.approvalForManagedCapture(capture))) { output -> file.inputStream().use { it.copyTo(output) } }
         }
@@ -107,7 +111,7 @@ class SyntheticVideoDecoderTest {
     @Test fun twoPlaybackClientsRetainLiveLeasesAndRetryOrphanCleanup() = runBlocking<Unit> {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
         val library = PrivateReviewedMediaLibrary(File(context.noBackupFilesDir, "sakos-synthetic-playback-owners"), OpenNsfw2ModelPreflight.configuration)
-        val capture = SafetyCaptureContext(SafetyCaptureId("synthetic-lease:${java.util.UUID.randomUUID()}"), 0, 64, 64, 0, false)
+        val capture = SafetyCaptureContext(SafetyCaptureId("synthetic-lease:${java.util.UUID.randomUUID()}"), 0, syntheticWidth, syntheticHeight, 0, false)
         val decision = SafetyEvaluationOutcome.Decision(capture.captureId, SafetyEvaluationReceiptId("simulated-lease-allow"), OpenNsfw2ModelPreflight.configuration, SafetyDecision.Allow)
         val input = File(context.noBackupFilesDir, "synthetic-lease-input.mp4")
         encodePatterns(input)
@@ -142,16 +146,25 @@ class SyntheticVideoDecoderTest {
     }
 
     private fun encodePatterns(file: File) {
-        val codec = MediaCodec.createEncoderByType("video/avc")
+        // Some physical AVC encoders reject 64x64 even though the emulator accepts it.
+        // Select an encoder advertising the complete, conservative synthetic format.
+        val format = MediaFormat.createVideoFormat("video/avc", syntheticWidth, syntheticHeight).apply {
+            setInteger(MediaFormat.KEY_COLOR_FORMAT, MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420Flexible)
+            setInteger(MediaFormat.KEY_BIT_RATE, 128_000)
+            setInteger(MediaFormat.KEY_FRAME_RATE, 10)
+            setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, 1)
+        }
+        val encoderName = requireNotNull(MediaCodecList(MediaCodecList.REGULAR_CODECS).findEncoderForFormat(format)) {
+            "No AVC encoder supports the synthetic fixture format."
+        }
+        val codec = MediaCodec.createByCodecName(encoderName)
+        val capabilities = requireNotNull(codec.codecInfo.getCapabilitiesForType("video/avc").videoCapabilities)
+        InstrumentationRegistry.getInstrumentation().sendStatus(0, android.os.Bundle().apply {
+            putString("stream", "Synthetic AVC encoder: $encoderName; width ${capabilities.supportedWidths}; height ${capabilities.supportedHeights}; 64x64 supported=${capabilities.isSizeSupported(64, 64)}; fixture=${syntheticWidth}x$syntheticHeight\n")
+        })
         val muxer = MediaMuxer(file.absolutePath, MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4)
         var started = false
         try {
-            val format = MediaFormat.createVideoFormat("video/avc", 64, 64).apply {
-                setInteger(MediaFormat.KEY_COLOR_FORMAT, MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420Flexible)
-                setInteger(MediaFormat.KEY_BIT_RATE, 128_000)
-                setInteger(MediaFormat.KEY_FRAME_RATE, 10)
-                setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, 1)
-            }
             codec.configure(format, null, null, MediaCodec.CONFIGURE_FLAG_ENCODE)
             codec.start()
             var inputFrames = 0
@@ -168,9 +181,9 @@ class SyntheticVideoDecoderTest {
                         if (inputFrames == 20) {
                             codec.queueInputBuffer(input, 0, 0, inputFrames * 100_000L, MediaCodec.BUFFER_FLAG_END_OF_STREAM)
                         } else {
-                            buffer.put(ByteArray(64 * 64) { (40 + inputFrames * 4).toByte() })
-                            buffer.put(ByteArray(64 * 64 / 2) { 128.toByte() })
-                            codec.queueInputBuffer(input, 0, 64 * 64 * 3 / 2, inputFrames * 100_000L, 0)
+                            buffer.put(ByteArray(syntheticWidth * syntheticHeight) { (40 + inputFrames * 4).toByte() })
+                            buffer.put(ByteArray(syntheticWidth * syntheticHeight / 2) { 128.toByte() })
+                            codec.queueInputBuffer(input, 0, syntheticWidth * syntheticHeight * 3 / 2, inputFrames * 100_000L, 0)
                         }
                         inputFrames++
                     }
