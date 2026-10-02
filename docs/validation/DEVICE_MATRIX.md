@@ -1,8 +1,9 @@
 # Device and lifecycle validation matrix
 
-Status: **physical verification pending**. The bundled runtime and functional
-CameraX/private-storage sample exist. Current synthetic emulator checks are
-recorded in BUILD_NOTES; they never close the physical-camera gate.
+Status: **partial physical-device synthetic verification; live-camera verification pending**.
+The bundled runtime and functional CameraX/private-storage sample exist.
+A Samsung SM-G781W on Android 13/API 33 passed the focused synthetic checks
+below. Emulator and generated-media checks never close the live-camera gate.
 
 Record only sanitized evidence. Each executed row needs device model, Android
 API level, SDK commit, model/preprocessing/policy identity, test build hash,
@@ -37,3 +38,42 @@ credentials into this file.
    add the minimum scoped regression test/fix, and rerun the affected rows.
 
 This matrix is a runbook, not evidence that any scenario has passed.
+
+## Samsung SM-G781W focused synthetic checks - 2026-10-02
+
+The existing private candidate was tested on one authorized ARM64 physical
+device using only generated geometric/solid bitmaps, locally encoded solid
+YUV patterns and simulated approval/fake export destinations. No live camera
+was opened and no camera permission was granted. The six test/sample/consumer
+packages were absent before the run, installed normally, and removed after
+testing. Personal media and preexisting app data were not accessed.
+
+| Focused check | Result | Scope |
+| --- | --- | --- |
+| Normal fresh APK installation | Passed after packaging correction | Six owned packages; no Play Protect bypass/settings change |
+| Bundled runtime | 2 passed | ARM64 Fixed14/Adaptive14 execution, tensor/asset contract, configuration-bound receipts and closed-evaluator rejection |
+| Private store and calibration profile | 2 passed | Synthetic approval mismatch, pending-write recovery, Android Keystore encrypted profile identity/interruption handling |
+| Video and reviewed-library mechanics | 5 passed | Generated AVC decoding/review/promotion, missing/malformed-input rejection, private preview/playback leases, shared ownership and cleanup retries |
+| Exact minified Maven consumer | 1 passed | Both strategies, calibration serialization, synthetic private save/preview and host-authorized fake export after R8 |
+
+These are **10 distinct tests**. The first video attempt failed three tests
+before SDK review because the device AVC encoder rejects the old 64x64 fixture.
+The selected Qualcomm encoder advertises width and height ranges starting at
+128 and explicitly reports 64x64 unsupported. A capability-selected 320x240
+synthetic fixture passed the complete five-test suite after the test-only fix.
+
+Camera service metadata advertises four normal/API1-public cameras and eleven
+HAL entries including vendor aliases. Front/rear orientation, focal lengths,
+flash availability and zoom ranges were inventoried without opening a camera.
+Advertised characteristics do not establish SDK-selected IDs, usable graphs,
+0.6x behavior or calibration readiness.
+
+The matrix above stays pending for live calibration, controls, photo/video
+capture, orientation/lifecycle, actual public export, repeated-use/thermal,
+exposure/backup, low storage and broad API/OEM coverage. First-run live probes
+require explicit confirmation that both lenses face benign blank surfaces and
+authorization for temporary preview/photo/video capture. No phone-wide
+compatibility, live-media parity or classifier efficacy claim is made.
+
+The APK/build hashes and sanitized logs are retained privately in the device
+handoff; source/build details are recorded in BUILD_NOTES.

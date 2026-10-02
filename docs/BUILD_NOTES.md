@@ -229,3 +229,52 @@ The safety policy, CameraX photo bridge, video staging/finalization bridge,
 local Maven consumer, documentation, and static-site preview each completed
 their recorded local checks. Those outcomes do not establish device behavior,
 external publication, or release readiness.
+
+## Focused physical-device packaging and synthetic verification - 2026-10-02
+
+Samsung SM-G781W, Android 13/API 33, ARM64, passed ten focused synthetic tests:
+five video, two runtime, two sample private-store/calibration-cache and one
+exact minified consumer. Inputs were generated geometry/solid colors and
+locally encoded solid YUV, with simulated approvals and fake export endpoints.
+Live camera permission/preview/capture was not used. Six freshly installed
+owned packages were removed after execution; preexisting apps were preserved.
+
+The original library instrumentation APKs compiled against API 36 but targeted
+26, unlike the sample/consumer and read-only host application camera/gallery apps,
+which compile and target 36 with minimum 26. The generated library test
+manifests confirmed the missing explicit target. The phone rejected the old
+test APK with Play Protect's older-Android privacy warning and install
+verification failure. Commit `fb95ee0c2c1dcd4c443b282693aaab5d09f7aee0` sets
+`android.testOptions.targetSdk = 36` in the two affected libraries and adds an
+effective APK compile/target/minimum guard to the candidate verifier. Only
+their Android-test APKs were rebuilt, offline, in 27 seconds; six tasks ran and
+132 were up to date. All seven packaged APKs, including unsigned release
+consumer, inspect as compile 36 / target 36 / minimum 26. Both merged test
+manifests explicitly target 36. Normal installation then succeeded without
+selecting Install anyway, disabling verification or changing security/network
+settings. The phone OS remains Android 13.
+
+The initial physical video attempt failed three of five methods during
+synthetic encoder configuration. Qualcomm's AVC encoder advertises minimum
+width/height 128 and reports 64x64 unsupported. Test-only commit
+`65d2475b409e7a1feb24814674da397ed68cd71e` chooses an encoder advertising a
+complete conservative 320x240 format, aligns capture metadata/buffer geometry,
+and asserts decoded dimensions. Its final single-APK offline incremental build
+passed in 25 seconds with four executed tasks and 105 up to date. All five
+video tests then passed on the device; independent two runtime/two sample/one
+consumer checks passed without redundant reruns. No production capture,
+classifier, threshold, preprocessing, model asset or SDK minimum changed.
+
+Original complete-candidate evidence and the two replaced test APKs were
+preserved privately before rebuilding. Current artifacts have mixed build
+provenance: only the video test APK comes from `65d2475`, the runtime test APK
+from `fb95ee0`, and the other 22 candidate artifacts retain the `0ad514d`
+baseline. All sixteen Maven artifacts remain byte-identical. Current manifest
+entries record each build source and focused physical proof separately from
+the earlier full emulator/JVM/lint gates. No new full candidate, full JVM/lint
+or emulator rerun is claimed for this follow-up.
+
+Live first-run calibration and camera controls/capture/lifecycle still require
+the benign blank-surface confirmation described in DEVICE_MATRIX. One device's
+synthetic checks do not close physical-camera, API-range/OEM, efficacy, rights
+or external-release gates. No push, publication or release action occurred.
