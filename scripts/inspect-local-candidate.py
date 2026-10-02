@@ -119,13 +119,23 @@ def main():
     dirty = bool(subprocess.check_output(["git", "status", "--porcelain", "--untracked-files=no"], cwd=root).strip())
     build_state_file = root / "build-logs/candidate-source-state.json"
     build_state = json.loads(build_state_file.read_text(encoding="utf-8-sig")) if build_state_file.exists() else {}
+    incremental = build_state.get("incremental_artifacts", {})
+    for artifact in artifacts:
+        provenance = incremental.get(artifact["path"])
+        if provenance:
+            assert artifact["sha256"] == provenance["sha256"], "Stale incremental artifact evidence"
+        artifact["build_source_commit"] = provenance["source_commit"] if provenance else build_state.get("source_commit")
     manifest = {"schema": 1, "status": "private local candidate; no external release", "source_commit": revision,
         "tracked_worktree_dirty": dirty, "coordinates": "org.sakos.camera:*:0.0.0-local",
-        "artifact_build_commit": build_state.get("source_commit"),
+        "artifact_build_commit": None if incremental else build_state.get("source_commit"),
+        "baseline_artifact_build_commit": build_state.get("source_commit") if incremental else None,
+        "incremental_artifacts": incremental,
+        "baseline_check_source_commit": build_state.get("source_commit"),
+        "post_build_physical_validation": build_state.get("post_build_physical_validation"),
         "build_tracked_worktree_dirty": build_state.get("tracked_worktree_dirty"),
         "interruption_recovery": build_state.get("interruption_recovery"),
         "post_build_android_validation": build_state.get("post_build_android_validation"),
-        "toolchain": {"gradle": "8.13", "agp": "8.13.2", "kotlin": "2.0.21", "compile_sdk": 36, "min_sdk": 26},
+        "toolchain": {"gradle": "8.13", "agp": "8.13.2", "kotlin": "2.0.21", "compile_sdk": 36, "target_sdk": 36, "min_sdk": 26},
         "model_sha256": MODEL_SHA,
         "configuration": {"model": "opennsfw2_resnet50_v1@051a21bf697858c1",
             "preprocessing": "opennsfw2-bgr-mean-104-117-123@1", "policy": "opennsfw2-still-policy@1",
@@ -139,7 +149,7 @@ def main():
         "lint": lint, "android_instrumentation": instrumentation,
         "local_links": json.loads((root / "build-logs/site-link-check.json").read_text(encoding="utf-8")),
         "emulator_instrumentation_executed": args.emulator_tested,
-        "input_scope": "Current suite: generated benign patterns, mocks, simulated scores and isolated emulator scene only.",
+        "input_scope": "Generated benign patterns, mocks and simulated scores; isolated emulator scenes where noted. Physical checks use generated inputs only.",
         "signing": "release consumer unsigned; debug/test-key APKs only for local runtime verification",
         "remaining_gates": ["owner/legal model and dependency redistribution review", "physical-device and API-range coverage",
             "real-world classifier efficacy and independent validation", "security intake", "all external delivery decisions"]}
