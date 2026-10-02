@@ -124,6 +124,7 @@ def main():
         "artifact_build_commit": build_state.get("source_commit"),
         "build_tracked_worktree_dirty": build_state.get("tracked_worktree_dirty"),
         "interruption_recovery": build_state.get("interruption_recovery"),
+        "post_build_android_validation": build_state.get("post_build_android_validation"),
         "toolchain": {"gradle": "8.13", "agp": "8.13.2", "kotlin": "2.0.21", "compile_sdk": 36, "min_sdk": 26},
         "model_sha256": MODEL_SHA,
         "configuration": {"model": "opennsfw2_resnet50_v1@051a21bf697858c1",

@@ -1,5 +1,29 @@
 # Local build notes
 
+## Final current-artifact validation - 2026-10-02
+
+The latest clean artifact build at `0ad514d` passed 185 JVM tests, debug and
+test-APK assembly, zero-error lint, local Maven/minified builds, notices/model/
+permissions/link/text/diff inspection. Source repairs after `6d37cb8` affect
+synthetic-test reset and transient ADB installation only; production SDK
+implementation is unchanged. The repaired focused source Android suite passed
+11 tests. All 16 current Maven files match the earlier clean implementation
+candidate byte for byte.
+
+After the existing owned-emulator tunnel was restored, the exact current
+minified consumer and test APKs passed `PackagedRuntimeTest` (one test) at
+`2026-10-02T00:36:22.2743980Z`. APK hashes stayed unchanged during execution:
+
+- Consumer SHA-256: `81afc6caba2b9511522dd73cb0d7846e4cf60c33d93de1c8fa9ec3e09147bc1c`.
+- Test APK SHA-256: `05891663224e0711d7d9f3e67d1630f26c14a9a3f00b5647def41cb3871d33a0`.
+
+The ignored candidate's `current-consumer-validation.json` and matching log
+bind this post-build check to the exact current variant. Manifest generation
+records `post_build_android_validation` separately from the preserved full
+gate evidence and from the latest clean non-emulator build. This closes the
+current-variant gap without another build or whole-suite run. No accuracy,
+physical/API-range, universal-hardware or legal/publication claim follows.
+
 ## Final expanded private candidate gate - 2026-10-01
 
 The full verifier passed twice from clean source commit
@@ -184,9 +208,13 @@ video-decoder tests, two bundled-runtime tests, four sample permission,
 lifecycle, capture, cleanup, viewer and recovery tests, plus a separate
 minified consumer runtime test. The runner now self-cleans only its own
 generated no-backup state and retries a transient local ADB daemon disconnect
-during test-APK installation. A final whole-candidate rerun with a supplied
-emulator serial remains pending; no AVD, VM, physical device, media corpus, or
-external service was changed to recover the disconnected transport.
+during test-APK installation. The existing localhost tunnel to the owned emulator was subsequently
+restored. The exact current consumer APK passed its one synthetic runtime
+test, exercising both strategies, calibration serialization and approved
+private save/preview/authorized fake-destination export. The result is recorded
+below. No physical device, media corpus or external service was used. No new
+whole-candidate serial run is claimed; the owner requested avoiding redundant
+builds after the implementation and artifacts had been verified.
 
 ## Historical Phase 3 — bundled model runtime — 2026-09-17
 
