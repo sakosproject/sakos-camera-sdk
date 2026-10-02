@@ -1,11 +1,68 @@
 # Local build notes
 
-## Expanded implementation gate - 2026-10-01
+## Final expanded private candidate gate - 2026-10-01
+
+The full verifier passed twice from clean source commit
+`6d37cb88e519705a7edb5c28d1ce607fa6685d81`:
+`scripts/verify-local-candidate.ps1 -Serial <isolated-emulator-serial>`.
+The final evidence/inspection-only ledger commit changes no artifact code.
+The manifest records artifact-build and generation revisions separately.
+
+| Check | Verified result |
+| --- | --- |
+| Clean source/debug/test APK build | Passed with installed offline Gradle 8.13 / AGP 8.13.2 / Kotlin 2.0.21 / JBR 21.0.10 |
+| JVM tests | 185 passed; core 19, model/policy 46, camera 68, video 49, sample 3; zero failures/errors/skips |
+| Synthetic Android tests | 12 passed; decoder/private playback/recovery 5, bundled strategies 2, sample permission/capture/calibration/front-back/recreation/orientation/cancel 4, minified Maven consumer 1 |
+| Lint | Zero errors; 43 warnings: core 2, camera 15, sample 20, consumer 6; model/video 0 |
+| Local Maven/minified consumer | Four AAR/source/POM/module sets, unsigned release and test-key localRuntime/test APKs passed; both strategies, calibration serialization and standalone private save/preview/authorized fake destination exercised |
+| Artifact/notices/model inspection | 24 artifacts/checksums; exact notice bytes in all eight AAR/source archives; exact 6,128,536-byte model hash retained |
+| Repeat comparison | All 16 Maven artifacts and 23/24 overall hashes identical; only the test-key localRuntime APK differed; both executions passed |
+| Permissions | No network, microphone or public-media/storage permission in sample/consumer APKs |
+| Current heuristic text audit | 134 current source text files; zero secret candidates and zero media/signing filenames; not rights or historical clearance |
+| Local docs/static links | 26 prospective-public prose files, 38 local links, zero broken links; no network used |
+| Sanitized logs/diff | Raw workspace/user paths absent in candidate logs; git diff --check passed |
+
+Warnings are dependency/version/catalog advisories and sample/consumer
+backup/icon/KTX/English-text/touch-accessibility suggestions. They do not
+establish API-range, OEM backup, accessibility or physical-device coverage.
+
+An earlier clean attempt exposed a fail-closed directory-commit failure.
+Atomic directory move with bounded recoverable retries and repeated cancellation/
+host guards resolved it; collision cleanup/retry has a deterministic regression.
+No non-atomic copy fallback is used. No meaningful test was removed or skipped.
+The requested offline Gradle connected-test attempt remained blocked by uncached
+UTP runner components. The verifier compiles the instrumented APKs and executes
+the same AndroidJUnitRunner suites directly against the explicitly provided
+isolated API 36 x86_64 emulator. No physical device was accessed.
+
+Ignored local outputs: `build/private-candidate/manifest.json`, `SHA256SUMS.txt`,
+sanitized build/test logs and retained notices; Maven files in `build/local-maven`;
+APKs/mapping in module outputs. A same-machine/toolchain repeat is recorded;
+universal signed-APK byte reproducibility is not claimed. Current tests use
+benign generated geometry/solids, mocked decisions/scores and the isolated
+emulator scene only. No accuracy, numerical/source parity, universal hardware,
+legal redistribution, public intake or external delivery is established.
+Owner/legal weight/conversion/dependency rights, physical/API-range coverage,
+real-world efficacy, independent-validation status and all external decisions
+remain open. Independent validation is deferred/unverified.
+
+During final interruption recovery, a surviving verifier had reassembled the
+same implementation with evidence-only edits present. It was stopped before
+another complete verification run. All 23 artifacts other than the test-key
+localRuntime APK match the preserved second passed candidate byte for byte.
+The final manifest records this recovery separately from the two clean passed
+gates. The reassembled localRuntime APK is inspected packaging of the same
+tested source; execution of that particular signed byte variant is not claimed.
+Passed Android logs are retained from the completed gates, not the interrupted
+attempt. No implementation changed and no additional suite was run for the
+ledger. Restored clean-build provenance derives from the preserved first manifest.
+
+## Earlier expanded implementation gate - 2026-10-01
 
 The owner expanded completion after `d1f24fe` to require source-derived first-run
 camera tooling, live Adaptive14 execution and standalone gallery privacy/save.
 TOOLING_PARITY pins the read-only code inventory and deliberate SDK differences.
-The current source gate passes 184 JVM tests (core 18, model/policy 46, camera
+That intermediate source gate passed 184 JVM tests (core 18, model/policy 46, camera
 68, video 49, sample 3), with no failures/errors/skips. Eleven source Android
 tests pass: decoder/private playback/recovery 5, bundled strategies 2 and sample
 permission/capture/calibration/front-back/recreation/orientation/cancellation 4.
@@ -14,8 +71,8 @@ calibration serialization and simulated-approval private save/preview/export.
 The earlier 94-JVM/six-Android snapshots below are retained historical build
 records and are superseded by this expanded implementation.
 
-Final clean candidate and Maven repeat evidence will be recorded here after
-completion. Current checks use generated benign geometry/solid colors, simulated
+The final clean candidate and Maven repeat evidence is recorded above.
+These checks used generated benign geometry/solid colors, simulated
 scores, mocks and the isolated emulator scene only. They establish managed-path,
 ownership/cache/serialization/runtime mechanics; no accuracy, numerical parity,
 physical camera/API-range or legal redistribution conclusion follows.

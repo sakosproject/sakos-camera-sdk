@@ -8,15 +8,27 @@ same worktree/branch and all private/synthetic-only restrictions above.
 | Work | Concrete scope | Acceptance gate | Status |
 | --- | --- | --- | --- |
 | E. Source inventory | Allowlisted camera/runtime/gallery Kotlin code; current source revision and snapshot; reusable versus app integrations | Pin source evidence and inventory graph, selector, zoom, focus, orientation, profile and first-run behavior before code edits | Inventoried in TOOLING_PARITY; snapshots pinned |
-| F. Live strategies | Pure score driver and Bitmap runtime; Fixed14 default, optional Adaptive14; evaluator identity | Deterministic early exits, portrait/sentinel/refinement/fallback/duplicate/invalid tests; both strategies on synthetic Bitmap and minified consumer | Driver JVM/Bitmap and minified strategies passed; final clean repeat pending |
-| G. Camera tooling | capture-camerax discovery, source graph plans, actual probes, selection, secure no-backup profile/cache identity, retries/cancellation; minimal sample lens/quality/zoom/focus/rotation wiring | Mocked capability matrices and lifecycle failures; first-run/retry gates; actual isolated emulator probes; no probe output promotion; front/back/recreation checks | Implemented; JVM and isolated emulator gates passed |
-| H. Corrected candidate | All relevant docs/site/examples, local artifacts/notices/audit/checksums and repeat verifier | Full clean JVM/debug/lint and synthetic Android tests; Maven/minified consumer; exact model hash; truthful deferred validation and hardware/efficacy/legal gates | Pending |
-| I. Standalone reviewed gallery core | Source camera repositories/provider and gallery client/repository/exporter; reusable approved private library and caller-authorized transactional destination | Capture/configuration-bound approval, no private intermediate exposure, cancel/failure cleanup, approved-only inventory/open/export; mocked save failures and synthetic Android integration without host application | Implemented; private save/playback and authorization gates passed |
-| J. Final ownership review | Probe-contract validation and unconditional runner unlock; shared-root private write ownership; shared playback leases; truthful committed-export cleanup results | Deterministic malformed/retry/cleanup/concurrent ownership and post-commit failure tests; two-client synthetic Android playback; repeat full clean candidate | 184 JVM, 11 source Android and minified standalone API tests passed; clean repeat pending |
+| F. Live strategies | Pure score driver and Bitmap runtime; Fixed14 default, optional Adaptive14; evaluator identity | Deterministic early exits, portrait/sentinel/refinement/fallback/duplicate/invalid tests; both strategies on synthetic Bitmap and minified consumer | Complete for authorized local scope; both strategies and clean repeat passed |
+| G. Camera tooling | capture-camerax discovery, source graph plans, actual probes, selection, secure no-backup profile/cache identity, retries/cancellation; minimal sample lens/quality/zoom/focus/rotation wiring | Mocked capability matrices and lifecycle failures; first-run/retry gates; actual isolated emulator probes; no probe output promotion; front/back/recreation checks | Complete for authorized local scope; JVM and isolated emulator gates passed |
+| H. Corrected candidate | All relevant docs/site/examples, local artifacts/notices/audit/checksums and repeat verifier | Full clean JVM/debug/lint and synthetic Android tests; Maven/minified consumer; exact model hash; truthful deferred validation and hardware/efficacy/legal gates | Complete; full clean candidate and identical Maven repeat passed |
+| I. Standalone reviewed gallery core | Source camera repositories/provider and gallery client/repository/exporter; reusable approved private library and caller-authorized transactional destination | Capture/configuration-bound approval, no private intermediate exposure, cancel/failure cleanup, approved-only inventory/open/export; mocked save failures and synthetic Android integration without host application | Complete for authorized local scope; private save/playback and authorization passed |
+| J. Final ownership review | Probe-contract validation and unconditional runner unlock; shared-root private write ownership; shared playback leases; truthful committed-export cleanup results | Deterministic malformed/retry/cleanup/concurrent ownership and post-commit failure tests; two-client synthetic Android playback; repeat full clean candidate | Complete; 185 JVM, 12 Android, cleanup/ownership and clean repeat passed |
 
 Local narrow commits remain authorized. Advertised capabilities never alone make
 a graph usable. Calibration tests establish mechanics only; no universal phone
 compatibility, model quality or real-world efficacy is inferred.
+
+## Expanded completion record - 2026-10-01
+
+Acceptance for items E through J is complete for the authorized local scope. The full candidate
+verifier and same-source clean repeat passed at `6d37cb8`: 185 JVM tests, 12
+synthetic Android tests, zero lint errors (43 warnings), 24 inspected artifacts,
+current text/permissions/notices/model/link checks and identical 16 Maven
+outputs. Only the test-key localRuntime APK differed among all 24 hashes.
+BUILD_NOTES records commands, limits and the resolved atomic commit failure.
+Final ledger/inspection changes affect no artifact implementation. Independent
+validation remains deferred/unverified; owner/legal, physical/API-range,
+real-world efficacy, intake and every external-action gate remain unresolved.
 
 ## Authorized local completion — 2026-10-01
 

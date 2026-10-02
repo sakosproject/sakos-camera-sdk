@@ -25,3 +25,10 @@ Open gates: owner/legal model conversion/weight rights, dependency license and
 notice completeness, independent-validation status, real-world classifier
 performance/efficacy, physical-device/API-range testing, verified intake and every
 external release/destination/signing/hosting decision.
+
+Current complete clean gate and repeat: 185 JVM tests, 12 synthetic Android tests,
+zero lint errors (43 warnings), 24 inspected artifacts and all 16 Maven files
+identical across the same-source repeat. Shared private-root writes/playback
+leases, malformed calibration contracts, cleanup/retry and committed-export
+cancellation are covered. Exact counts and limits are in BUILD_NOTES; model and
+source/strategy identities are pinned in the private generated manifest.

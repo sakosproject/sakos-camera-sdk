@@ -40,6 +40,10 @@ def main():
                             assert notice_prefix + "NOTICE.md" in classes.namelist()
                             assert notice_prefix + "licenses/opennsfw2-MIT.txt" in classes.namelist()
                             assert notice_prefix + "licenses/yahoo-open-nsfw-BSD-2-Clause.txt" in classes.namelist()
+                            for name, source in [("LICENSE", "LICENSE"), ("NOTICE.md", "third_party/NOTICE.md"),
+                                ("licenses/opennsfw2-MIT.txt", "third_party/licenses/opennsfw2-MIT.txt"),
+                                ("licenses/yahoo-open-nsfw-BSD-2-Clause.txt", "third_party/licenses/yahoo-open-nsfw-BSD-2-Clause.txt")]:
+                                assert classes.read(notice_prefix + name) == (root / source).read_bytes()
                         models = [name for name in archive.namelist() if name.endswith(".tflite")]
                         assert len(models) == (1 if module == "safety-opennsfw2" else 0)
                         if models:
@@ -49,6 +53,10 @@ def main():
                     else:
                         assert notice_prefix + "LICENSE" in archive.namelist()
                         assert any(name.endswith(".kt") for name in archive.namelist())
+                        for name, source in [("LICENSE", "LICENSE"), ("NOTICE.md", "third_party/NOTICE.md"),
+                            ("licenses/opennsfw2-MIT.txt", "third_party/licenses/opennsfw2-MIT.txt"),
+                            ("licenses/yahoo-open-nsfw-BSD-2-Clause.txt", "third_party/licenses/yahoo-open-nsfw-BSD-2-Clause.txt")]:
+                            assert archive.read(notice_prefix + name) == (root / source).read_bytes()
             if suffix == ".pom":
                 pom = ET.fromstring(data)
                 ns = {"m": "http://maven.apache.org/POM/4.0.0"}
@@ -115,6 +123,7 @@ def main():
         "tracked_worktree_dirty": dirty, "coordinates": "org.sakos.camera:*:0.0.0-local",
         "artifact_build_commit": build_state.get("source_commit"),
         "build_tracked_worktree_dirty": build_state.get("tracked_worktree_dirty"),
+        "interruption_recovery": build_state.get("interruption_recovery"),
         "toolchain": {"gradle": "8.13", "agp": "8.13.2", "kotlin": "2.0.21", "compile_sdk": 36, "min_sdk": 26},
         "model_sha256": MODEL_SHA,
         "configuration": {"model": "opennsfw2_resnet50_v1@051a21bf697858c1",
