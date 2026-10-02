@@ -10,9 +10,9 @@ same worktree/branch and all private/synthetic-only restrictions above.
 | E. Source inventory | Allowlisted camera/runtime/gallery Kotlin code; current source revision and snapshot; reusable versus app integrations | Pin source evidence and inventory graph, selector, zoom, focus, orientation, profile and first-run behavior before code edits | Inventoried in TOOLING_PARITY; snapshots pinned |
 | F. Live strategies | Pure score driver and Bitmap runtime; Fixed14 default, optional Adaptive14; evaluator identity | Deterministic early exits, portrait/sentinel/refinement/fallback/duplicate/invalid tests; both strategies on synthetic Bitmap and minified consumer | Complete for authorized local scope; both strategies and clean repeat passed |
 | G. Camera tooling | capture-camerax discovery, source graph plans, actual probes, selection, secure no-backup profile/cache identity, retries/cancellation; minimal sample lens/quality/zoom/focus/rotation wiring | Mocked capability matrices and lifecycle failures; first-run/retry gates; actual isolated emulator probes; no probe output promotion; front/back/recreation checks | Complete for authorized local scope; JVM and isolated emulator gates passed |
-| H. Corrected candidate | All relevant docs/site/examples, local artifacts/notices/audit/checksums and repeat verifier | Full clean JVM/debug/lint and synthetic Android tests; Maven/minified consumer; exact model hash; truthful deferred validation and hardware/efficacy/legal gates | Complete; full clean candidate and identical Maven repeat passed |
+| H. Corrected candidate | All relevant docs/site/examples, local artifacts/notices/audit/checksums and repeat verifier | Full clean JVM/debug/lint and synthetic Android tests; Maven/minified consumer; exact model hash; truthful deferred validation and hardware/efficacy/legal gates | Reverification in progress after synthetic-run cleanup repair |
 | I. Standalone reviewed gallery core | Source camera repositories/provider and gallery client/repository/exporter; reusable approved private library and caller-authorized transactional destination | Capture/configuration-bound approval, no private intermediate exposure, cancel/failure cleanup, approved-only inventory/open/export; mocked save failures and synthetic Android integration without host application | Complete for authorized local scope; private save/playback and authorization passed |
-| J. Final ownership review | Probe-contract validation and unconditional runner unlock; shared-root private write ownership; shared playback leases; truthful committed-export cleanup results | Deterministic malformed/retry/cleanup/concurrent ownership and post-commit failure tests; two-client synthetic Android playback; repeat full clean candidate | Complete; 185 JVM, 12 Android, cleanup/ownership and clean repeat passed |
+| J. Final ownership review | Probe-contract validation and unconditional runner unlock; shared-root private write ownership; shared playback leases; truthful committed-export cleanup results | Deterministic malformed/retry/cleanup/concurrent ownership and post-commit failure tests; two-client synthetic Android playback; repeat full clean candidate | Reverification in progress after synthetic-run cleanup repair |
 
 Local narrow commits remain authorized. Advertised capabilities never alone make
 a graph usable. Calibration tests establish mechanics only; no universal phone
@@ -29,6 +29,16 @@ BUILD_NOTES records commands, limits and the resolved atomic commit failure.
 Final ledger/inspection changes affect no artifact implementation. Independent
 validation remains deferred/unverified; owner/legal, physical/API-range,
 real-world efficacy, intake and every external-action gate remain unresolved.
+
+## Candidate repeatability repair — 2026-10-01
+
+An interrupted synthetic sample instrumentation run can leave only the sample
+app's generated no-backup test state behind. The test now removes that state
+before and after every case and explicitly revokes its own Camera permission;
+the runner treats an already-absent sample package as a successful reset while
+still failing other uninstall errors. This does not touch device media, a
+private corpus, or any external service. Re-run the complete candidate twice
+from a clean local commit before restoring H and J to complete.
 
 ## Authorized local completion — 2026-10-01
 

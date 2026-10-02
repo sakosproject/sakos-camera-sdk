@@ -35,7 +35,10 @@ if ($ConsumerOnly) {
     Install-Apk 'safety-opennsfw2\build\outputs\apk\androidTest\debug\safety-opennsfw2-debug-androidTest.apk'
     Run-Instrumentation 'org.sakos.camera.safety.opennsfw2.test'
     # Reset only this synthetic sample's state, making denied-permission coverage repeatable.
-    & $adb -s $Serial uninstall org.sakos.camera.sample | Out-Null
+    $uninstallOutput = & $adb -s $Serial uninstall org.sakos.camera.sample 2>&1
+    if ($LASTEXITCODE -ne 0 -and ($uninstallOutput -join "`n") -notmatch '(?i)not installed') {
+        throw 'Synthetic sample reset failed.'
+    }
     Install-Apk 'sample-app\build\outputs\apk\debug\sample-app-debug.apk'
     Install-Apk 'sample-app\build\outputs\apk\androidTest\debug\sample-app-debug-androidTest.apk'
     Run-Instrumentation 'org.sakos.camera.sample.test'

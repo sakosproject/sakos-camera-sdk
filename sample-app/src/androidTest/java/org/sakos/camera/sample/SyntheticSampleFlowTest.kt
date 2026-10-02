@@ -13,6 +13,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.*
+import org.junit.After
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.sakos.camera.safety.core.*
@@ -22,9 +24,13 @@ import org.sakos.camera.safety.opennsfw2.OpenNsfw2ModelPreflight
 @org.junit.FixMethodOrder(org.junit.runners.MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4::class)
 class SyntheticSampleFlowTest {
+    @Before fun clearSyntheticStateBeforeEachTest() = clearSyntheticState()
+    @After fun clearSyntheticStateAfterEachTest() = clearSyntheticState()
+
     @Test fun aPermissionPhotoVideoCancellationAndBackgroundRecovery() {
         check(Build.MODEL.contains("sdk", true) || Build.FINGERPRINT.contains("emulator", true)) { "Emulator only" }
         val instrumentation = InstrumentationRegistry.getInstrumentation()
+        instrumentation.uiAutomation.revokeRuntimePermission(instrumentation.targetContext.packageName, Manifest.permission.CAMERA)
         val pattern = Bitmap.createBitmap(32, 32, Bitmap.Config.ARGB_8888).apply { eraseColor(Color.CYAN) }
         val syntheticCapture = SafetyCaptureContext(SafetyCaptureId("synthetic-viewer"), 0, 32, 32, 0, false)
         val simulated = SafetyEvaluationOutcome.Decision(syntheticCapture.captureId, SafetyEvaluationReceiptId("simulated-viewer-allow"),
@@ -177,5 +183,18 @@ class SyntheticSampleFlowTest {
             SystemClock.sleep(200)
         }
         scenario.onActivity { fail("Sample flow timed out: ${it.findViewById<TextView>(SampleActivity.STATUS_ID).text}") }
+    }
+
+    private fun clearSyntheticState() {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        listOf(
+            "sakos-reviewed-library",
+            "sakos-approved-playback",
+            "sakos-camera-calibration",
+            "sakos-camera-video-staging",
+        ).forEach { directory ->
+            val target = java.io.File(context.noBackupFilesDir, directory)
+            assertTrue("Synthetic state cleanup failed: $directory", !target.exists() || target.deleteRecursively())
+        }
     }
 }
