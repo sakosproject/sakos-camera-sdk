@@ -12,8 +12,22 @@ $qemu = & $adb -s $Serial shell getprop ro.kernel.qemu
 if ($LASTEXITCODE -ne 0 -or "$qemu".Trim() -ne '1') { throw 'The selected serial is not an emulator.' }
 
 function Install-Apk([string]$RelativePath) {
-    & $adb -s $Serial install -r (Join-Path $repoRoot $RelativePath)
-    if ($LASTEXITCODE -ne 0) { throw "Synthetic test APK install failed: $RelativePath" }
+    $installPath = Join-Path $repoRoot $RelativePath
+    $lastOutput = @()
+    for ($attempt = 1; $attempt -le 3; $attempt++) {
+        $lastOutput = & $adb -s $Serial install -r $installPath 2>&1
+        if ($LASTEXITCODE -eq 0) {
+            $lastOutput | Write-Output
+            return
+        }
+        # ADB can lose its local server between the two sequential suites; retry
+        # only that emulator transport failure and retain the final diagnostic.
+        if (($lastOutput -join "`n") -notmatch '(?i)cannot connect to daemon|could not read ok from ADB Server') { break }
+        & $adb start-server 2>&1 | Out-Null
+        Start-Sleep -Milliseconds 500
+    }
+    $lastOutput | Write-Output
+    throw "Synthetic test APK install failed: $RelativePath"
 }
 function Run-Instrumentation([string]$Package) {
     $output = & $adb -s $Serial shell am instrument -w "$Package/androidx.test.runner.AndroidJUnitRunner" 2>&1

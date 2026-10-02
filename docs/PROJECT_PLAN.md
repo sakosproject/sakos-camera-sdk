@@ -36,9 +36,10 @@ An interrupted synthetic sample instrumentation run can leave only the sample
 app's generated no-backup test state behind. The test now removes that state
 before and after every case and explicitly revokes its own Camera permission;
 the runner treats an already-absent sample package as a successful reset while
-still failing other uninstall errors. This does not touch device media, a
-private corpus, or any external service. Re-run the complete candidate twice
-from a clean local commit before restoring H and J to complete.
+still failing other uninstall errors, and retries only a transient local ADB
+daemon disconnect during test-APK installation. This does not touch device
+media, a private corpus, or any external service. Re-run the complete candidate
+twice from a clean local commit before restoring H and J to complete.
 
 ## Authorized local completion — 2026-10-01
 
