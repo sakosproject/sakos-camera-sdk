@@ -149,7 +149,7 @@ def main():
         "lint": lint, "android_instrumentation": instrumentation,
         "local_links": json.loads((root / "build-logs/site-link-check.json").read_text(encoding="utf-8")),
         "emulator_instrumentation_executed": args.emulator_tested,
-        "input_scope": "Generated benign patterns, mocks and simulated scores; isolated emulator scenes where noted. Physical checks use generated inputs only.",
+        "input_scope": "Generated-input and explicitly authorized office-view checks are recorded separately; isolated emulator scenes where noted. No capture media transferred off-device.",
         "signing": "release consumer unsigned; debug/test-key APKs only for local runtime verification",
         "remaining_gates": ["owner/legal model and dependency redistribution review", "physical-device and API-range coverage",
             "real-world classifier efficacy and independent validation", "security intake", "all external delivery decisions"]}

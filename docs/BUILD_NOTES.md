@@ -278,3 +278,47 @@ Live first-run calibration and camera controls/capture/lifecycle still require
 the benign blank-surface confirmation described in DEVICE_MATRIX. One device's
 synthetic checks do not close physical-camera, API-range/OEM, efficacy, rights
 or external-release gates. No push, publication or release action occurred.
+
+## Authorized Samsung live-camera flow - 2026-10-02
+
+Following explicit operator approval for office floor/ceiling views, the same
+Samsung SM-G781W/API 33 passed one opt-in hardware flow in **51.774 seconds**.
+Only the sample Android-test APK was rebuilt; the existing API36 sample APK was
+reused unchanged. Test build source `9663eb10482aed36340d0c9866b5209dd8324b49`
+passed the final offline incremental APK build in 26 seconds (four executed,
+123 up-to-date tasks). The previous ten synthetic phone tests and full
+JVM/emulator/lint/Maven/consumer builds were not repeated. No production SDK
+defect was revealed or production camera/classifier code changed.
+
+Fresh-install permission gating, required front/back photo/video calibration,
+probe discard and encrypted ready-profile reuse passed. SDK discovery returned
+four camera entries; selected default rear/front graphs actually captured
+3024x4032 and 2448x3264 photos. Derived rear Low captured 1500x2000 (3MP).
+The High probe matched Normal's dimensions and remained hidden by eligibility
+rules. Both default video probes measured 638x1280 and completed their runtime
+mechanics gate with proven cleanup. Rear photo/video zoom 1/2/5x verified;
+0.6x measured unsupported on the selected graph and remained hidden.
+
+Rear flash Auto/On/Off and an actual On-flash photo, product zoom cycling,
+front selection/selfie-1x/flash availability, and owned-preview AF/AE tap
+submission passed. Back video pause/resume/back protection, front/back actual
+review/private save, activity recreation/landscape capture, explicit recording
+cancellation and background cancellation passed without late promotion or
+unresolved staging. Five photos and two videos were approved privately and
+deleted by the test; approved photo viewing opened/closed with owned bitmap
+cleanup. No image/clip bytes were copied off-device. Two freshly installed
+owned packages were removed, their app-private calibration/media data erased,
+and both used camera clients were closed. Preexisting apps/media and device
+security/network/OS settings were unchanged.
+
+The test is opt-in through `liveCameraConsent=office-floor-ceiling`, limited to
+the selected model and intended for an explicitly consenting operator. Normal
+synthetic/CI runs skip it before launching a camera. Do not supply that opt-in
+without corresponding authorization for the actual device and views.
+
+This is a bounded Default-Fixed14 live hardware mechanics result. Adaptive14
+remains separately synthetic-tested. Physical sensor rotation, focus sharpness,
+additional camera-ID-specific selectors, actual public export, long-run thermal
+or latency distributions, broad API/OEM coverage and classifier efficacy remain
+unverified. The observed Allow results on these approved views do not establish
+content-detection accuracy or external release readiness.

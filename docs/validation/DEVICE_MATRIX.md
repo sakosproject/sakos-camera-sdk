@@ -1,6 +1,6 @@
 # Device and lifecycle validation matrix
 
-Status: **partial physical-device synthetic verification; live-camera verification pending**.
+Status: **bounded Samsung live-camera and synthetic verification passed; broader physical/API coverage pending**.
 The bundled runtime and functional CameraX/private-storage sample exist.
 A Samsung SM-G781W on Android 13/API 33 passed the focused synthetic checks
 below. Emulator and generated-media checks never close the live-camera gate.
@@ -77,3 +77,32 @@ compatibility, live-media parity or classifier efficacy claim is made.
 
 The APK/build hashes and sanitized logs are retained privately in the device
 handoff; source/build details are recorded in BUILD_NOTES.
+
+## Authorized office-view hardware pass - 2026-10-02
+
+Explicit operator approval authorized the same Samsung's temporary live preview,
+photo and video capture of office floor/ceiling views. One dedicated opt-in flow
+passed in 51.774 seconds; it did not rerun the earlier ten synthetic tests.
+
+| Function | Observed result |
+| --- | --- |
+| Initial camera permission absent, then authorized grant | Capture disabled before permission; ready after grant |
+| First-run front/rear photo/video calibration | Ready; mandatory probes gated and discarded; no approved output from probes |
+| Rear Normal/Low | 3024x4032 / 1500x2000; approved private photo save and viewer |
+| Rear High eligibility | Probe verified but equal to Normal resolution; hidden correctly |
+| Default front | 2448x3264; private photo/video review/save; selfie zoom fixed 1x; no hardware flash |
+| Rear zoom | Photo/video 1/2/5x verified; 0.6x unsupported on selected graph |
+| Rear flash and tap | Auto/On/Off and On-flash capture; AF/AE tap submitted (sharpness not asserted) |
+| Live video | Front/rear review and private save; back pause/resume and back guard |
+| Recreation/cache/landscape activity | Ready encrypted cache reused without new probes; front selection retained; capture worked |
+| Explicit and background cancellation | Returned ready; no late promotion or unresolved staging |
+| Cleanup | Five owned photos/two videos deleted; two owned packages removed; used camera clients closed |
+
+Phone orientation was not physically changed; activity-orientation/recreation
+coverage does not close the physical rotation row. Public export was outside
+this private-capture authorization and was not attempted. Additional camera
+IDs were inventoried, not individually routed/captured. Long-run resource,
+thermal/performance, actual backup/public exposure, low-storage, forced-kill,
+API-range/OEM and efficacy rows remain pending. No personal gallery was browsed
+and no capture bytes were transferred off-device. This scoped success does not
+claim phone-wide compatibility or content-detection accuracy.
