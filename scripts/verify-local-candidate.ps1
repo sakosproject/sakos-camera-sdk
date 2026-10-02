@@ -24,6 +24,19 @@ if ($Serial) {
 }
 $aapt = Join-Path $env:ANDROID_HOME 'build-tools/36.0.0/aapt.exe'
 if (!(Test-Path $aapt)) { throw 'Installed build-tools 36.0.0 required for APK permission inspection.' }
+foreach ($apk in @(
+        'capture-video/build/outputs/apk/androidTest/debug/capture-video-debug-androidTest.apk',
+        'safety-opennsfw2/build/outputs/apk/androidTest/debug/safety-opennsfw2-debug-androidTest.apk',
+        'sample-app/build/outputs/apk/debug/sample-app-debug.apk',
+        'sample-app/build/outputs/apk/androidTest/debug/sample-app-debug-androidTest.apk',
+        'integration-tests/consumer/app/build/outputs/apk/localRuntime/app-localRuntime.apk',
+        'integration-tests/consumer/app/build/outputs/apk/androidTest/localRuntime/app-localRuntime-androidTest.apk')) {
+    $badging = (& $aapt dump badging $apk) -join "`n"
+    if ($LASTEXITCODE -ne 0 -or $badging -notmatch "compileSdkVersion='36'" -or
+        $badging -notmatch "(?m)^targetSdkVersion:'36'$" -or $badging -notmatch "(?m)^sdkVersion:'26'$") {
+        throw "Candidate APK must compile/target API 36 and retain minSdk 26: $apk"
+    }
+}
 foreach ($apk in @('sample-app/build/outputs/apk/debug/sample-app-debug.apk',
         'integration-tests/consumer/app/build/outputs/apk/localRuntime/app-localRuntime.apk')) {
     $permissions = & $aapt dump permissions $apk

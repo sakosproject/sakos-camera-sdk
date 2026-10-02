@@ -12,6 +12,11 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    // Library instrumentation APKs need an explicit target, independently of compileSdk.
+    testOptions {
+        targetSdk = 36
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
