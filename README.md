@@ -1,9 +1,15 @@
 # SakOS Camera SDK
 
-Private local Android SDK candidate for managed photo and sampled video review.
-Four libraries and a functional sample run independently of host application accounts,
-entitlements, signing or providers. No remote installation coordinates or public
-release are available.
+**Experimental Android candidate for managed photo and sampled-video review.**
+This is not a released SDK; there are no remote installation coordinates.
+
+[Project site](https://sakosproject.org/) ·
+[GitHub repository](https://github.com/sakosproject/sakos-camera-sdk) (currently private) ·
+[Apache-2.0 license](LICENSE)
+
+The four libraries and functional sample exercise local workflows independently
+of host application accounts, entitlements, signing or providers. The repository remains
+private while redistribution rights for the bundled model are unresolved.
 
 | Module | Implemented boundary |
 | --- | --- |
@@ -79,9 +85,9 @@ target. Broader camera/API coverage, efficacy, source parity and independent
 validation remain disclosed follow-up work; they do not block the helper site
 or automatically block an experimental release. No accuracy, broad parity,
 certification, broad device coverage or verified private reporting intake is claimed.
-The [static project-status site](website/README.md) is a dependency-free
-helper site with no SDK or model downloads. It is live at
-[sakosproject.pages.dev](https://sakosproject.pages.dev). The owner-controlled
-`sakosproject.org` apex awaits attachment through Cloudflare Pages Custom domains;
-the site README records hosting evidence and the manual steps. The SDK/model
-distribution decision remains separate.
+The [customer-facing project site](https://sakosproject.org/) is a dependency-free
+status helper with no SDK or model downloads. Its reciprocal link points to the
+[GitHub repository](https://github.com/sakosproject/sakos-camera-sdk), which is
+currently private. The site README records the Cloudflare Pages deployment and
+active custom-domain status. Site publication is separate from SDK/model
+distribution.

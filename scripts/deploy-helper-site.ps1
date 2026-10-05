@@ -9,7 +9,7 @@ try {
     $taskRevision = git rev-parse HEAD
     if ($LASTEXITCODE -ne 0) { throw 'Cannot identify the site source revision.' }
 
-    $taskAssets = @('index.html', 'camera/index.html', 'docs/camera/index.html', 'assets/site.css')
+    $taskAssets = @('index.html', 'camera/index.html', 'docs/camera/index.html', 'assets/site.css', 'favicon.svg')
     $taskUpload = Join-Path $taskRoot 'build/site-upload'
     New-Item -ItemType Directory -Path $taskUpload -Force | Out-Null
     foreach ($taskAsset in $taskAssets) {
