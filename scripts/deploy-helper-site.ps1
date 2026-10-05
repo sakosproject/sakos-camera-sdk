@@ -21,7 +21,7 @@ try {
     }
     if ($taskUnexpected) { throw 'The site upload directory contains files outside the four intended static assets.' }
 
-    & wrangler pages deploy $taskUpload --project-name sakosproject --branch main --commit-hash $taskRevision --commit-dirty=false
+    & wrangler pages deploy $taskUpload --project-name sakosproject --branch main --commit-hash $taskRevision --commit-dirty=false --force
     if ($LASTEXITCODE -ne 0) { throw "Pages deployment failed with exit code $LASTEXITCODE." }
 }
 finally {

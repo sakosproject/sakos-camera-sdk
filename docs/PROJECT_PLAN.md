@@ -47,6 +47,12 @@ The prior review verified all 24 existing artifact hashes and the model digest.
 Only prose, release metadata and static deployment tooling changed; existing
 Android verification evidence is retained without another Android/device suite.
 
+Repository integration completed at `75a3545`: `main` fast-forwarded to the
+implementation branch and all 23 local branches were pushed atomically to origin.
+Wrangler 4.147.0's default Pages-to-Workers delegation failed before creating a
+project/deployment. Installed CLI code confirms `--force` selects actual Pages;
+the create/upload commands were corrected for the owner's requested Pages target.
+
 ## Expanded acceptance — camera tooling and strategy execution, 2026-10-01
 
 The owner's newer instruction reopens local completion after `d1f24fe`. Keep the

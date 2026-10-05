@@ -36,8 +36,13 @@ website change, commit/push it and rerun that command. No Android build is requi
 Project creation (once, only if absent):
 
 ```powershell
-wrangler pages project create sakosproject --production-branch main
+wrangler pages project create sakosproject --production-branch main --force
 ```
+
+Wrangler 4.147.0 delegates new Pages commands to Workers by default. The installed
+CLI's `--force` option selects actual Pages for both project creation and upload;
+the deployment script includes it. The first delegated creation failed before
+creating a project or deployment, and was replaced by this explicit Pages flow.
 
 If choosing Git integration for a future project, the static build settings are
 framework None, blank build command and output directory `website`. Cloudflare
