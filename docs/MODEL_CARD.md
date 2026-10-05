@@ -3,6 +3,14 @@
 Status: exact owner-authorized asset bundled for private local verification.
 External redistribution rights remain unresolved; real-world efficacy is unverified.
 
+The recorded model lineage is [Yahoo Open NSFW](https://github.com/yahoo/open_nsfw)
+through [OpenNSFW2](https://github.com/bhky/opennsfw2), inherited as a SakOS prebuilt
+TFLite file via camera/gallery application. OpenNSFW2 credits Bosco Yung (MIT); Yahoo Open
+NSFW credits Yahoo Inc. (BSD-2-Clause). The SDK imported the asset unchanged.
+See [PROVENANCE](PROVENANCE.md) for the verified import chain and unrecorded
+conversion details, and [third-party notices](../third_party/NOTICE.md) for the
+copyright notices and complete retained licenses.
+
 | Property | Recorded contract |
 | --- | --- |
 | Model ID | opennsfw2_resnet50_v1 |

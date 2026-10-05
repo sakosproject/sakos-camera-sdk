@@ -1,5 +1,41 @@
 # SakOS Camera SDK implementation plan
 
+## Model origin and attribution audit — 2026-10-05
+
+The owner requested finding the model origin in `private camera/gallery source project` and applying
+attribution in this SDK repository. The source checkout is a read-only reference.
+
+Execution plan:
+
+1. Verify the source provenance/model contract, original asset import revision,
+   and SHA-256 identity against the SDK asset; cross-check the upstream credits
+   and retained license wording.
+2. Update `third_party/NOTICE.md`, `docs/PROVENANCE.md`, `docs/MODEL_CARD.md`,
+   and `README.md` with the upstream authors, source links, import chain, and
+   distinction between confirmed lineage and unrecorded conversion details.
+3. Check local links and the diff. Build only the four library release AARs and
+   source JARs needed to inspect the updated notices, using the existing offline
+   toolchain. Verify exact notice/license bytes and the unchanged bundled model.
+4. Record the checks here. No release publication or site deployment is needed.
+
+Acceptance: identifiable upstream credits and complete retained license texts;
+source evidence pinned to its inspected revision; unchanged model digest; notices
+present in all eight library archives; source checkout unchanged.
+
+Completed: source records were pinned to `private camera/gallery source project` revision `source revision omitted` and
+its original model import `source revision omitted`. Both model copies match the recorded size
+and SHA-256. The retained license wording matches the checked upstream texts;
+both license files are unchanged. Explicit credits, upstream links, the import
+chain, and unrecorded conversion details are documented in the planned files.
+
+The offline library packaging build passed. All eight AAR/source archives retain
+the updated notice and complete licenses byte for byte (32 file comparisons);
+the model-bearing AAR retains the exact model digest. Local documentation links
+and `git diff --check` passed. The source checkout remains clean and unchanged.
+Exact commands and private check-output paths are recorded in `docs/BUILD_NOTES.md`.
+This completes the attribution task; the unrecorded conversion details and
+external redistribution clearance remain open as documented in PROVENANCE.
+
 ## Repository integration and helper-site launch — 2026-10-05
 
 The owner authorized correcting the documentation, integrating the latest worktree

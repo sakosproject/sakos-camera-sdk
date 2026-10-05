@@ -73,6 +73,12 @@ conditions. A modified host can bypass a library's managed path.
 
 ## Model, notices and remaining gates
 
+The bundled model's recorded lineage is [OpenNSFW2](https://github.com/bhky/opennsfw2)
+by Bosco Yung (MIT), based on [Yahoo Open NSFW](https://github.com/yahoo/open_nsfw)
+by Yahoo Inc. (BSD-2-Clause). It was inherited unchanged from the SakOS prebuilt
+asset through camera/gallery application. Credits and full license texts are retained in
+[third-party notices](third_party/NOTICE.md) and packaged with the libraries.
+
 The exact asset identity and import authorization are retained in
 [PROVENANCE](docs/PROVENANCE.md). Owner import authorization does not clear the
 full conversion/weight provenance or external redistribution rights. Project

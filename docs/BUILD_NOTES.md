@@ -1,5 +1,36 @@
 # Local build notes
 
+## Model attribution packaging verification — 2026-10-05
+
+Only attribution documentation and the packaged `third_party/NOTICE.md` changed.
+The retained license files, model bytes, Android code, and build configuration
+are unchanged. A targeted release-library packaging build verified notice
+retention; the prior runtime/device test evidence was not rerun or replaced.
+
+The installed Gradle 8.13 toolchain was invoked through the existing helper:
+
+```powershell
+. .\scripts\local-toolchain.ps1
+$taskPackagingArgs = @(':safety-core:assembleRelease', ':safety-core:sourceReleaseJar', ':safety-opennsfw2:assembleRelease', ':safety-opennsfw2:sourceReleaseJar', ':capture-camerax:assembleRelease', ':capture-camerax:sourceReleaseJar', ':capture-video:assembleRelease', ':capture-video:sourceReleaseJar')
+Invoke-LocalGradle -Arguments $taskPackagingArgs -Log 'build-logs/model-attribution-packaging.log'
+```
+
+The helper passes `--offline --no-daemon --console plain`. Result: **BUILD
+SUCCESSFUL**, 126 executed tasks. An archive inspection verified the updated
+notice, repository license, and both upstream license files against their source
+bytes in all four AAR `classes.jar` files and all four release source JARs:
+eight archives and 32 exact file comparisons. The model-bearing AAR contains the
+unchanged 6,128,536-byte asset with SHA-256
+`051A21BF697858C1E2537354A99BE09A48D26BBFBA0C35216B340F16DE7528D7`.
+The other AARs contain no model. The ignored inspection report is
+`build-logs/model-attribution-archive-check.json`.
+
+`python scripts/check-local-links.py` passed for 26 files and 53 local links,
+with zero broken links. `git diff --check` passed. The source `private camera/gallery source project`
+checkout remained clean at `source revision omitted`. License
+wording was checked against pinned public upstream revisions in PROVENANCE;
+exact conversion provenance and external redistribution clearance remain open.
+
 ## Final current-artifact validation - 2026-10-02
 
 The latest clean artifact build at `0ad514d` passed 185 JVM tests, debug and
