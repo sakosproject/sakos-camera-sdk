@@ -18,6 +18,14 @@ source `e691942`. Home, camera, project status and CSS returned HTTP 200 over HT
 and matched the four uploaded files byte-for-byte. The final relative footer-link
 update is deployed separately and recorded below.
 
+Latest production deployment: `85674b0d-8103-475c-b4d3-916cbd58b489`, source
+`6b4441a94c46676fa4dd34d8d9b02f4681c649d8`, on October 5, 2026. The stable URL is
+[sakosproject.pages.dev](https://sakosproject.pages.dev); the immutable deployment
+URL is [85674b0d.sakosproject.pages.dev](https://85674b0d.sakosproject.pages.dev).
+All three page routes and `/assets/site.css` returned HTTP 200 and matched the
+upload byte-for-byte after deployment. Local navigation checks passed across
+26 files and 44 links. This execution-record update changes no deployed HTML/CSS.
+
 Apex status: not attached to the Pages project; no apex A/AAAA record returned at
 verification. Complete the manual steps below. Navigation uses relative links and
 works on either hostname; canonical URLs already target the intended apex.

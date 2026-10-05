@@ -67,6 +67,17 @@ is a working Pages address plus the exact Custom domains dashboard steps in
 website/README. Footer navigation was made relative so it works before and after
 domain attachment. A final static-only deployment records that small link change.
 
+Final helper-site gate passed: production deployment
+`85674b0d-8103-475c-b4d3-916cbd58b489` from `6b4441a`, with only three HTML files
+and CSS. All four stable-host HTTPS routes returned 200 and were byte-identical
+to the committed upload; local checks cover 26 files/44 links with zero broken
+links. Deployment-script syntax passed after account-selection repair. All
+24 local branches are retained on origin. The final evidence-only commit is
+fast-forwarded into both active worktrees and pushed as the completion sequence.
+No Android implementation, model, signing or repository visibility changed.
+The only remaining helper-site action is owner dashboard attachment of the apex,
+using website/README's steps; the working Pages hostname is already public.
+
 ## Expanded acceptance — camera tooling and strategy execution, 2026-10-01
 
 The owner's newer instruction reopens local completion after `d1f24fe`. Keep the
