@@ -56,10 +56,11 @@ closing latest-only analysis and one capture use case at a time; High still has
 an independent capture viewport. No account,
 host application authorization, microphone, storage or network permission is used.
 
-Current verification uses synthetic patterns, simulated scores and an isolated
-emulator scene. See BUILD_NOTES for executed evidence. Spatial runtime and
+Verification includes synthetic patterns, simulated scores, an isolated emulator
+scene and the bounded phone flow. See BUILD_NOTES for executed evidence. Spatial runtime and
 sampled video are probabilistic; neither every-frame coverage nor accuracy,
-parity or physical-device behavior is established. A modified host can bypass
+parity or broad physical-device compatibility is established. One bounded
+Samsung live-camera mechanics result is recorded in BUILD_NOTES. A modified host can bypass
 an app-level SDK. External redistribution and delivery remain gated.
 
 See [camera discovery/calibration and controls](CAMERA_TOOLING.md),

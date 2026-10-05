@@ -1,5 +1,52 @@
 # SakOS Camera SDK implementation plan
 
+## Repository integration and helper-site launch — 2026-10-05
+
+The owner authorized correcting the documentation, integrating the latest worktree
+into `main`, pushing the repository branches, reducing publication gates to the
+minimum for each deliverable, and deploying the static helper site with the
+signed-in Wrangler account. This authorization supersedes older merge/push/site
+deployment restrictions below. SDK package publication, release tagging, production
+signing and repository visibility changes are separate future actions.
+
+Execution plan:
+
+1. Correct CHANGELOG and RELEASE_EVIDENCE for the October 2 Samsung result;
+   align README, release documents, contribution guidance, model/integration
+   limits, candidate-manifest metadata and site copy with the minimum gates.
+2. Keep helper-site publication independent of model redistribution and broader
+   validation. For an experimental SDK, retain distribution rights/notices,
+   versioned artifact verification and accurate limitations; move broad OEM/API,
+   efficacy and independent validation into a disclosed validation backlog.
+3. Check local links, text consistency, Python syntax and `git diff --check`.
+   Preserve existing artifact/test evidence; no production Android change or
+   redundant Android rebuild is planned.
+4. Commit the documentation/metadata changes, fast-forward `main`, and push all
+   local branches to the existing origin without force-pushing or deleting refs.
+5. Use Wrangler 4.147.0 and the verified account to create/reuse a Pages project
+   for `website`, deploy only the static payload, and verify HTTPS routes/assets.
+   The active `sakosproject.org` zone is in the same account. If DNS automation
+   is unavailable, deliver the Pages hostname and exact dashboard domain steps.
+6. Record deployment and verification results here and in website/README; commit
+   and push the final evidence so both worktrees finish at the same revision.
+
+Acceptance: both worktrees clean and at current `main`; remote refs match local;
+corrected claims and minimum publication requirements agree; hosted HTML/CSS and
+navigation pass checks; no credentials, Android artifacts or model bytes are in
+the site deployment; apex status or manual attachment steps are recorded.
+
+Progress: plan recorded before implementation. Wrangler authentication and Pages
+write permission verified. The target zone is active on the same account's Free
+plan. No SakOS Pages project existed in the account at this audit.
+
+Pre-integration checks passed: 26 documentation/site files and 41 local links,
+zero broken links; Python candidate-inspection and PowerShell deployment-script
+syntax; Wrangler configuration parsing; `git diff --check`. Current text audit
+inspected 136 text files with zero secret candidates or media/signing filenames.
+The prior review verified all 24 existing artifact hashes and the model digest.
+Only prose, release metadata and static deployment tooling changed; existing
+Android verification evidence is retained without another Android/device suite.
+
 ## Expanded acceptance — camera tooling and strategy execution, 2026-10-01
 
 The owner's newer instruction reopens local completion after `d1f24fe`. Keep the

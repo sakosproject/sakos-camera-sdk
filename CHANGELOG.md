@@ -24,8 +24,16 @@
 - Added JVM ownership/failure tests and synthetic Android runtime, decoder,
   recovery, sample-flow and minified Maven consumer checks.
 - Prepared local-only AAR/source/POM/notices and candidate verification tooling.
+- Passed ten focused synthetic checks and one separately authorized live-camera
+  mechanics flow on Samsung Galaxy S20 FE (SM-G781W, Android 13/API 33) on
+  October 2, 2026; test captures stayed on-device and were deleted.
+- Separated helper-site publication from experimental SDK distribution gates.
+  Broader device/API coverage, efficacy and independent validation remain a
+  disclosed validation backlog rather than prerequisites for an experimental release.
 
 Current checks use benign generated patterns, mocks, simulated scores and an
-isolated emulator scene. No accuracy, source parity, physical-device result,
-legal redistribution clearance, remote package, website delivery or public
-release is established. Retained historical records describe their dated scope.
+isolated emulator scene, plus the bounded operator-approved live phone flow.
+The phone result establishes exercised camera/storage mechanics on one handset.
+Accuracy, source parity, broad device compatibility and redistribution clearance
+remain unverified. SDK/model packages remain unreleased; helper-site hosting is
+tracked separately in website/README.md. Historical records retain their dated scope.

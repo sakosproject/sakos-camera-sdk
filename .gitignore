@@ -38,3 +38,7 @@ google-services.json
 # Python tooling caches
 __pycache__/
 *.py[cod]
+
+# Wrangler local state
+.wrangler/
+.dev.vars*

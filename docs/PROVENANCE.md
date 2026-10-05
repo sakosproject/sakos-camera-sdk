@@ -45,6 +45,8 @@ material and does not replace third-party notices.
 A model replacement, checksum change, preprocessing change, policy change, or
 additional third-party material requires an update to this record,
 `docs/MODEL_CARD.md`, `docs/EXTRACTION_MANIFEST.md`, and the notice inventory.
-No model-bearing artifact may be published until the remaining release gates,
-including device verification, notices, security intake, and release approval,
-are complete.
+Model-bearing distribution still requires confirmed permission to redistribute
+the exact weights/conversion and applicable code/dependencies, retained notices,
+versioned verified artifacts and an approved release target. Broad device testing,
+efficacy and independent validation are disclosed follow-up work for an experimental
+release. They are not prerequisites for publishing the status-only helper site.

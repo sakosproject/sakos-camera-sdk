@@ -73,13 +73,13 @@ full conversion/weight provenance or external redistribution rights. Project
 material uses [Apache-2.0](LICENSE); upstream MIT/BSD notices remain under
 `third_party` and inside candidate library artifacts.
 
-Owner/legal clearance, broader physical-camera/API-range verification, real-world
-classifier efficacy, independent-validation status, dependency notice review,
-security intake and all external SDK release decisions remain open. No accuracy,
-broad parity, certification, broad physical-device coverage or public intake is
-claimed.
+Experimental SDK distribution requires confirmed redistribution rights/notices,
+a versioned verified artifact set, accurate limitations and an approved release
+target. Broader camera/API coverage, efficacy, source parity and independent
+validation remain disclosed follow-up work; they do not block the helper site
+or automatically block an experimental release. No accuracy, broad parity,
+certification, broad device coverage or verified private reporting intake is claimed.
 The [static project-status site](website/README.md) is a dependency-free
-helper site with no SDK or model downloads. Its intended Pages hostname is
-`https://sakosproject.org`; it has not been deployed. The SDK and model remain
-local release candidates with open provenance/redistribution, security-intake,
-device/API-coverage, efficacy, and release-approval gates.
+helper site with no SDK or model downloads. Pages publication is authorized for
+`https://sakosproject.org`; current hosting and domain status are recorded in
+the site README. The SDK/model distribution decision remains separate.

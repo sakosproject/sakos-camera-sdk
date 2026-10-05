@@ -1,37 +1,45 @@
-# Private local candidate preparation runbook
+# Publication and local candidate runbook
 
-Local candidate preparation is authorized; external actions remain unapproved.
-The owner expressly superseded the previous requirement to stop local preparation
-on missing external release decisions.
+The owner authorized repository integration/push and helper-site deployment on
+2026-10-05. Use [RELEASE_CHECKLIST](RELEASE_CHECKLIST.md) for the minimum requirements
+for each deliverable. SDK package publication, tags, release signing and repository
+visibility changes need a concrete approved version/target before execution.
 
-1. Confirm the existing worktree/branch and reviewed source revision. Preserve
-   unrelated changes. Local narrow commits are authorized.
-2. Run `scripts/verify-local-candidate.ps1` using the installed cached toolchain.
-   Provide `-Serial` only for an explicitly authorized isolated emulator. The
-   script checks emulator identity and targets every adb action to that serial.
-   It never creates/wipes an AVD, alters a VM or accesses a physical device.
-3. The script runs clean debug assembly, all JVM tests, synthetic instrumented
-   APK compilation and lint before local-only Maven packaging. It builds a
-   separate minified consumer and an additional test-key-only runtime variant.
-   Direct adb instrumentation avoids uncached Gradle UTP runner dependencies.
-4. Review `build/private-candidate/manifest.json`, `SHA256SUMS.txt`, sanitized logs,
-   source/POM/dependency/notices inventory, per-module unit/lint and per-suite
-   synthetic counts, both strategy identities, code-only tooling references and
-   exact bundled-model fingerprint. Local documentation/site links are also checked.
-   APK permission inspection rejects network/audio/public-storage permission.
-   Inspect the private text-audit report outside the repository; do not copy
-   sensitive historical wording or validation details into public artifacts.
-5. Repeat the script to verify it succeeds from clean output. Compare library
-   artifact hashes for the same code/toolchain. Do not claim universal byte
-   reproducibility of signed APKs or builds on different machines.
-6. Record sanitized current synthetic outcomes in BUILD_NOTES/RELEASE_EVIDENCE.
-   Candidate manifests explicitly identify a dirty tree if built before final
-   commits; regenerate at a clean reviewed commit for the final local candidate.
+## Helper site
 
-Keep model rights, independent-validation status, real-world efficacy,
-physical-device/API-range coverage, dependency notice clearance, intake and
-external destinations unresolved until evidence/owner decisions arrive.
+1. Correct status copy and run `python scripts/check-local-links.py` plus
+   `git diff --check`. Review the small static upload payload.
+2. Commit the reviewed changes, fast-forward `main`, and push the existing origin.
+3. Verify Wrangler authentication and the Pages project/account, then deploy the
+   HTML/CSS through the repeatable command in [website/README](../website/README.md).
+4. Check the hosted home, camera, status and CSS routes over HTTPS and confirm their
+   content matches the committed payload. Attach the apex through Custom domains,
+   or deliver the working Pages URL and the documented manual steps.
+5. Record the deployment identity, source revision, route checks and actual apex
+   status; commit and push the execution record.
 
-Stop before any push, tag, merge, visibility change, real release signing,
-upload/publication, deployment, DNS action or public communication. Each needs
-an explicit instruction naming the target. This runbook grants none of them.
+## Local SDK candidate and later experimental distribution
+
+1. Confirm the reviewed source revision and preserve unrelated changes. Use
+   `scripts/verify-local-candidate.ps1` when implementation/model/toolchain or
+   packaging changes require candidate verification. For unchanged artifacts,
+   retain the existing source-bound passing evidence and verify hashes instead
+   of repeating whole suites for documentation edits.
+2. The verifier runs clean builds, JVM tests, lint and local Maven packaging, plus
+   a separate minified consumer. Supply `-Serial` only for an authorized isolated
+   emulator; it never creates/wipes an AVD or changes a VM. Live-phone checks are
+   separately authorized and are not enabled by the normal synthetic runner.
+3. Review the ignored candidate manifest/checksums/logs, model fingerprint,
+   notice/dependency inventory, permissions, strategy identities and test scope.
+   Record relevant changes/results in BUILD_NOTES and RELEASE_EVIDENCE.
+4. For experimental distribution, confirm exact redistribution rights/notices,
+   select an immutable release version and registry/delivery target, bind artifact
+   hashes to verification evidence, and publish accurate known limitations.
+   Broad API/OEM, efficacy and independent-validation work stays in the disclosed
+   backlog unless the proposed claims require it.
+5. Publish only the approved deliverable/version to the approved destination.
+   Helper-site authorization does not itself publish SDK/model artifacts.
+
+Historical candidate manifests retain the gates used when generated. New manifests
+separate minimum release requirements from the validation backlog. No historical
+build or physical test is represented as a new run.

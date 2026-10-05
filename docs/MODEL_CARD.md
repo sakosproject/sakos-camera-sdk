@@ -1,7 +1,7 @@
 # OpenNSFW2 runtime model card
 
 Status: exact owner-authorized asset bundled for private local verification.
-External redistribution and real-world efficacy remain gated.
+External redistribution rights remain unresolved; real-world efficacy is unverified.
 
 | Property | Recorded contract |
 | --- | --- |
@@ -26,10 +26,11 @@ a custom policy must have a separate versioned configuration/runtime contract.
 
 Current Android runtime checks use generated benign shapes or solid-color
 patterns. JVM policy checks use simulated scores. Temporal decoding checks encode
-solid YUV patterns locally; camera flows use an isolated emulator scene. These
-checks establish runtime, ownership and managed-path mechanics only. No accuracy,
-latency distribution, source parity, efficacy or physical-camera claim follows.
-This is a description of the current suite, not a historical assurance.
+solid YUV patterns locally. Emulator camera flows and the October 2 authorized
+Samsung SM-G781W/API 33 live flow establish exercised managed-path mechanics.
+The live phone test used Default-Fixed14; Adaptive14 remains synthetic-tested.
+No accuracy, latency distribution, source parity, efficacy or broad hardware
+claim follows. BUILD_NOTES separates the synthetic and live-device evidence.
 
 Video review samples a bounded timeline (at most 35 decoded samples), not every
 frame. The retained policy permits an isolated, uncorroborated, non-extreme
@@ -38,7 +39,7 @@ crop evidence. That behavior has synthetic characterization only.
 
 [Provenance](PROVENANCE.md) records the exact imported bytes and retained
 OpenNSFW2 MIT / Yahoo BSD-2-Clause notices. Owner authorization is not complete
-legal clearance of upstream weights or conversion/redistribution. Remaining
-owner/legal, physical-device, real-world efficacy and external-delivery gates
+legal clearance of upstream weights or conversion/redistribution. Minimum
+distribution requirements and the separately disclosed validation backlog
 are in RELEASE_CHECKLIST. Model/preprocessing/policy changes need new identities
 and evidence; do not reuse this candidate's results for a replacement.

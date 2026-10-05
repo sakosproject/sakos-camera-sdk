@@ -10,13 +10,17 @@ camera permission/preview, photo/video capture and a private approved-only viewe
 Local AAR/source/POM/notices inspection, JVM tests, lint, synthetic Android tests
 and a separate minified consumer are described in BUILD_NOTES/RELEASE_EVIDENCE.
 Current fixtures use benign generated patterns, mocks, simulated scores and an
-isolated emulator scene. Runtime execution demonstrates mechanics, not accuracy.
+isolated emulator scene. Ten focused synthetic phone checks and one authorized
+live-camera flow passed on Samsung SM-G781W/API 33 on October 2, 2026. Runtime
+and camera execution demonstrate exercised mechanics, not classifier accuracy.
 
-No real-world efficacy, source parity, physical-device coverage, final dependency
-or model rights clearance, remote package, public security intake, hosted website
-or public release is established. Video sampling is bounded; it does not inspect
+Real-world efficacy, source parity, broader physical-device coverage and final
+dependency/model redistribution clearance remain unverified. Packages remain
+unreleased; helper-site hosting is tracked separately in website/README.md.
+Video sampling is bounded; it does not inspect
 every frame. Rejected video can touch private temporary disk; deletion is not
 forensic erasure. A host can bypass library controls.
 
-Do not publish these notes without owner/legal review and explicit external-action
-authorization. Independent validation remains private and outside the repository.
+Use the minimum experimental distribution requirements in RELEASE_CHECKLIST.
+Broad device coverage and independent validation are disclosed follow-up work.
+Independent validation remains private and outside the repository.

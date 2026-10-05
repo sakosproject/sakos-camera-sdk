@@ -1,57 +1,72 @@
-# SakOS Camera static status site
+# SakOS Camera static helper site
 
-This dependency-free site publishes project status and bounded verification
-evidence. It does not provide the SDK, model, Maven artifacts, a contact form,
-or a security-reporting intake. The SDK and model remain local release
-candidates.
+The dependency-free site contains `/`, `/camera/`, `/docs/camera/` and one CSS
+asset. It publishes status and bounded verification evidence, with no SDK/model
+or binary downloads, contact form, uploads or private security intake.
 
-## Local preview
+## Hosting target and launch status
 
-From the repository root:
+Owner authorization: 2026-10-05. Wrangler 4.147.0 is signed in to the account that
+owns the active `sakosproject.org` zone. There was no existing SakOS Pages project.
+The planned Direct Upload project is `sakosproject`, production branch `main`,
+with `https://sakosproject.pages.dev` as its stable Pages hostname and
+`https://sakosproject.org` as the intended apex. Deployment results will be recorded
+below after HTTPS verification. Static Pages hosting uses no Functions or paid add-ons.
+
+## Preview and deployment
+
+From the repository root, preview locally:
 
 ```powershell
 python -m http.server 4173 --directory website
 ```
 
-Open `http://localhost:4173/`. The routes are `/`, `/camera/`, and
-`/docs/camera/`. Internal navigation is relative; canonical URLs target
-`https://sakosproject.org`.
+Open `http://localhost:4173/`. Internal navigation is relative; canonical URLs
+use `https://sakosproject.org`.
 
-## Cloudflare Pages target
+The deployment script stages only the three tracked HTML pages and CSS under the
+ignored `build/site-upload` directory, then uses the existing signed-in Wrangler:
 
-The intended production hostname is the apex `sakosproject.org`. The existing
-site is plain HTML and CSS, so its Pages build settings are:
+```powershell
+.\scripts\deploy-helper-site.ps1
+```
 
-- Framework preset: None
-- Build command: blank (or `exit 0` if the dashboard requires a command)
-- Build output directory: `website`
-- Functions or build dependencies: none
-- Custom domain: `sakosproject.org`
-- Cloudflare plan target: Free; do not enable paid add-ons for this static site
+This is Direct Upload, so a Git push alone does not redeploy the site. After a
+website change, commit/push it and rerun that command. No Android build is required.
+Project creation (once, only if absent):
 
-Cloudflare's current limits list 500 builds per month and 100 custom domains
-per project on the Free plan. Static asset requests are free and unlimited on
-both Free and paid plans. This site uses no Pages Functions, so its traffic
-stays on the static-asset path. It should fit the Free plan without adding a
-paid service; account-specific subscriptions and domain-registration renewal
-costs cannot be checked from this environment. Cloudflare Pages supports both
-private and public Git repositories, so the SDK repository does not need a
-visibility change just to connect hosting.
+```powershell
+wrangler pages project create sakosproject --production-branch main
+```
 
-Cloudflare's current documentation describes apex custom domains as requiring
-the zone on Cloudflare and the zone to be on the same Cloudflare account as the
-Pages project. The Pages project's **Custom domains** flow then associates the
-apex and provisions its Pages DNS record. Check the existing project and zone
-in the account before making changes; do not create a duplicate project or
-replace DNS records blindly.
+If choosing Git integration for a future project, the static build settings are
+framework None, blank build command and output directory `website`. Cloudflare
+Direct Upload projects cannot later switch to Git integration; keep the upload
+command for this project. Private repositories can remain private.
 
-Read-only DNS lookup on 2026-10-05 found Cloudflare authoritative nameservers
-(`anita.ns.cloudflare.com` and `chris.ns.cloudflare.com`) for
-`sakosproject.org`, with no apex A record returned. This does not show which
-Cloudflare account owns the zone, whether a Pages project already exists, or
-whether that project already has a custom-domain binding. Verify those in the
-dashboard before deployment.
+## Attach the real domain manually
 
-This repository does not include Cloudflare credentials or a Pages project
-identifier. No deployment, DNS mutation, GitHub visibility change, or external
-upload is performed by the local preview or verification steps.
+If the apex is not yet active:
+
+1. In the same Cloudflare account, open Workers & Pages > `sakosproject`.
+2. Open Custom domains > Set up a domain.
+3. Enter `sakosproject.org` and continue.
+4. Confirm the DNS record Cloudflare proposes for the apex, targeting
+   `sakosproject.pages.dev`. Use this flow to associate the domain and provision
+   its DNS record; do not merely add a CNAME before associating the domain.
+5. Wait for the domain to show Active and TLS to finish provisioning. Verify
+   `https://sakosproject.org/`, `/camera/`, `/docs/camera/` and `/assets/site.css`.
+
+The apex zone must be in the Pages project's Cloudflare account; that match has
+been verified. Wrangler's current OAuth session has Pages write and Zone read,
+but does not advertise DNS write. Dashboard confirmation can complete DNS setup
+without changing credentials or requesting broader CLI token scopes.
+
+Cloudflare references: [custom domains](https://developers.cloudflare.com/pages/configuration/custom-domains/),
+[Direct Upload](https://developers.cloudflare.com/pages/get-started/direct-upload/).
+
+## Rollback
+
+Workers & Pages > `sakosproject` > Deployments: choose a prior successful production
+deployment and roll back. For the first deployment there is no earlier site version;
+re-upload a corrected committed payload. Keep unrelated DNS records intact.

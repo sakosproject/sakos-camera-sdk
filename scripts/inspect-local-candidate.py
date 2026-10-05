@@ -151,8 +151,10 @@ def main():
         "emulator_instrumentation_executed": args.emulator_tested,
         "input_scope": "Generated-input and explicitly authorized office-view checks are recorded separately; isolated emulator scenes where noted. No capture media transferred off-device.",
         "signing": "release consumer unsigned; debug/test-key APKs only for local runtime verification",
-        "remaining_gates": ["owner/legal model and dependency redistribution review", "physical-device and API-range coverage",
-            "real-world classifier efficacy and independent validation", "security intake", "all external delivery decisions"]}
+        "remaining_gates": ["confirmed code/model/dependency redistribution rights and notices",
+            "approved experimental release version and delivery target; versioned verified artifacts and accurate limitations"],
+        "validation_backlog": ["broader physical-device and API-range coverage", "real-world classifier efficacy and source parity",
+            "independent validation; deferred/unverified", "verified private intake before inviting security reports"]}
     (candidate / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
     (candidate / "SHA256SUMS.txt").write_text("".join(f"{a['sha256']}  {a['path']}\n" for a in artifacts), encoding="utf-8")
     print(json.dumps({"artifacts": len(artifacts), "unit_tests": sum(t["tests"] for t in tests), "source_commit": revision,
