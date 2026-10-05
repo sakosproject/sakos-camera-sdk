@@ -40,9 +40,12 @@ wrangler pages project create sakosproject --production-branch main --force
 ```
 
 Wrangler 4.147.0 delegates new Pages commands to Workers by default. The installed
-CLI's `--force` option selects actual Pages for both project creation and upload;
-the deployment script includes it. The first delegated creation failed before
-creating a project or deployment, and was replaced by this explicit Pages flow.
+CLI's `--force` option selects actual Pages for initial project creation. Once
+the Pages project exists, uploads use it directly without that option. The first
+delegated creation failed before creating a project or deployment, and was
+replaced by this explicit Pages flow. The script selects the verified account
+using a temporary `CLOUDFLARE_ACCOUNT_ID` environment value because Pages config
+does not support an `account_id` field; it restores the caller's value afterward.
 
 If choosing Git integration for a future project, the static build settings are
 framework None, blank build command and output directory `website`. Cloudflare

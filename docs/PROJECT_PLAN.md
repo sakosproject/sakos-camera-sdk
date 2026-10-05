@@ -53,6 +53,11 @@ Wrangler 4.147.0's default Pages-to-Workers delegation failed before creating a
 project/deployment. Installed CLI code confirms `--force` selects actual Pages;
 the create/upload commands were corrected for the owner's requested Pages target.
 
+The explicit Pages project creation succeeded. The first upload was rejected
+before deployment because Pages config does not support `account_id`; account
+selection was moved to the script's temporary process environment. Existing
+Pages projects upload directly, so `--force` is retained only for initial creation.
+
 ## Expanded acceptance — camera tooling and strategy execution, 2026-10-01
 
 The owner's newer instruction reopens local completion after `d1f24fe`. Keep the

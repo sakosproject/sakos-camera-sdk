@@ -1,6 +1,5 @@
 {
   "name": "sakosproject",
-  "account_id": "external account configuration required",
   "pages_build_output_dir": "./build/site-upload",
   "compatibility_date": "2026-10-05"
 }

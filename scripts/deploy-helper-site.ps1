@@ -1,5 +1,6 @@
 $ErrorActionPreference = 'Stop'
 $taskRoot = Split-Path -Parent $PSScriptRoot
+$taskPreviousAccount = $env:CLOUDFLARE_ACCOUNT_ID
 Push-Location $taskRoot
 try {
     $taskStatus = git status --porcelain
@@ -21,9 +22,17 @@ try {
     }
     if ($taskUnexpected) { throw 'The site upload directory contains files outside the four intended static assets.' }
 
-    & wrangler pages deploy $taskUpload --project-name sakosproject --branch main --commit-hash $taskRevision --commit-dirty=false --force
+    if ([string]::IsNullOrWhiteSpace($env:SAKOS_CLOUDFLARE_ACCOUNT_ID)) {
+        throw 'Set SAKOS_CLOUDFLARE_ACCOUNT_ID before deployment.'
+    }
+    if ($env:SAKOS_CLOUDFLARE_ACCOUNT_ID -notmatch '^[0-9a-fA-F]{32}$') {
+        throw 'SAKOS_CLOUDFLARE_ACCOUNT_ID must contain 32 hexadecimal characters.'
+    }
+    $env:CLOUDFLARE_ACCOUNT_ID = $env:SAKOS_CLOUDFLARE_ACCOUNT_ID
+    & wrangler pages deploy $taskUpload --project-name sakosproject --branch main --commit-hash $taskRevision --commit-dirty=false
     if ($LASTEXITCODE -ne 0) { throw "Pages deployment failed with exit code $LASTEXITCODE." }
 }
 finally {
+    $env:CLOUDFLARE_ACCOUNT_ID = $taskPreviousAccount
     Pop-Location
 }
