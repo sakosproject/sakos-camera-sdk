@@ -15,22 +15,22 @@ hostname. Static Pages hosting uses no Functions or paid add-ons.
 
 Initial deployment on October 5, 2026: `03e28380-f1d9-4368-bb2a-d01cf3ae9c5e`,
 source `e691942`. Home, camera, project status and CSS returned HTTP 200 over HTTPS
-and matched the four uploaded files byte-for-byte. The final relative footer-link
-update is deployed separately and recorded below.
+and matched the four uploaded files byte-for-byte.
 
-Latest production deployment: `85674b0d-8103-475c-b4d3-916cbd58b489`, source
-`6b4441a94c46676fa4dd34d8d9b02f4681c649d8`, on October 5, 2026. The stable URL is
+Latest production deployment: `26076af7-84a2-420d-9491-0c5c01173b51`, source
+`359bf41`, on October 5, 2026. The stable URL is
 [sakosproject.pages.dev](https://sakosproject.pages.dev); the immutable deployment
-URL is [85674b0d.sakosproject.pages.dev](https://85674b0d.sakosproject.pages.dev).
-All three page routes and `/assets/site.css` returned HTTP 200 and matched the
-upload byte-for-byte after deployment. Local navigation checks passed across
-26 files and 44 links. This execution-record update changes no deployed HTML/CSS.
+URL is [26076af7.sakosproject.pages.dev](https://26076af7.sakosproject.pages.dev).
+All three page routes, `/assets/site.css` and `/favicon.svg` returned HTTP 200.
+The CSS and favicon matched their uploaded bytes; Cloudflare appends a
+`static.cloudflareinsights.com` script to HTML responses. Local navigation checks
+passed across 26 files and 47 links.
 
 Custom-domain status: `https://sakosproject.org` is attached and active. On
 October 5, 2026, the home page, `/camera/`, `/docs/camera/` and
-`/assets/site.css` each returned HTTP 200 over HTTPS from the apex. Navigation
-uses relative links and canonical URLs target this domain. No DNS or domain
-attachment steps remain.
+`/assets/site.css` and `/favicon.svg` each returned HTTP 200 over HTTPS from the
+apex. Navigation uses relative links and canonical URLs target this domain. No
+DNS or domain attachment steps remain.
 
 ## Preview and deployment
 
