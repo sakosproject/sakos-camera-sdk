@@ -30,6 +30,20 @@ Final ledger/inspection changes affect no artifact implementation. Independent
 validation remains deferred/unverified; owner/legal, physical/API-range,
 real-world efficacy, intake and every external-action gate remain unresolved.
 
+## Follow-up: one physical-device camera flow - 2026-10-02
+
+The separately authorized live-camera flow passed on a Samsung Galaxy S20 FE
+(SM-G781W, Android 13/API 33). It exercised first-run calibration, actual
+rear/front photo and video capture, selected controls, activity recreation,
+cancellation and private save/delete using only operator-approved office-floor
+and ceiling views. Test captures remained on-device and were deleted.
+
+This is a bounded camera-workflow mechanics result on one handset. It does not
+close broad physical-camera/API-range/OEM coverage, sensor-rotation or focus-
+sharpness checks, independent validation, or classifier efficacy. See
+`docs/CAMERA_TOOLING.md` for the complete sanitized record. The earlier Phase 7
+"deferred until a device is connected" status below is superseded by this
+limited follow-up, not by a broad device-compatibility claim.
 ## Candidate repeatability repair — 2026-10-01
 
 An interrupted synthetic sample instrumentation run can leave only the sample
@@ -81,7 +95,7 @@ release-preparation restrictions are historical and superseded for local work.
 | 4. Photo capture bridge | In-memory CameraX callback to a caller-owned approved-output boundary | Complete for local verification |
 | 5. Video capture bridge | Private staging, CameraX recording/finalization boundary, and temporal review seam | Complete for local verification |
 | 6. Independent validation | Deferred; completion and results are unverified | Deferred |
-| 7. Physical-device verification | Camera, storage, cleanup, and recovery verification | Deferred until a device is connected |
+| 7. Physical-device verification | One opt-in camera mechanics flow on Galaxy S20 FE / Android 13 | Single-handset flow passed; broader API/OEM/camera coverage remains open |
 | 8. Release preparation | Private local candidate artifacts and evidence; external decisions remain gated | Local candidate preparation complete |
 | 9. Public launch | Any external release, publication, or website deployment | Not started |
 

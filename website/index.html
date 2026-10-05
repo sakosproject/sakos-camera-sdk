@@ -1,4 +1,71 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SakOS Camera</title><link rel="stylesheet" href="assets/site.css"></head><body>
-<a class="skip" href="#main">Skip to content</a><header class="shell site-header"><a class="brand" href="./">SakOS Camera</a><nav class="nav"><a aria-current="page" href="./">Home</a><a href="camera/">Camera</a><a href="docs/camera/">Developer guide</a></nav></header>
-<main id="main"><section class="shell hero"><div><h1>Safer capture starts before media leaves the device</h1><p class="lede">SakOS Camera is an independent Android SDK project for managed photo and video review. Current work includes a bundled Fixed14/default and Adaptive14/optional runtime, managed photo/video capture, a private approved-media sample viewer and local consumer packaging.</p><a class="link" href="docs/camera/">Read the integration guide →</a></div><div class="diagram" aria-label="Abstract managed review illustration"><div class="phone"></div><div class="arrow">→</div><div class="review">Managed<br>review</div></div></section><section class="band"><div class="shell"><h2>Spatial photo and sampled video review</h2><p class="copy">Fixed14 short-circuits on policy Block; optional Adaptive14 executes the source staged policy with a distinct approval identity. Video review samples a bounded timeline. First-run calibration verifies usable camera graphs; the private reviewed library requires capture-bound approval and explicit authorization for external saving. Current tests use benign generated patterns, mocks, simulated scores and an isolated emulator scene; no accuracy, parity or physical-device result is claimed.</p><div class="cards"><article class="card"><h3>In-memory photo review</h3><p>Managed photo review uses a capture-bound Allow approval before an SDK-controlled output sink can receive a frame.</p><div class="crop" aria-label="Abstract crop diagram"><i></i><i></i></div></article><article class="card"><h3>Temporal video review</h3><p>Video planning samples a bounded timeline and follows suspicious evidence with confirmation samples.</p><div class="timeline" aria-label="Abstract timeline"><div class="frames"><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="track"></div><div class="track"></div></div></article></div></div></section><section class="shell developer"><div><h2>Built for developers</h2><p class="lede">The verified installation path is a local Maven publication and a separate minified consumer build. Remote coordinates are not available.</p><pre class="code">PS&gt; .\scripts\verify-local-consumer.ps1</pre></div><aside class="status"><strong>Bundled model runtime</strong><p>The authorized model is checked for integrity before LiteRT opens it. Local verification does not establish accuracy or physical-device behavior.</p></aside></section></main><footer class="shell site-footer">Local preview only · <a href="camera/">Camera overview</a> · <a href="docs/camera/">Developer guide</a></footer></body></html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Current status and verification evidence for the SakOS Camera Android SDK candidate.">
+  <link rel="canonical" href="https://sakosproject.org/">
+  <title>SakOS Camera | Project status</title>
+  <link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="shell site-header">
+    <a class="brand" href="./">SakOS Camera</a>
+    <nav class="nav" aria-label="Primary navigation">
+      <a aria-current="page" href="./">Home</a>
+      <a href="camera/">Camera</a>
+      <a href="docs/camera/">Project status</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="shell hero">
+      <div>
+        <div class="eyebrow">Android SDK candidate · October 2026</div>
+        <h1>A local candidate for managed camera review</h1>
+        <p class="lede">SakOS Camera is an independent Android project for managed photo and video review. Its private source candidate includes Fixed14 and Adaptive14 model runtimes, camera capture bridges, a sample app and local consumer packaging.</p>
+        <p><a class="link" href="docs/camera/">Read current status and verification evidence &rarr;</a></p>
+      </div>
+      <div class="diagram" aria-label="Illustration of a phone sending a capture through a managed review step">
+        <div class="phone"></div>
+        <div class="arrow" aria-hidden="true">&rarr;</div>
+        <div class="review">Managed<br>review</div>
+      </div>
+    </section>
+
+    <section class="band">
+      <div class="shell">
+        <h2>One device passed a live camera mechanics check</h2>
+        <p class="copy">On October 2, 2026, an opt-in flow passed on a Samsung Galaxy S20 FE (SM-G781W, Android 13/API 33). It checked fresh-install permission gating, rear and front camera calibration, photo and video capture, selected controls, lifecycle recovery, cancellation, and private save/delete mechanics. The operator-approved views were benign office floors and ceilings. Test captures stayed on the phone and were deleted after review.</p>
+        <div class="cards">
+          <article class="card">
+            <h3>What the result supports</h3>
+            <p>On that handset, the measured camera profiles and managed capture flow worked through the exercised paths. Unsupported or duplicate profiles stayed hidden.</p>
+          </article>
+          <article class="card">
+            <h3>What it does not support</h3>
+            <p>This was one bounded hardware mechanics check. It does not establish classifier accuracy, broad device/API coverage, source parity, physical rotation behavior, or independent validation.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="shell developer">
+      <div>
+        <div class="eyebrow">Release readiness</div>
+        <h2>The SDK and bundled model are not released</h2>
+        <p class="lede">Full model weight and conversion provenance, redistribution clearance, final dependency review, a verified security-reporting path, wider API/OEM validation, independent efficacy assessment, and release-owner approval remain open.</p>
+        <p>The source candidate and Maven artifacts remain local. This site offers no SDK, model, or binary downloads and makes no detection-accuracy or safety certification claim.</p>
+      </div>
+      <aside class="status">
+        <strong>Current verification record</strong>
+        <p>The earlier full local gate recorded 185 JVM tests, 12 synthetic Android tests, zero lint errors, and a separate minified Maven consumer. Later focused checks and the live phone flow are recorded separately; this site edit did not rerun those suites.</p>
+        <p>Automated test inputs were generated benign patterns, mocks, and simulated scores. These checks establish implementation mechanics only.</p>
+      </aside>
+    </section>
+  </main>
+
+  <footer class="shell site-footer">Static project status; no downloads or private reporting intake. <a href="https://sakosproject.org/">sakosproject.org</a> · <a href="camera/">Camera overview</a> · <a href="docs/camera/">Project status</a></footer>
+</body>
+</html>

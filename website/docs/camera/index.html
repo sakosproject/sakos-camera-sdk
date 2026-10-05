@@ -1,4 +1,52 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Developer guide · SakOS Camera</title><link rel="stylesheet" href="../../assets/site.css"></head><body>
-<a class="skip" href="#main">Skip to content</a><header class="shell site-header"><a class="brand" href="../../">SakOS Camera</a><nav class="nav" aria-label="Primary navigation"><a href="../../">Home</a><a href="../../camera/">Camera</a><a aria-current="page" href="./">Developer guide</a></nav></header>
-<main id="main" class="shell page content"><div class="eyebrow">Developer guide</div><h1>Verify the local consumer path</h1><p class="lede">The local-only packaging check creates four AARs with sources, POMs and retained notices, then builds a separate minified Android consumer.</p><pre class="code">PS&gt; .\scripts\verify-local-consumer.ps1</pre><h2>Provisional coordinates</h2><p>The script publishes <code>org.sakos.camera:*</code> at <code>0.0.0-local</code> beneath <code>build/local-maven</code>. The consumer resolves Maven artifacts and does not use a project or composite dependency.</p><h2>What this check establishes</h2><ul><li>Release AAR and source publication metadata are locally consumable.</li><li>A separate consumer compiles a minified build against Maven-resolved public APIs; a test-key-only variant exercises both spatial strategies on synthetic pixels and calibration serialization. First-run camera tooling and approval-bound private saving use standalone host interfaces without host application dependencies.</li><li>Policy and model assets are included in the locally published safety artifact.</li></ul><h2>What remains pending</h2><div class="notice"><p>Current checks use synthetic benign patterns, mocks, simulated scores and an isolated emulator scene. Packaging and runtime mechanics do not establish accuracy, source parity, physical-device behavior or legal redistribution clearance. No remote publication, hosted delivery or public intake is available. The model is checked for integrity and tensor shape/dtype before use.</p></div><p><a class="link" href="../../camera/">Read the capture-contract overview →</a></p></main><footer class="shell site-footer">Local preview only · <a href="../../">Home</a> · <a href="../../camera/">Camera overview</a></footer></body></html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Local verification steps, release blockers, model rights, and security-intake status for SakOS Camera.">
+  <link rel="canonical" href="https://sakosproject.org/docs/camera/">
+  <title>Project status | SakOS Camera</title>
+  <link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="shell site-header">
+    <a class="brand" href="../../">SakOS Camera</a>
+    <nav class="nav" aria-label="Primary navigation">
+      <a href="../../">Home</a>
+      <a href="../../camera/">Camera</a>
+      <a aria-current="page" href="./">Project status</a>
+    </nav>
+  </header>
+
+  <main id="main" class="shell page content">
+    <div class="eyebrow">Private local candidate</div>
+    <h1>Verification and release status</h1>
+    <p class="lede">The project has completed its authorized local implementation and candidate checks. The SDK and bundled model are not publicly available.</p>
+
+    <h2>Local verification</h2>
+    <p>The earlier full local gate recorded 185 passing JVM tests, 12 passing synthetic Android tests, zero lint errors, locally packaged Maven artifacts, and a separate minified consumer. Follow-up Android checks, artifact evidence, and one authorized live camera flow are recorded separately in the private candidate history. This status-page update did not rebuild or rerun those checks.</p>
+    <p>To repeat the consumer packaging check from the private source checkout:</p>
+    <pre class="code">PS&gt; .\scripts\verify-local-consumer.ps1</pre>
+    <p>The provisional coordinates <code>org.sakos.camera:…:0.0.0-local</code> are produced under <code>build/local-maven</code>. They are local review artifacts, not a public repository or remote install path.</p>
+
+    <h2>Open before an SDK or model release</h2>
+    <ul>
+      <li>Complete upstream model-weight and conversion provenance, plus owner/legal redistribution clearance.</li>
+      <li>Review the final dependency and license inventory and approve a release version.</li>
+      <li>Verify a private security-reporting path before inviting external reports.</li>
+      <li>Complete broader Android API and physical-camera coverage and independently assess real-world efficacy.</li>
+      <li>Obtain the remaining release-owner decisions.</li>
+    </ul>
+
+    <div class="notice">
+      <strong>Rights and reporting</strong>
+      <p>The repository's Apache-2.0 license covers SakOS-owned material only. Import authorization for the model bytes does not settle their full upstream provenance or redistribution rights. No verified public or private security-reporting endpoint is configured here. This static site has no contact form, upload path, or private intake.</p>
+    </div>
+
+    <p><a class="link" href="../../camera/">Read the camera capture and live-device notes &rarr;</a></p>
+  </main>
+
+  <footer class="shell site-footer">Static project status · <a href="https://sakosproject.org/">sakosproject.org</a> · <a href="../../">Home</a> · <a href="../../camera/">Camera overview</a></footer>
+</body>
+</html>

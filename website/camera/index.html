@@ -1,4 +1,51 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Camera overview · SakOS Camera</title><link rel="stylesheet" href="../assets/site.css"></head><body>
-<a class="skip" href="#main">Skip to content</a><header class="shell site-header"><a class="brand" href="../">SakOS Camera</a><nav class="nav" aria-label="Primary navigation"><a href="../">Home</a><a aria-current="page" href="./">Camera</a><a href="../docs/camera/">Developer guide</a></nav></header>
-<main id="main" class="shell page"><div class="eyebrow">Camera review contracts</div><h1>Decide before an SDK-managed output is delivered</h1><p class="lede">The private local SDK includes a bundled Fixed14/default and Adaptive14/optional runtime, managed in-memory photos, private staged video review and a functional Android sample. Approval stays tied to the capture under review. First-run calibration measures usable graphs separately from advertised capabilities, with invalidating private profiles and safe selectors. Standalone reviewed-media APIs keep intermediate storage private and require explicit host authorization for external saving.</p><div class="cards detail-cards"><article class="card"><h2>Photo</h2><p>Injected in-memory review passes a capture-bound Allow result to an approved-output sink. Block, Review and Failure are not delivered through that sink.</p><div class="crop" aria-label="Abstract photo review crop illustration"><i></i><i></i></div></article><article class="card"><h2>Video</h2><p>Temporal planning samples a bounded timeline and can request confirmation around suspicious evidence. An Android decoder reviews planned timestamps from private no-backup staging. Non-approved and abandoned sessions request cleanup; cleanup failures block new recording.</p><div class="timeline" aria-label="Abstract video review timeline"><div class="frames"><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="track"></div><div class="track"></div></div></article></div><section class="notice"><strong>Current boundary</strong><p>Current checks use generated benign patterns, mocks, simulated scores and an isolated emulator scene. They establish mechanics, not accuracy, parity or physical-device behavior. Legal redistribution and external delivery remain gated. This static page is a local preview; the Android sample is separate.</p></section><p><a class="link" href="../docs/camera/">Review the local developer verification path →</a></p></main><footer class="shell site-footer">Local preview only · <a href="../">Home</a> · <a href="../docs/camera/">Developer guide</a></footer></body></html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Camera capture behavior and the limits of current SakOS Camera SDK verification.">
+  <link rel="canonical" href="https://sakosproject.org/camera/">
+  <title>Camera overview | SakOS Camera</title>
+  <link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="shell site-header">
+    <a class="brand" href="../">SakOS Camera</a>
+    <nav class="nav" aria-label="Primary navigation">
+      <a href="../">Home</a>
+      <a aria-current="page" href="./">Camera</a>
+      <a href="../docs/camera/">Project status</a>
+    </nav>
+  </header>
+
+  <main id="main" class="shell page">
+    <div class="eyebrow">Capture and review</div>
+    <h1>Keep a decision bound to the capture being reviewed</h1>
+    <p class="lede">The local SDK candidate includes an in-memory photo review path and a private staged video review path. An approved result is tied to the capture under review; rejected, incomplete, and failed reviews do not reach the managed approved-output path.</p>
+
+    <div class="cards detail-cards">
+      <article class="card">
+        <h2>Photo</h2>
+        <p>Managed photo review uses a capture-bound Allow result before an SDK-controlled output sink can receive a frame. The sample keeps captures in memory until review completes.</p>
+        <div class="crop" aria-label="Abstract photo review illustration"><i></i><i></i></div>
+      </article>
+      <article class="card">
+        <h2>Video</h2>
+        <p>Video review samples a bounded timeline rather than every frame. Recording is staged privately while review runs; cancellation, rejection, and abandoned-session recovery request cleanup.</p>
+        <div class="timeline" aria-label="Abstract video review timeline"><div class="frames"><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="track"></div><div class="track"></div></div>
+      </article>
+    </div>
+
+    <section class="notice">
+      <strong>Live device result: one handset, mechanics only</strong>
+      <p>The October 2, 2026 opt-in flow passed on a Samsung Galaxy S20 FE running Android 13/API 33. Rear and front camera calibration, still and video capture, tested controls, activity recreation, cancellation, and private save/delete completed on this device. A rear 0.6x option was measured unsupported and stayed hidden; a duplicate High photo profile also stayed hidden.</p>
+      <p>The approved test scenes showed office floors and ceilings. This result does not measure classifier accuracy or establish broad camera, Android-version, or manufacturer coverage.</p>
+    </section>
+
+    <p><a class="link" href="../docs/camera/">See release gates and the local verification path &rarr;</a></p>
+  </main>
+
+  <footer class="shell site-footer">SakOS Camera project status · <a href="https://sakosproject.org/">sakosproject.org</a> · <a href="../">Home</a> · <a href="../docs/camera/">Project status</a></footer>
+</body>
+</html>

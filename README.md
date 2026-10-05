@@ -50,10 +50,14 @@ temporary disk storage during recording/review. Cancellation, rejection, failure
 and abandoned-session recovery request cleanup; a durable cleanup failure blocks
 new recording until retry succeeds. Deletion is not forensic erasure.
 
-Current tests use generated benign geometric/solid-color inputs, mocks, simulated
-scores and an isolated emulator scene. Bundled-runtime checks verify mechanics,
-not accuracy. This statement describes the current suite only. Historical
-characterization records are dated and do not establish current runtime parity.
+Automated tests use generated benign geometric/solid-color inputs, mocks, simulated
+scores and an isolated emulator scene. A separate opt-in live camera mechanics
+flow passed on one Samsung Galaxy S20 FE (SM-G781W, Android 13/API 33), using
+operator-approved views of office floors and ceilings. That single-device
+capture/control/storage result does not test classifier accuracy or establish
+broad hardware compatibility. Historical characterization records are dated
+and do not establish current runtime parity.
+
 Fixed14 remains the default and short-circuits on policy Block. Optional Adaptive14
 executes the source contextual, portrait/sentinel/refinement, targeted escalation
 and fallback stages with its own configuration/approval identity.
@@ -69,8 +73,13 @@ full conversion/weight provenance or external redistribution rights. Project
 material uses [Apache-2.0](LICENSE); upstream MIT/BSD notices remain under
 `third_party` and inside candidate library artifacts.
 
-Owner/legal clearance, physical-camera/API-range verification, real-world
+Owner/legal clearance, broader physical-camera/API-range verification, real-world
 classifier efficacy, independent-validation status, dependency notice review,
-security intake and all external release decisions remain open. No accuracy,
-parity, certification, physical-device coverage or public intake is claimed.
-The [website](website/README.md) is a local static preview only.
+security intake and all external SDK release decisions remain open. No accuracy,
+broad parity, certification, broad physical-device coverage or public intake is
+claimed.
+The [static project-status site](website/README.md) is a dependency-free
+helper site with no SDK or model downloads. Its intended Pages hostname is
+`https://sakosproject.org`; it has not been deployed. The SDK and model remain
+local release candidates with open provenance/redistribution, security-intake,
+device/API-coverage, efficacy, and release-approval gates.
