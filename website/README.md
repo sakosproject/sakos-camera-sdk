@@ -8,10 +8,19 @@ or binary downloads, contact form, uploads or private security intake.
 
 Owner authorization: 2026-10-05. Wrangler 4.147.0 is signed in to the account that
 owns the active `sakosproject.org` zone. There was no existing SakOS Pages project.
-The planned Direct Upload project is `sakosproject`, production branch `main`,
+The Direct Upload project is `sakosproject`, production branch `main`,
 with `https://sakosproject.pages.dev` as its stable Pages hostname and
-`https://sakosproject.org` as the intended apex. Deployment results will be recorded
-below after HTTPS verification. Static Pages hosting uses no Functions or paid add-ons.
+`https://sakosproject.org` as the intended apex. The site is live on its stable Pages
+hostname. Static Pages hosting uses no Functions or paid add-ons.
+
+Initial deployment on October 5, 2026: `03e28380-f1d9-4368-bb2a-d01cf3ae9c5e`,
+source `e691942`. Home, camera, project status and CSS returned HTTP 200 over HTTPS
+and matched the four uploaded files byte-for-byte. The final relative footer-link
+update is deployed separately and recorded below.
+
+Apex status: not attached to the Pages project; no apex A/AAAA record returned at
+verification. Complete the manual steps below. Navigation uses relative links and
+works on either hostname; canonical URLs already target the intended apex.
 
 ## Preview and deployment
 

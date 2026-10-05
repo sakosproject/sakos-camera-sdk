@@ -80,6 +80,8 @@ validation remain disclosed follow-up work; they do not block the helper site
 or automatically block an experimental release. No accuracy, broad parity,
 certification, broad device coverage or verified private reporting intake is claimed.
 The [static project-status site](website/README.md) is a dependency-free
-helper site with no SDK or model downloads. Pages publication is authorized for
-`https://sakosproject.org`; current hosting and domain status are recorded in
-the site README. The SDK/model distribution decision remains separate.
+helper site with no SDK or model downloads. It is live at
+[sakosproject.pages.dev](https://sakosproject.pages.dev). The owner-controlled
+`sakosproject.org` apex awaits attachment through Cloudflare Pages Custom domains;
+the site README records hosting evidence and the manual steps. The SDK/model
+distribution decision remains separate.

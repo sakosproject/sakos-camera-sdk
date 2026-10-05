@@ -48,7 +48,7 @@ Only prose, release metadata and static deployment tooling changed; existing
 Android verification evidence is retained without another Android/device suite.
 
 Repository integration completed at `75a3545`: `main` fast-forwarded to the
-implementation branch and all 23 local branches were pushed atomically to origin.
+implementation branch and all local branches were pushed atomically to origin.
 Wrangler 4.147.0's default Pages-to-Workers delegation failed before creating a
 project/deployment. Installed CLI code confirms `--force` selects actual Pages;
 the create/upload commands were corrected for the owner's requested Pages target.
@@ -57,6 +57,15 @@ The explicit Pages project creation succeeded. The first upload was rejected
 before deployment because Pages config does not support `account_id`; account
 selection was moved to the script's temporary process environment. Existing
 Pages projects upload directly, so `--force` is retained only for initial creation.
+
+Initial production deployment succeeded at `e691942`, deployment
+`03e28380-f1d9-4368-bb2a-d01cf3ae9c5e`. All four HTTPS routes at
+`https://sakosproject.pages.dev` returned 200 and matched the upload byte-for-byte.
+The project has only its Pages hostname; `sakosproject.org` has no apex A/AAAA
+record. The current OAuth scopes omit DNS write, so the owner-requested fallback
+is a working Pages address plus the exact Custom domains dashboard steps in
+website/README. Footer navigation was made relative so it works before and after
+domain attachment. A final static-only deployment records that small link change.
 
 ## Expanded acceptance — camera tooling and strategy execution, 2026-10-01
 
