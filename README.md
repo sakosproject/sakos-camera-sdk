@@ -4,11 +4,11 @@
 This is not a released SDK; there are no remote installation coordinates.
 
 [Project site](https://sakosproject.org/) ·
-[GitHub repository](https://github.com/sakosproject/sakos-camera-sdk) (currently private) ·
+[GitHub repository](https://github.com/sakosproject/sakos-camera-sdk) ·
 [Apache-2.0 license](LICENSE)
 
 The four libraries and functional sample exercise local workflows independently
-of host application accounts, entitlements, signing or providers. The repository is currently private and the SDK has no release coordinates.
+of host application accounts, entitlements, signing or providers. The source repository is publicly available for review; the SDK has no published release coordinates.
 
 | Module | Implemented boundary |
 | --- | --- |
@@ -91,5 +91,6 @@ Broader camera/API coverage, efficacy and independent validation remain disclose
 follow-up work. No accuracy, broad parity, certification, broad device coverage
 or verified private reporting intake is claimed. The [customer-facing project
 site](https://sakosproject.org/) is a dependency-free status helper with no SDK
-or model downloads. Its reciprocal link points to the GitHub repository, which
-is currently private. Site publication is separate from SDK/model distribution.
+or model downloads. Its reciprocal link points to the public GitHub repository.
+Site publication is separate from SDK/model distribution; no SDK artifacts or
+Maven coordinates have been released.
