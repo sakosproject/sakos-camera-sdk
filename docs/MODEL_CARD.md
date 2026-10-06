@@ -19,7 +19,20 @@ copyright notices and complete retained licenses.
 | SHA-256 | 051A21BF697858C1E2537354A99BE09A48D26BBFBA0C35216B340F16DE7528D7 |
 | Input | One float32 tensor [1,224,224,3], BGR subtraction [104,117,123] |
 | Output | One float32 tensor [1,2], SFW/NSFW probabilities |
+| Embedded conversion metadata | TensorFlow 2.20.0, converter API 2, Keras input, dynamic-range quantization; custom and Select TF ops disabled |
+| Stored constants | INT8 and float32 weights/constants; float32 external input/output |
 | Runtime | LiteRT 1.4.2, Fixed14/default and Adaptive14/optional evaluation over caller-owned Bitmap |
+
+The 2026-10-05 binary inspection recovered the conversion metadata above, but
+the original raw weight hash and conversion command remain unrecorded. A new,
+reproducible candidate was generated from the pinned official OpenNSFW2
+`v0.1.0` weights using a locked Python/TensorFlow toolchain. Its dynamic-range
+export reproduced the inherited model's outputs on eight generated patterns,
+but exceeded the predeclared source-model numerical tolerance on the generated
+black pattern. It was not selected; this SDK continues to bundle the original
+unchanged bytes. See the [conversion recipe](MODEL_CONVERSION_PLAN.md) and
+[recorded conversion results](model-conversion/CONVERSION_MANIFEST.json)
+for exact hashes, license scope, and the decision record.
 
 The runtime checks size/digest, tensor count, shape and dtype before use. It
 rejects recycled input, closed runtime and invalid/non-finite output. The safety

@@ -12,6 +12,13 @@ import zipfile
 
 MODULES = ["safety-core", "safety-opennsfw2", "capture-camerax", "capture-video"]
 MODEL_SHA = "051a21bf697858c1e2537354a99be09a48d26bbfba0c35216b340f16de7528d7"
+NOTICE_FILES = [
+    ("LICENSE", "LICENSE"),
+    ("NOTICE.md", "third_party/NOTICE.md"),
+    ("licenses/opennsfw2-MIT.txt", "third_party/licenses/opennsfw2-MIT.txt"),
+    ("licenses/yahoo-open-nsfw-BSD-2-Clause.txt", "third_party/licenses/yahoo-open-nsfw-BSD-2-Clause.txt"),
+    ("licenses/tensorflow-open-nsfw-LICENSE.txt", "third_party/licenses/tensorflow-open-nsfw-LICENSE.txt"),
+]
 
 def digest(data):
     return hashlib.sha256(data).hexdigest()
@@ -36,13 +43,8 @@ def main():
                 with zipfile.ZipFile(io.BytesIO(data)) as archive:
                     if suffix == ".aar":
                         with zipfile.ZipFile(io.BytesIO(archive.read("classes.jar"))) as classes:
-                            assert notice_prefix + "LICENSE" in classes.namelist()
-                            assert notice_prefix + "NOTICE.md" in classes.namelist()
-                            assert notice_prefix + "licenses/opennsfw2-MIT.txt" in classes.namelist()
-                            assert notice_prefix + "licenses/yahoo-open-nsfw-BSD-2-Clause.txt" in classes.namelist()
-                            for name, source in [("LICENSE", "LICENSE"), ("NOTICE.md", "third_party/NOTICE.md"),
-                                ("licenses/opennsfw2-MIT.txt", "third_party/licenses/opennsfw2-MIT.txt"),
-                                ("licenses/yahoo-open-nsfw-BSD-2-Clause.txt", "third_party/licenses/yahoo-open-nsfw-BSD-2-Clause.txt")]:
+                            for name, source in NOTICE_FILES:
+                                assert notice_prefix + name in classes.namelist()
                                 assert classes.read(notice_prefix + name) == (root / source).read_bytes()
                         models = [name for name in archive.namelist() if name.endswith(".tflite")]
                         assert len(models) == (1 if module == "safety-opennsfw2" else 0)
@@ -51,12 +53,10 @@ def main():
                             assert len(model) == 6_128_536 and digest(model) == MODEL_SHA
                             assert "assets/policy/opennsfw2_still_gate_policy.json" in archive.namelist()
                     else:
-                        assert notice_prefix + "LICENSE" in archive.namelist()
-                        assert any(name.endswith(".kt") for name in archive.namelist())
-                        for name, source in [("LICENSE", "LICENSE"), ("NOTICE.md", "third_party/NOTICE.md"),
-                            ("licenses/opennsfw2-MIT.txt", "third_party/licenses/opennsfw2-MIT.txt"),
-                            ("licenses/yahoo-open-nsfw-BSD-2-Clause.txt", "third_party/licenses/yahoo-open-nsfw-BSD-2-Clause.txt")]:
+                        for name, source in NOTICE_FILES:
+                            assert notice_prefix + name in archive.namelist()
                             assert archive.read(notice_prefix + name) == (root / source).read_bytes()
+                        assert any(name.endswith(".kt") for name in archive.namelist())
             if suffix == ".pom":
                 pom = ET.fromstring(data)
                 ns = {"m": "http://maven.apache.org/POM/4.0.0"}

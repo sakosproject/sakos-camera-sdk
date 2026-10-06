@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "purpose": "Inputs for a new OpenNSFW2 TFLite candidate; not a claim about the historical SakOS binary.",
+  "source": {
+    "repository": "https://github.com/bhky/opennsfw2",
+    "package_version": "0.15.2",
+    "source_revision": "19530b8f08aac12479a901fe18763c0392c8bd8c",
+    "release_tag": "v0.1.0",
+    "release_revision": "72ccae8",
+    "asset_name": "open_nsfw_weights.h5",
+    "asset_url": "https://github.com/bhky/opennsfw2/releases/download/v0.1.0/open_nsfw_weights.h5",
+    "reported_bytes": 24221200,
+    "publisher_sha256": null,
+    "sha256": "14ca261f48bdd88c1eecba96a761bd1579b523adae1b749b0a4ffd8b7ed8babe",
+    "pin_method": "first-acquisition SHA-256 over HTTPS bytes after checking the pinned release URL, exact published size, and HDF5 signature; this is a local content pin, not a publisher signature",
+    "retrieved_utc": "2026-10-06T00:23:23Z",
+    "final_https_url": "https://release-assets.githubusercontent.com/github-production-release-asset/423429898/e0525251-26f4-4c24-8dd2-5825cccc55cb?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-10-06T01%3A02%3A20Z&rscd=attachment%3B+filename%3Dopen_nsfw_weights.h5&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-10-06T00%3A02%3A20Z&ske=2026-10-06T01%3A02%3A20Z&sks=b&skv=2018-11-09&sig=5AniEkpGsok7jceXUk4ipSjmB1ikLsMIVQq3b%2BAGO0A%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc5MTI0ODAwNCwibmJmIjoxNzkxMjQ2MjA0LCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.cToaCQ6AQ0IivOxpD0OLoJapJ44KSu-krv-NidXEY3s&response-content-disposition=attachment%3B%20filename%3Dopen_nsfw_weights.h5&response-content-type=application%2Foctet-stream",
+    "hdf5_signature_hex": "894844460d0a1a0a"
+  },
+  "license_sources": [
+    {
+      "repository": "https://github.com/bhky/opennsfw2",
+      "revision": "19530b8f08aac12479a901fe18763c0392c8bd8c",
+      "license": "MIT",
+      "retained_file": "third_party/licenses/opennsfw2-MIT.txt"
+    },
+    {
+      "repository": "https://github.com/yahoo/open_nsfw",
+      "revision": "a4e13931465f4380742545932657eeea0a10aa48",
+      "license": "BSD-2-Clause",
+      "retained_file": "third_party/licenses/yahoo-open-nsfw-BSD-2-Clause.txt"
+    },
+    {
+      "repository": "https://github.com/mdietrichstein/tensorflow-open_nsfw",
+      "revision": "ead9f4d1748e8bc80ab14bf0a36f696a5fe4109d",
+      "license": "BSD-2-Clause notices for Yahoo Inc. and Marc Dietrichstein",
+      "retained_file": "third_party/licenses/tensorflow-open-nsfw-LICENSE.txt"
+    }
+  ]
+}

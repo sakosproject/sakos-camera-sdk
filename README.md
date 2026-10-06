@@ -85,6 +85,14 @@ full conversion/weight provenance or external redistribution rights. Project
 material uses [Apache-2.0](LICENSE); upstream MIT/BSD notices remain under
 `third_party` and inside candidate library artifacts.
 
+A separate conversion from the publicly pinned OpenNSFW2 weights now has a
+locked recipe and repeatable candidate hashes. The dynamic-range candidate
+matched the inherited model on eight generated tensors but exceeded the
+predeclared Keras parity limit on black input, so it was not selected. The
+bundled TFLite bytes remain unchanged; complete source, license, and result
+records are in the [conversion plan](docs/MODEL_CONVERSION_PLAN.md) and its
+[recorded candidate manifest](docs/model-conversion/CONVERSION_MANIFEST.json).
+
 Experimental SDK distribution requires confirmed redistribution rights/notices,
 a versioned verified artifact set, accurate limitations and an approved release
 target. Broader camera/API coverage, efficacy, source parity and independent

@@ -1,0 +1,100 @@
+{
+  "schema": 1,
+  "recorded_utc": "2026-10-06T00:31:13Z",
+  "status": "conversion reproduced; candidate not selected for SDK integration",
+  "source_checkout_evidence": {
+    "repository": "private camera/gallery source project",
+    "revision": "source revision omitted",
+    "source_asset_path": "private source path omitted",
+    "source_asset_bytes": 6128536,
+    "source_asset_sha256": "051a21bf697858c1eecba96a761bd1579b523adae1b749b0a4ffd8b7ed8babe",
+    "original_weights_or_conversion_recipe_found": false
+  },
+  "new_candidate_input": {
+    "source_manifest": "SOURCE_MANIFEST.json",
+    "asset_name": "open_nsfw_weights.h5",
+    "release_url": "https://github.com/bhky/opennsfw2/releases/download/v0.1.0/open_nsfw_weights.h5",
+    "reported_bytes": 24221200,
+    "publisher_sha256": null,
+    "locally_pinned_sha256": "14ca261f48bdd88c1eecba96a761bd1579b523adae1b749b0a4ffd8b7ed8babe",
+    "retrieved_utc": "2026-10-06T00:23:23Z",
+    "pin_limit": "The release does not publish a digest or signature; local pin follows HTTPS, release URL, exact size, and HDF5 signature checks."
+  },
+  "conversion_environment": {
+    "python": "3.12.15",
+    "platform": "Windows AMD64, CPU only",
+    "tensorflow": "2.20.0",
+    "opennsfw2": "0.15.2",
+    "keras": "3.15.1",
+    "numpy": "2.5.3",
+    "h5py": "3.16.0",
+    "flatbuffers": "25.12.19",
+    "uv": "0.12.23",
+    "uv_wheel_sha256": "fb8a4117a5224d73abe2204a1e744ae34b544f1b9a0b761576851deaa7215c12",
+    "uv_lock_sha256": "2010d142ad2949fa02a07ca38b4f61abe7b2208d34b7585b212e7924b6bbc417",
+    "one_dnn": false,
+    "inter_op_threads": 1,
+    "intra_op_threads": 1
+  },
+  "conversion": {
+    "api": "tf.lite.TFLiteConverter.from_keras_model",
+    "source_model": "opennsfw2.make_open_nsfw_model(weights_path=<pinned file>)",
+    "batch": 1,
+    "supported_ops": ["TFLITE_BUILTINS"],
+    "allow_custom_ops": false,
+    "external_input": {"shape": [1, 224, 224, 3], "dtype": "float32"},
+    "external_output": {"shape": [1, 2], "dtype": "float32"},
+    "preprocessing": "outside model: BGR mean subtraction [104,117,123]"
+  },
+  "candidates": [
+    {
+      "optimization": "float32",
+      "optimizations": [],
+      "bytes": 23608404,
+      "sha256": "bea35dc93c86f074ae9a047638773aff9eb84c05e6ead8d785af5c8ddde05518",
+      "identical_sha256_in_two_runs": true,
+      "minimum_runtime_metadata": "1.6.0",
+      "constant_tensor_types": {"FLOAT32": 108, "INT32": 2},
+      "custom_or_select_tf_ops": false,
+      "operators": ["PAD:1", "CONV_2D:1", "MAX_POOL_2D:1", "ADD:1", "MEAN:1", "FULLY_CONNECTED:1", "SOFTMAX:1"]
+    },
+    {
+      "optimization": "dynamic-range",
+      "optimizations": ["Optimize.DEFAULT"],
+      "bytes": 6135528,
+      "sha256": "80729f14520115e583bc3a102a7083682b183d2378629e71d32cc5102979c2f8",
+      "identical_sha256_in_two_runs": true,
+      "minimum_runtime_metadata": "2.17.0",
+      "constant_tensor_types": {"FLOAT32": 54, "INT32": 2, "INT8": 54},
+      "custom_or_select_tf_ops": false,
+      "operators": ["PAD:1", "CONV_2D:5", "MAX_POOL_2D:1", "ADD:1", "MEAN:1", "FULLY_CONNECTED:12", "SOFTMAX:1"],
+      "conversion_metadata_sha256": "a6e1ffe68da468fc29be279393b5e993efb20269be5485c42a7ecefd0a5ba731"
+    }
+  ],
+  "comparison": {
+    "synthetic_patterns": ["black", "white", "solid-color", "horizontal-channel-gradient", "vertical-channel-gradient", "channel-ramp", "checkerboard", "seeded-noise"],
+    "seed": 20261005,
+    "predeclared_max_abs_error_tolerances": {"float32": 0.0001, "dynamic-range": 0.01},
+    "float32_max_abs_error_vs_keras": 4.842877388000488e-7,
+    "float32_tolerance_passed": true,
+    "dynamic_range_max_abs_error_vs_keras": 0.028302907943725586,
+    "dynamic_range_mean_abs_error_vs_keras": 0.004848954267799854,
+    "dynamic_range_largest_error_pattern": "black",
+    "dynamic_range_tolerance_passed": false,
+    "dynamic_range_max_abs_error_vs_inherited_tflite_on_patterns": 0.0,
+    "decision_thresholds_tested": [0.45, 0.75, 0.85],
+    "decision_changes_vs_inherited_tflite_on_patterns": 0,
+    "candidate_selection": "No candidate selected; preserve the inherited asset because the dynamic-range Keras tolerance failed and float32 does not preserve the existing quantized packaging."
+  },
+  "current_sdk_asset": {
+    "bytes": 6128536,
+    "sha256": "051a21bf697858c1eecba96a761bd1579b523adae1b749b0a4ffd8b7ed8babe",
+    "changed": false
+  },
+  "limitations": [
+    "Synthetic tensor comparison tests conversion mechanics, not real-world classifier accuracy or efficacy.",
+    "Matching the inherited model on eight generated patterns does not establish equivalence for all images.",
+    "The upstream asset has no publisher-provided checksum; the recorded digest is a local first-acquisition pin.",
+    "Attribution and retained notices do not independently resolve all external redistribution rights."
+  ]
+}

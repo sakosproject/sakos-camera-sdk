@@ -38,6 +38,7 @@ google-services.json
 # Python tooling caches
 __pycache__/
 *.py[cod]
+tools/model-conversion/.venv/
 
 # Wrangler local state
 .wrangler/

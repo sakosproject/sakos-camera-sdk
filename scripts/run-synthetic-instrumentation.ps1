@@ -48,10 +48,17 @@ if ($ConsumerOnly) {
     Run-Instrumentation 'org.sakos.camera.capture.video.test'
     Install-Apk 'safety-opennsfw2\build\outputs\apk\androidTest\debug\safety-opennsfw2-debug-androidTest.apk'
     Run-Instrumentation 'org.sakos.camera.safety.opennsfw2.test'
-    # Reset only this synthetic sample's state, making denied-permission coverage repeatable.
-    $uninstallOutput = & $adb -s $Serial uninstall org.sakos.camera.sample 2>&1
-    if ($LASTEXITCODE -ne 0 -and ($uninstallOutput -join "`n") -notmatch '(?i)not installed') {
-        throw 'Synthetic sample reset failed.'
+    # Reset only this synthetic sample when present; a fresh emulator has nothing to uninstall.
+    $installedPackages = & $adb -s $Serial shell pm list packages org.sakos.camera.sample 2>&1
+    if ($LASTEXITCODE -ne 0) {
+        throw 'Could not inspect the isolated emulator package state.'
+    }
+    if (($installedPackages -join "`n") -match '(?m)^package:org\.sakos\.camera\.sample$') {
+        $uninstallOutput = & $adb -s $Serial uninstall org.sakos.camera.sample 2>&1
+        if ($LASTEXITCODE -ne 0) {
+            $uninstallOutput | Write-Output
+            throw 'Synthetic sample reset failed.'
+        }
     }
     Install-Apk 'sample-app\build\outputs\apk\debug\sample-app-debug.apk'
     Install-Apk 'sample-app\build\outputs\apk\androidTest\debug\sample-app-debug-androidTest.apk'

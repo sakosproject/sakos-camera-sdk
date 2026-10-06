@@ -22,10 +22,21 @@ from `historical model source path omitted`. Its SHA-256 is
 The SakOS filename identifies the integrated asset; the original model lineage
 is credited above. This SDK did not perform the upstream TFLite conversion.
 
+## Separately generated conversion candidate
+
+A local, unselected candidate was generated from the official OpenNSFW2
+`v0.1.0` HDF5 weight release using the pinned OpenNSFW2 `0.15.2` source and
+TensorFlow `2.20.0` conversion environment. The candidate is not the currently
+bundled SDK model. That input lineage also retains the complete combined
+Yahoo Inc. and Marc Dietrichstein BSD-2-Clause notices in
+`licenses/tensorflow-open-nsfw-LICENSE.txt`; see
+`docs/model-conversion/LICENSE_REVIEW.md` and `docs/PROVENANCE.md` for scope,
+source revisions, and the candidate's validation result.
+
 ## Retention and scope
 
 The complete license texts retain their copyright notices, permission/conditions,
-and disclaimers. Library builds include this notice and both license files in
+and disclaimers. Library builds include this notice and all listed license files in
 the AAR's `classes.jar` and source JAR under `META-INF/sakos/<module>/`.
 Consumers distributing model-bearing binaries must retain the applicable notices
 and license texts in documentation or other materials accompanying distribution.

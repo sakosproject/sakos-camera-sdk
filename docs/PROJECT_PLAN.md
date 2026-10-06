@@ -1,5 +1,38 @@
 # SakOS Camera SDK implementation plan
 
+## Model source evidence and conversion planning — 2026-10-05
+
+The owner requested a deeper search of `private camera/gallery source project` for the original
+weights/conversion and distribution evidence, then authorized implementing a
+new-conversion path, running both local candidate gates, and pushing the result
+on a GitHub feature branch. Keep the source project read-only.
+
+Execution plan:
+
+1. Inspect current source files, reachable Git history, model-cache locations,
+   and embedded model metadata. Check the public upstream weight source and
+   licenses referenced by the source project.
+2. Record confirmed findings and remaining gaps in `docs/PROVENANCE.md` and
+   `docs/MODEL_CARD.md`; save `docs/MODEL_CONVERSION_PLAN.md` with source/rights,
+   dependency locking, conversion, comparison, integration, and rollback gates.
+3. Add a locked, isolated converter, explicit pinned weight acquisition,
+   complete attribution, deterministic comparison, and FlatBuffer inspection.
+4. Run the full local SDK gate and both isolated API 36 runtime suites; record
+   the measured model choice and results before committing and pushing.
+
+Completed: `private camera/gallery source project` documents the private SakOS prebuilt, exact inherited
+asset digest, and OpenNSFW2/Yahoo lineage, but it contains no source weights,
+source-weight digest, or original conversion recipe. A separate public-input
+conversion was pinned, locked, executed twice, and recorded in
+[MODEL_CONVERSION_PLAN](MODEL_CONVERSION_PLAN.md) and `docs/model-conversion/`.
+The float32 candidate passed its Keras tolerance. The dynamic-range candidate
+matched the inherited model on the generated comparison set but exceeded the
+predeclared Keras tolerance on black input, so neither candidate was selected.
+The bundled asset remains unchanged. The full local packaging/artifact gate and
+both API 36 emulator suites passed against that unchanged asset; these checks do
+not validate the unselected conversion candidates. Exact results are in
+`docs/BUILD_NOTES.md`.
+
 ## Model origin and attribution audit — 2026-10-05
 
 The owner requested finding the model origin in `private camera/gallery source project` and applying

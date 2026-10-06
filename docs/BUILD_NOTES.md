@@ -1,5 +1,56 @@
 # Local build notes
 
+## Model provenance/conversion candidate and fresh API 36 gates — 2026-10-05/06
+
+The read-only `private camera/gallery source project` investigation found the inherited TFLite asset,
+its recorded OpenNSFW2/Yahoo lineage, and embedded conversion metadata, but no
+original HDF5 weights, weight digest, or executable conversion recipe. The SDK
+now records that evidence, credits the upstream authors, retains the applicable
+license texts, and keeps a separate source/input/conversion manifest for a new
+public-source candidate. See `docs/PROVENANCE.md`,
+`docs/MODEL_CONVERSION_PLAN.md`, and `docs/model-conversion/`.
+
+Two isolated CPU conversions from the pinned OpenNSFW2 release weights were
+byte-identical across repeat runs. The float32 candidate met the predeclared
+`1e-4` Keras comparison tolerance. The dynamic-range candidate exceeded its
+predeclared `1e-2` maximum-error tolerance on generated black pixels, despite
+matching the inherited TFLite output on the eight generated patterns. Neither
+candidate was selected; the existing 6,128,536-byte model remains at SHA-256
+`051A21BF697858C1E2537354A99BE09A48D26BBFBA0C35216B340F16DE7528D7`.
+Synthetic comparisons and emulator checks do not establish broad model parity,
+accuracy, or classifier efficacy.
+
+The full local gate completed with:
+
+```powershell
+.\scripts\verify-local-candidate.ps1
+```
+
+It performed a clean `clean testDebugUnitTest assembleDebug assembleDebugAndroidTest lint`
+build (185 JVM tests; `BUILD SUCCESSFUL`), local Maven publication for all four
+libraries, a separate minified consumer build, and inspection of 24 artifacts.
+The inspector verified the unchanged model digest and the complete five-file
+notice inventory in all applicable AAR/source archives. Link checking passed
+for 28 files and 72 local links; `git diff --check` passed.
+
+On the newly created isolated API 36 x86_64 emulator with front and back cameras
+enabled as emulated hardware, these suites passed:
+
+```powershell
+.\scripts\run-synthetic-instrumentation.ps1 -Serial emulator-5554
+.\scripts\run-synthetic-instrumentation.ps1 -Serial emulator-5554 -ConsumerOnly
+```
+
+The first run passed 5 video-runtime tests, 2 model-runtime tests, and 5 sample
+flow tests. The second passed the minified consumer's 1 packaged-runtime test.
+The sample runner's prior-absent-package reset was made conditional so a fresh
+emulator is supported. The candidate manifest at
+`build/private-candidate/manifest.json` records 12 SDK/sample tests and 1
+consumer test. These tests load the unchanged bundled model; they do not run the
+ignored newly converted candidate files. No physical device or media corpus was
+used. Broader device/API coverage, efficacy, independent validation, and external
+redistribution clearance remain open.
+
 ## Model attribution packaging verification — 2026-10-05
 
 Only attribution documentation and the packaged `third_party/NOTICE.md` changed.
