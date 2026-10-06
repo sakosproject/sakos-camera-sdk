@@ -20,7 +20,7 @@ try {
     $taskUnexpected = Get-ChildItem -LiteralPath $taskUpload -Recurse -File | Where-Object {
         [IO.Path]::GetRelativePath($taskUpload, $_.FullName).Replace('\', '/') -notin $taskAssets
     }
-    if ($taskUnexpected) { throw 'The site upload directory contains files outside the four intended static assets.' }
+    if ($taskUnexpected) { throw 'The site upload directory contains files outside the five allowlisted site assets.' }
 
     if ([string]::IsNullOrWhiteSpace($env:SAKOS_CLOUDFLARE_ACCOUNT_ID)) {
         throw 'Set SAKOS_CLOUDFLARE_ACCOUNT_ID before deployment.'

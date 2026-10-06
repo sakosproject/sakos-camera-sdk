@@ -17,20 +17,21 @@ Initial deployment on October 5, 2026: `03e28380-f1d9-4368-bb2a-d01cf3ae9c5e`,
 source `e691942`. Home, camera, project status and CSS returned HTTP 200 over HTTPS
 and matched the four uploaded files byte-for-byte.
 
-Latest production deployment: `26076af7-84a2-420d-9491-0c5c01173b51`, source
-`359bf41`, on October 5, 2026. The stable URL is
+Latest production deployment: `38ec0f98-dbab-449d-9e2d-1dc834354df7`, source
+`80bc3b4`, on October 6, 2026. The stable URL is
 [sakosproject.pages.dev](https://sakosproject.pages.dev); the immutable deployment
-URL is [26076af7.sakosproject.pages.dev](https://26076af7.sakosproject.pages.dev).
+URL is [38ec0f98.sakosproject.pages.dev](https://38ec0f98.sakosproject.pages.dev).
 All three page routes, `/assets/site.css` and `/favicon.svg` returned HTTP 200.
-The CSS and favicon matched their uploaded bytes; Cloudflare appends a
+The custom-domain routes and both Pages hostnames serve the public-repository link
+without the former private-status text. Cloudflare appends a
 `static.cloudflareinsights.com` script to HTML responses. Local navigation checks
 passed across 26 files and 47 links.
 
 Custom-domain status: `https://sakosproject.org` is attached and active. On
-October 5, 2026, the home page, `/camera/`, `/docs/camera/` and
-`/assets/site.css` and `/favicon.svg` each returned HTTP 200 over HTTPS from the
-apex. Navigation uses relative links and canonical URLs target this domain. No
-DNS or domain attachment steps remain.
+October 6, 2026, the home page, `/camera/`, `/docs/camera/`, `/assets/site.css`
+and `/favicon.svg` each returned HTTP 200 over HTTPS from the apex. Navigation
+uses relative links and canonical URLs target this domain. No DNS or domain
+attachment steps remain.
 
 ## Preview and deployment
 
@@ -71,7 +72,8 @@ Keep the identifier outside tracked files and deployment logs.
 If choosing Git integration for a future project, the static build settings are
 framework None, blank build command and output directory `website`. Cloudflare
 Direct Upload projects cannot later switch to Git integration; keep the upload
-command for this project. Private repositories can remain private.
+command for this project. Pages hosting works independently of GitHub repository
+visibility.
 
 ## Custom domain verification
 
