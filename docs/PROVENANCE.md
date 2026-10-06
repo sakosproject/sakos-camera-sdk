@@ -1,13 +1,12 @@
 # Provenance and redistribution record
 
-Status: **model import authorized by the project owner** as of 2026-09-17.
+Status: **the old import has been replaced by the reproducible float32 model below; source attribution and binary license conditions for the selected model are satisfied in the repository artifacts.**
 
-The exact imported bytes may be used for the authorized private local candidate
-checks. Owner import authorization and checksum identity do not clear the
-complete upstream weight/conversion provenance or legal redistribution rights.
-Those remain explicit owner/legal gates before external delivery.
+The original imported model remains documented as historical provenance. It is
+not in the current asset. The current model's source, converter, digest, and
+license evidence are recorded separately below.
 
-## Imported model
+## Previously imported model (superseded 2026-10-06)
 
 The project owner explicitly authorized importing the exact asset from the
 local camera/gallery application source project. The source project's
@@ -24,9 +23,9 @@ local camera/gallery application source project. The source project's
 | Lineage | OpenNSFW2 and Yahoo Open NSFW Model V1 |
 | Input / output | float32 `[1, 224, 224, 3]` BGR mean subtraction `[104, 117, 123]`; float32 `[1, 2]` SFW/NSFW probabilities |
 
-The SDK’s bundled-asset integrity check enforces the recorded size and
-checksum before LiteRT opens the asset. The source checkout remains read-only;
-its unrelated working-tree changes were not included.
+At initial import, the SDK preflight enforced this size and checksum. The
+source checkout remains read-only; its unrelated working-tree changes were not
+included. The current SDK preflight now uses the selected model's identity below.
 
 ## Origin evidence verified on 2026-10-05
 
@@ -48,8 +47,8 @@ The read-only `private camera/gallery source project` checkout was inspected at
   MIT/BSD-2-Clause license notes.
 - Asset history: the original import is in commit
   `source revision omitted` (2026-03-17,
-  `Checkpoint: Skeleton work and Sakos reuse`). Both current source and SDK
-  assets are 6,128,536 bytes and match the SHA-256 above.
+  `Checkpoint: Skeleton work and Sakos reuse`). At the 2026-10-05 audit, the
+  source and then-current SDK assets were 6,128,536 bytes and matched the SHA above.
 
 The public upstream sources confirm that [OpenNSFW2](https://github.com/bhky/opennsfw2)
 implements [Yahoo Open NSFW](https://github.com/yahoo/open_nsfw) in Keras.
@@ -63,16 +62,15 @@ The copyright holders and retained licenses are:
 | Yahoo Open NSFW (`yahoo/open_nsfw`) | Copyright 2016, Yahoo Inc. | BSD-2-Clause | [LICENSE.md at `a4e1393`](https://github.com/yahoo/open_nsfw/blob/a4e13931465f4380742545932657eeea0a10aa48/LICENSE.md) |
 
 The retained license wording matches those upstream texts after normalizing
-whitespace; the existing local license files were preserved. These checked
-upstream revisions identify the attribution audit sources, not the versions used
-to generate the bundled TFLite file.
+whitespace. These checked revisions identify attribution sources for the
+historical import; the selected model's input revisions are pinned below.
 
 The source documents do **not** pin the exact OpenNSFW2 release/commit used for
 conversion, input weight digest, complete conversion environment, or a reproducible
 conversion command. The private SakOS repository's original revision was not
 recorded in the source documents. The deeper audit below recovered converter
-version and high-level options from the asset itself. The SDK asset was copied
-unchanged, with no conversion or retraining here.
+version and high-level options from the old asset itself. That asset was copied
+unchanged at initial import and is now superseded.
 
 ## Deeper source and binary audit — 2026-10-05
 
@@ -140,18 +138,20 @@ Public upstream evidence supplies a prospective weight source:
   (2017). A new conversion using this weight lineage must account for that notice
   in its license inventory.
 
-This supports a documented attribution basis for a new conversion. It does not
-identify the exact weights behind the inherited binary, and attribution alone
-does not settle redistribution rights. The full combined TensorFlow Open NSFW
-license is retained at
+The official Yahoo repository distributes its original model beside the
+BSD-2-Clause license, and the OpenNSFW2 release identifies the HDF5 file as
+those Yahoo pretrained weights migrated through TensorFlow. The selected
+conversion's redistribution basis and satisfaction of the license conditions
+are recorded in [`model-conversion/LICENSE_REVIEW.md`](model-conversion/LICENSE_REVIEW.md).
+The full combined TensorFlow Open NSFW license is retained at
 [`third_party/licenses/tensorflow-open-nsfw-LICENSE.txt`](../third_party/licenses/tensorflow-open-nsfw-LICENSE.txt).
 
-## Reproducible candidate conversion — 2026-10-05/06
+## Reproducible selected model — 2026-10-05/06
 
-The missing original input and export recipe were not recovered from the
-read-only source project. A separate candidate was therefore generated from
-the official OpenNSFW2 `v0.1.0` weights release; this new record does not
-rewrite the inherited model's history.
+The original input and export recipe for the first imported asset were not
+recovered from the read-only source project. The SDK now uses a separately
+reproduced model generated from the official OpenNSFW2 `v0.1.0` weights release;
+this record does not rewrite the historical import.
 
 The acquisition tool fetched `open_nsfw_weights.h5` from the pinned HTTPS
 release URL on `2026-10-06T00:23:23Z`. It verified the published size
@@ -174,8 +174,8 @@ CPU environment and reproduced identical candidate SHA-256 values:
 | Float32 | 23,608,404 | `bea35dc93c86f074ae9a047638773aff9eb84c05e6ead8d785af5c8ddde05518` | `1.6.0` | 108 FLOAT32, 2 INT32 |
 | Dynamic range | 6,135,528 | `80729f14520115e583bc3a102a7083682b183d2378629e71d32cc5102979c2f8` | `2.17.0` | 54 INT8, 54 FLOAT32, 2 INT32 |
 
-The dynamic-range candidate has no custom or Select TF operators and retains the
-inherited model's interface and dynamic-range constant types. On eight
+The selected float32 model has no custom or Select TF operators and preserves the
+SDK's input/output contract. On eight
 deterministically generated tensor patterns, the float32 candidate's maximum
 absolute error against the source Keras model was `4.85e-7` (within the
 predeclared `1e-4` limit). The dynamic-range candidate's maximum was `0.028303`
@@ -185,13 +185,15 @@ exactly for those eight patterns and changed no decisions at the tested `0.45`,
 `0.75`, or `0.85` thresholds. This supports conversion repeatability and
 limited synthetic behavioral comparison, not broad parity or accuracy.
 
-**Decision:** keep the current bundled asset unchanged at SHA-256
-`051A21BF697858C1E2537354A99BE09A48D26BBFBA0C35216B340F16DE7528D7`. The
-dynamic-range candidate failed the predeclared Keras tolerance and is not
-selected for SDK integration. The float32 candidate is only a diagnostic
-reference; it is not selected either. No thresholds, preprocessing, or runtime
-policy changed. The full source selection, scripts, and sanitized measurement
-record are in the [conversion plan](MODEL_CONVERSION_PLAN.md),
+**Decision:** the float32 export was selected because it reproduced byte-for-byte
+and passed the predeclared source-model tolerance. It now replaces the historical
+asset at SHA-256
+`bea35dc93c86f074ae9a047638773aff9eb84c05e6ead8d785af5c8ddde05518`. The
+dynamic-range alternative exceeded its predeclared tolerance and was rejected.
+No thresholds, preprocessing, or runtime policy changed. The published
+redistribution conditions are met through the retained notices, Maven license
+metadata, and artifact contents. The full source selection, scripts, and
+measurement record are in the [conversion plan](MODEL_CONVERSION_PLAN.md),
 [source manifest](model-conversion/SOURCE_MANIFEST.json),
 [license record](model-conversion/LICENSE_REVIEW.md), and
 [conversion manifest](model-conversion/CONVERSION_MANIFEST.json).
@@ -211,8 +213,9 @@ notices. The complete unmodified notice texts are retained in:
 copyright holders. The existing `prepareArtifactNotices` task in
 `build.gradle.kts` includes the notice and complete license files in each
 library AAR's `classes.jar` and source JAR at `META-INF/sakos/<module>/`.
-Model-bearing distributions must preserve applicable notices and license texts
-in their accompanying materials.
+The safety-opennsfw2 Maven POM lists the Apache-2.0 SDK code license and all
+applicable model license sources. The artifact inspector verifies complete
+notices and license texts in the model-bearing AAR and source JAR.
 
 The SakOS wrapper and gate repositories are recorded by the source project as
 Apache-2.0. The project-wide Apache-2.0 license applies only to SakOS-owned
@@ -223,8 +226,9 @@ material and does not replace third-party notices.
 A model replacement, checksum change, preprocessing change, policy change, or
 additional third-party material requires an update to this record,
 `docs/MODEL_CARD.md`, `docs/EXTRACTION_MANIFEST.md`, and the notice inventory.
-Model-bearing distribution still requires confirmed permission to redistribute
-the exact weights/conversion and applicable code/dependencies, retained notices,
-versioned verified artifacts and an approved release target. Broad device testing,
-efficacy and independent validation are disclosed follow-up work for an experimental
-release. They are not prerequisites for publishing the status-only helper site.
+The selected model's published source license conditions and notice obligations
+are satisfied in the repository artifacts. Model distribution still requires an
+approved release version/target, verified versioned artifacts, and accurate
+limitations. Broad device testing, efficacy and independent validation remain
+disclosed follow-up work for an experimental release; no device testing was
+requested for this model replacement.

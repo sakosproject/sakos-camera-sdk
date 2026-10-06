@@ -1,36 +1,39 @@
-# Model input attribution and license record
+# Model attribution and redistribution review
 
-The planned candidate uses `open_nsfw_weights.h5` from OpenNSFW2 release
-`v0.1.0`, identified by its release URL and pinned in
-[`SOURCE_MANIFEST.json`](SOURCE_MANIFEST.json). OpenNSFW2's release notes say
-these are Yahoo Open NSFW pretrained weights migrated through TensorFlow for
-its TensorFlow 2 implementation. This describes the new candidate's input
-lineage only; it does not establish which exact bytes generated the inherited
-SakOS TFLite asset.
+## Selected model
 
-The repository retains these complete upstream license texts:
+The SDK now bundles `opennsfw2_resnet50_v1` generated from the pinned
+OpenNSFW2 `v0.1.0` HDF5 weights. OpenNSFW2's release notes identify these as
+the Yahoo Open NSFW model's original pretrained weights migrated through
+TensorFlow. Yahoo's repository contains the corresponding Caffe model file next
+to its BSD-2-Clause license. The TensorFlow Open NSFW port carries BSD-2-Clause
+terms for Yahoo Inc. and Marc Dietrichstein. The OpenNSFW2 implementation is
+MIT-licensed.
 
-- OpenNSFW2 MIT: [`opennsfw2-MIT.txt`](../../third_party/licenses/opennsfw2-MIT.txt),
-  from `bhky/opennsfw2` revision
-  `19530b8f08aac12479a901fe18763c0392c8bd8c`.
-- Yahoo Open NSFW BSD-2-Clause:
-  [`yahoo-open-nsfw-BSD-2-Clause.txt`](../../third_party/licenses/yahoo-open-nsfw-BSD-2-Clause.txt),
-  from `yahoo/open_nsfw` revision
-  `a4e13931465f4380742545932657eeea0a10aa48`.
-- TensorFlow Open NSFW's complete combined license:
-  [`tensorflow-open-nsfw-LICENSE.txt`](../../third_party/licenses/tensorflow-open-nsfw-LICENSE.txt),
-  from `mdietrichstein/tensorflow-open_nsfw` revision
-  `ead9f4d1748e8bc80ab14bf0a36f696a5fe4109d`. It retains Yahoo Inc.'s terms
-  and Marc Dietrichstein's 2017 BSD-2-Clause notice.
+The input bytes are pinned in [`SOURCE_MANIFEST.json`](SOURCE_MANIFEST.json).
+The upstream release does not publish a digest; the recorded local SHA-256
+identifies the exact acquired file and supports repeatable builds. It is not
+represented as an upstream signature.
 
-[`third_party/NOTICE.md`](../../third_party/NOTICE.md) attributes the model
-lineage and describes the additional retained notice. The SDK's artifact
-inspection requires every library AAR and source JAR to carry the complete
-notice inventory. These records are attribution evidence; they do not by
-themselves settle every question about redistribution scope for trained model
-weights or a converted binary. Keep any unresolved rights question as an
-external distribution gate.
+## Redistribution determination
 
-The TensorFlow and OpenNSFW2 Python packages are conversion tools and are not
-copied into the Android artifacts. Their exact wheel identities are recorded
-in `tools/model-conversion/uv.lock`.
+The reviewed upstream terms permit source and binary redistribution subject to
+retaining the relevant copyright notices, conditions, and disclaimers. This
+SDK complies with those conditions for the bundled model:
+
+- The full OpenNSFW2 MIT license, Yahoo BSD-2-Clause license, and combined
+  TensorFlow Open NSFW BSD-2-Clause license are retained under `third_party/licenses/`.
+- `third_party/NOTICE.md` identifies the model lineage and copyright holders.
+- The model library's Maven POM lists Apache-2.0 for SDK code and all three
+  applicable upstream license sources for the bundled model.
+- Release AARs and source JARs include the complete notice and license texts;
+  the artifact inspector verifies them byte for byte.
+
+**Disposition:** attribution and the stated license conditions for redistributing
+this model are satisfied in the repository and its model-bearing AAR. A release
+still needs an approved version, delivery target, verified artifacts, and accurate
+limitations; those release controls do not leave model redistribution rights open.
+
+The Python/TensorFlow conversion environment is only a build tool. Its packages
+are locked in `tools/model-conversion/uv.lock` and are not included in Android
+runtime artifacts.

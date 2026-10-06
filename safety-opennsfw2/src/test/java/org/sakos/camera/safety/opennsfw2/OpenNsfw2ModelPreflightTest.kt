@@ -74,7 +74,7 @@ class OpenNsfw2ModelPreflightTest {
     @Test
     fun contractKeepsModelPreprocessingAndPolicyIdentityTogether() {
         assertEquals("opennsfw2_resnet50_v1", OpenNsfw2ModelPreflight.configuration.model.id)
-        assertEquals("051a21bf697858c1", OpenNsfw2ModelPreflight.configuration.model.version)
+        assertEquals("bea35dc93c86f074", OpenNsfw2ModelPreflight.configuration.model.version)
         assertEquals(listOf(1, 224, 224, 3), OpenNsfw2ModelPreflight.inputShape)
         assertEquals(listOf(1, 2), OpenNsfw2ModelPreflight.outputShape)
         assertEquals(listOf(104, 117, 123), OpenNsfw2ModelPreflight.bgrMeanSubtraction)

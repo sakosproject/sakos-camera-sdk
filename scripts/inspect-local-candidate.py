@@ -11,7 +11,9 @@ import xml.etree.ElementTree as ET
 import zipfile
 
 MODULES = ["safety-core", "safety-opennsfw2", "capture-camerax", "capture-video"]
-MODEL_SHA = "051a21bf697858c1e2537354a99be09a48d26bbfba0c35216b340f16de7528d7"
+MODEL_SHA = "bea35dc93c86f074ae9a047638773aff9eb84c05e6ead8d785af5c8ddde05518"
+MODEL_BYTES = 23_608_404
+MODEL_VERSION = "bea35dc93c86f074"
 NOTICE_FILES = [
     ("LICENSE", "LICENSE"),
     ("NOTICE.md", "third_party/NOTICE.md"),
@@ -32,6 +34,7 @@ def main():
     candidate.mkdir(parents=True, exist_ok=True)
     artifacts = []
     dependencies = {}
+    pom_licenses = {}
     for module in MODULES:
         directory = root / f"build/local-maven/org/sakos/camera/{module}/0.0.0-local"
         for suffix in [".aar", "-sources.jar", ".pom", ".module"]:
@@ -50,7 +53,7 @@ def main():
                         assert len(models) == (1 if module == "safety-opennsfw2" else 0)
                         if models:
                             model = archive.read(models[0])
-                            assert len(model) == 6_128_536 and digest(model) == MODEL_SHA
+                            assert len(model) == MODEL_BYTES and digest(model) == MODEL_SHA
                             assert "assets/policy/opennsfw2_still_gate_policy.json" in archive.namelist()
                     else:
                         for name, source in NOTICE_FILES:
@@ -64,6 +67,16 @@ def main():
                     "artifact": d.findtext("m:artifactId", namespaces=ns),
                     "version": d.findtext("m:version", namespaces=ns),
                     "scope": d.findtext("m:scope", namespaces=ns)} for d in pom.findall("m:dependencies/m:dependency", ns)]
+                pom_licenses[module] = [{"name": license.findtext("m:name", namespaces=ns),
+                    "url": license.findtext("m:url", namespaces=ns)} for license in pom.findall("m:licenses/m:license", ns)]
+                if module == "safety-opennsfw2":
+                    expected_license_urls = {
+                        "https://www.apache.org/licenses/LICENSE-2.0.txt",
+                        "https://github.com/bhky/opennsfw2/blob/19530b8f08aac12479a901fe18763c0392c8bd8c/LICENSE",
+                        "https://github.com/yahoo/open_nsfw/blob/a4e13931465f4380742545932657eeea0a10aa48/LICENSE.md",
+                        "https://github.com/mdietrichstein/tensorflow-open_nsfw/blob/ead9f4d1748e8bc80ab14bf0a36f696a5fe4109d/LICENSE",
+                    }
+                    assert {license["url"] for license in pom_licenses[module]} == expected_license_urls
             artifacts.append({"path": file.relative_to(root).as_posix(), "bytes": len(data), "sha256": digest(data)})
     for relative in ["sample-app/build/outputs/apk/debug/sample-app-debug.apk",
         "capture-video/build/outputs/apk/androidTest/debug/capture-video-debug-androidTest.apk",
@@ -137,7 +150,7 @@ def main():
         "post_build_android_validation": build_state.get("post_build_android_validation"),
         "toolchain": {"gradle": "8.13", "agp": "8.13.2", "kotlin": "2.0.21", "compile_sdk": 36, "target_sdk": 36, "min_sdk": 26},
         "model_sha256": MODEL_SHA,
-        "configuration": {"model": "opennsfw2_resnet50_v1@051a21bf697858c1",
+        "configuration": {"model": f"opennsfw2_resnet50_v1@{MODEL_VERSION}",
             "preprocessing": "opennsfw2-bgr-mean-104-117-123@1", "policy": "opennsfw2-still-policy@1",
             "policy_asset_sha256": digest((root / "safety-opennsfw2/src/main/assets/policy/opennsfw2_still_gate_policy.json").read_bytes())},
         "strategies": {"default": "Fixed14", "optional": "Adaptive14",
@@ -145,14 +158,13 @@ def main():
         "tooling_source": {"current_code_revision": None,
             "pinned_runtime_calibration_revision": None,
             "code_snapshot_inventory": "docs/TOOLING_PARITY.md"},
-        "artifacts": artifacts, "pom_dependencies": dependencies, "unit_tests": tests,
+        "artifacts": artifacts, "pom_dependencies": dependencies, "pom_licenses": pom_licenses, "unit_tests": tests,
         "lint": lint, "android_instrumentation": instrumentation,
         "local_links": json.loads((root / "build-logs/site-link-check.json").read_text(encoding="utf-8")),
         "emulator_instrumentation_executed": args.emulator_tested,
         "input_scope": "Generated-input and explicitly authorized office-view checks are recorded separately; isolated emulator scenes where noted. No capture media transferred off-device.",
         "signing": "release consumer unsigned; debug/test-key APKs only for local runtime verification",
-        "remaining_gates": ["confirmed code/model/dependency redistribution rights and notices",
-            "approved experimental release version and delivery target; versioned verified artifacts and accurate limitations"],
+        "remaining_gates": ["approved experimental release version and delivery target; versioned verified artifacts and accurate limitations"],
         "validation_backlog": ["broader physical-device and API-range coverage", "real-world classifier efficacy and source parity",
             "independent validation; deferred/unverified", "verified private intake before inviting security reports"]}
     (candidate / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")

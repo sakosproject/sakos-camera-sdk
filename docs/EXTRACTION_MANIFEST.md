@@ -6,8 +6,8 @@ were not included.
 
 | Source item | SDK destination | Status |
 | --- | --- | --- |
-| `private source path omitted` | `safety-opennsfw2/src/main/assets/model/sakos_nudity_model.tflite` | Owner-authorized private local import; external rights review remains open; see `docs/PROVENANCE.md` |
-| OpenNSFW2 `v0.1.0` HDF5 weights and TensorFlow `2.20.0` conversion tools | Ignored local `build/model-conversion/` candidates only | Public source pinned and fully attributed; candidate not selected or included in the SDK asset |
+| `private source path omitted` | Historical source for the first SDK asset | Original import is preserved in provenance history; that asset has been replaced |
+| OpenNSFW2 `v0.1.0` HDF5 weights; float32 TensorFlow `2.20.0` conversion | `safety-opennsfw2/src/main/assets/model/sakos_nudity_model.tflite` | Selected reproducible model; pinned source and output hashes; published MIT/BSD-2-Clause conditions and notices are included in model artifacts |
 | `scripts/fetch-model-weights.py`, `scripts/convert-opennsfw2-model.py`, `scripts/compare-model-conversions.py`, `scripts/inspect-model-metadata.py` | `scripts/` | Reproducible acquisition, export, synthetic comparison, and FlatBuffer inspection tools; no private corpus input |
 | Model metadata and runtime design | `safety-opennsfw2` model contract and LiteRT runtime | Adapted within the independent SDK boundary |
 | Spatial policy and score mapping | `safety-opennsfw2` | Previously cleared project-owned export |

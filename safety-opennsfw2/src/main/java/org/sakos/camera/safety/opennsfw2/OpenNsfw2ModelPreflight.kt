@@ -12,14 +12,14 @@ import org.sakos.camera.safety.core.SafetyFailureReason
 /** The expected contract for the bundled model asset. */
 object OpenNsfw2ModelPreflight {
     const val assetPath = "model/sakos_nudity_model.tflite"
-    const val expectedByteCount = 6_128_536L
-    const val expectedSha256 = "051A21BF697858C1E2537354A99BE09A48D26BBFBA0C35216B340F16DE7528D7"
+    const val expectedByteCount = 23_608_404L
+    const val expectedSha256 = "BEA35DC93C86F074AE9A047638773AFF9EB84C05E6EAD8D785AF5C8DDDE05518"
     val inputShape = listOf(1, 224, 224, 3)
     val outputShape = listOf(1, 2)
     val bgrMeanSubtraction = listOf(104, 117, 123)
 
     val configuration: SafetyConfigurationVersion = SafetyConfigurationVersion(
-        model = SafetyComponentVersion(OpenNsfw2ModelContract.modelId, "051a21bf697858c1"),
+        model = SafetyComponentVersion(OpenNsfw2ModelContract.modelId, "bea35dc93c86f074"),
         preprocessing = SafetyComponentVersion("opennsfw2-bgr-mean-104-117-123", "1"),
         policy = SafetyComponentVersion("opennsfw2-still-policy", "1"),
     )

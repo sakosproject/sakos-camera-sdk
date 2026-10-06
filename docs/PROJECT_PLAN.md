@@ -20,18 +20,16 @@ Execution plan:
 4. Run the full local SDK gate and both isolated API 36 runtime suites; record
    the measured model choice and results before committing and pushing.
 
-Completed: `private camera/gallery source project` documents the private SakOS prebuilt, exact inherited
-asset digest, and OpenNSFW2/Yahoo lineage, but it contains no source weights,
-source-weight digest, or original conversion recipe. A separate public-input
-conversion was pinned, locked, executed twice, and recorded in
-[MODEL_CONVERSION_PLAN](MODEL_CONVERSION_PLAN.md) and `docs/model-conversion/`.
-The float32 candidate passed its Keras tolerance. The dynamic-range candidate
-matched the inherited model on the generated comparison set but exceeded the
-predeclared Keras tolerance on black input, so neither candidate was selected.
-The bundled asset remains unchanged. The full local packaging/artifact gate and
-both API 36 emulator suites passed against that unchanged asset; these checks do
-not validate the unselected conversion candidates. Exact results are in
-`docs/BUILD_NOTES.md`.
+Completed: `private camera/gallery source project` documented the old SakOS prebuilt and OpenNSFW2/Yahoo
+lineage, but did not contain its original weights or conversion recipe. A new
+public-source float32 conversion was pinned, locked, reproduced twice, and passed
+the predeclared source-Keras tolerance. It now replaces the inherited asset.
+Attribution and the published MIT/BSD-2-Clause license conditions are recorded
+and included in the model AAR/source JAR and Maven POM. The clean non-device
+repository gate passed against the replacement: 185 JVM tests, zero lint errors,
+24 inspected artifacts, and a passing minified consumer build. No device test
+was run, as requested. Current hashes, licensing basis, and gate results are
+recorded in `docs/model-conversion/` and `docs/BUILD_NOTES.md`.
 
 ## Model origin and attribution audit — 2026-10-05
 
@@ -66,8 +64,9 @@ the updated notice and complete licenses byte for byte (32 file comparisons);
 the model-bearing AAR retains the exact model digest. Local documentation links
 and `git diff --check` passed. The source checkout remains clean and unchanged.
 Exact commands and private check-output paths are recorded in `docs/BUILD_NOTES.md`.
-This completes the attribution task; the unrecorded conversion details and
-external redistribution clearance remain open as documented in PROVENANCE.
+At the time of this audit, the old model's conversion details and distribution
+basis were unrecorded. The follow-up conversion and license review below replace
+that asset and document the selected model's reproducible source and license terms.
 
 ## Repository integration and helper-site launch — 2026-10-05
 

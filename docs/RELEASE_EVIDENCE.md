@@ -5,7 +5,7 @@ phase records remain dated; compilation is distinguished from runtime evidence.
 
 | Claim | Evidence | Limit |
 | --- | --- | --- |
-| Exact model is bundled | PROVENANCE size/digest; artifact and runtime preflight | Owner import authorization is not full redistribution clearance |
+| Selected model is bundled | PROVENANCE size/digest; source-bound conversion manifest; artifact and preflight checks | No device runtime test was run for the replacement; model behavior was compared with its source Keras implementation on generated tensors |
 | Fixed14/default and Adaptive14/optional inference are implemented | Source-derived pure driver tests, synthetic Android runtime and separate minified consumer | Exact policy and distinct alternate identity; no accuracy, parity or efficacy claim |
 | First-run camera tooling is implemented | Source calibration policy, mocked failures/cache matrices, actual isolated emulator graph probes | Advertised facts alone are insufficient; missing defaults block readiness; no universal phone claim |
 | Approved private library and explicit saving are implemented | Capture/configuration binding, atomic pending commit, named access and cancellation/authorization destination tests | Same-process host interfaces replace app-specific trust; API29 MediaStore adapter; no physical-gallery coverage |
@@ -21,9 +21,10 @@ BUILD_NOTES. The generated manifest pins source state and artifact hashes. Only
 sanitized current synthetic evidence belongs here. Private historical wording
 review and independent-validation details stay outside the repository.
 
-Minimum experimental SDK requirements are distribution rights and notices,
+Minimum experimental SDK requirements are license conditions/notices,
 versioned verified artifacts, accurate scope/limitations and an owner-approved
-release target. Broader device/API testing, real-world efficacy, source parity
+release target. The selected model's source license conditions are met and its
+complete notices accompany the model-bearing artifacts. Broader device/API testing, real-world efficacy, source parity
 and independent validation remain disclosed follow-up work, not experimental
 publication blockers. A reporting endpoint must be verified before inviting
 private security reports. Helper-site publication has its own smaller checklist

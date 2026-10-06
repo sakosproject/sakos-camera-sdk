@@ -13,8 +13,8 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 WEIGHTS = ROOT / "build/model-conversion/inputs/open_nsfw_weights.h5"
 SOURCE_MANIFEST = ROOT / "docs/model-conversion/SOURCE_MANIFEST.json"
-BASELINE = ROOT / "safety-opennsfw2/src/main/assets/model/sakos_nudity_model.tflite"
-BASELINE_SHA = "051a21bf697858c1e2537354a99be09a48d26bbfba0c35216b340f16de7528d7"
+SELECTED_MODEL = ROOT / "safety-opennsfw2/src/main/assets/model/sakos_nudity_model.tflite"
+SELECTED_MODEL_SHA = "bea35dc93c86f074ae9a047638773aff9eb84c05e6ead8d785af5c8ddde05518"
 TOLERANCES = {"float32": 1e-4, "dynamic-range": 1e-2}
 THRESHOLDS = (0.45, 0.75, 0.85)
 
@@ -85,41 +85,41 @@ def compare_one(tf, keras_model, inputs, candidate: Path, variant: dict, np) -> 
     optimization = variant["optimization"]
     reference_results = {}
     candidate_results = {}
-    baseline_results = {}
+    selected_results = {}
     for name, tensor in inputs.items():
         reference = keras_prediction(keras_model, tensor, np)
         converted = tflite_prediction(tf, model_path, tensor, np)
-        baseline = tflite_prediction(tf, BASELINE, tensor, np)
+        selected = tflite_prediction(tf, SELECTED_MODEL, tensor, np)
         validate_probabilities(reference, f"Keras/{name}", np)
         validate_probabilities(converted, f"{optimization}/{name}", np)
-        validate_probabilities(baseline, f"inherited TFLite/{name}", np)
+        validate_probabilities(selected, f"selected SDK TFLite/{name}", np)
         reference_results[name] = reference
         candidate_results[name] = converted
-        baseline_results[name] = baseline
+        selected_results[name] = selected
 
     errors = np.stack([np.abs(candidate_results[name] - reference_results[name]) for name in inputs])
-    baseline_errors = np.stack([np.abs(baseline_results[name] - reference_results[name]) for name in inputs])
-    inherited_deltas = np.stack([np.abs(candidate_results[name] - baseline_results[name]) for name in inputs])
+    selected_errors = np.stack([np.abs(selected_results[name] - reference_results[name]) for name in inputs])
+    selected_deltas = np.stack([np.abs(candidate_results[name] - selected_results[name]) for name in inputs])
     max_error = float(errors.max())
     mean_error = float(errors.mean())
-    inherited_max_error = float(inherited_deltas.max())
+    selected_max_error = float(selected_deltas.max())
     tolerance = TOLERANCES[optimization]
     boundary_effects = {}
     for threshold in THRESHOLDS:
         differences = [name for name in inputs
                        if (candidate_results[name][1] >= threshold) != (reference_results[name][1] >= threshold)]
         boundary_effects[f"{threshold:.2f}"] = differences
-    baseline_boundary_effects = {}
+    selected_boundary_effects = {}
     for threshold in THRESHOLDS:
-        baseline_boundary_effects[f"{threshold:.2f}"] = [
+        selected_boundary_effects[f"{threshold:.2f}"] = [
             name for name in inputs
-            if (baseline_results[name][1] >= threshold) != (reference_results[name][1] >= threshold)
+            if (selected_results[name][1] >= threshold) != (reference_results[name][1] >= threshold)
         ]
-    inherited_boundary_effects = {}
+    selected_model_boundary_effects = {}
     for threshold in THRESHOLDS:
-        inherited_boundary_effects[f"{threshold:.2f}"] = [
+        selected_model_boundary_effects[f"{threshold:.2f}"] = [
             name for name in inputs
-            if (candidate_results[name][1] >= threshold) != (baseline_results[name][1] >= threshold)
+            if (candidate_results[name][1] >= threshold) != (selected_results[name][1] >= threshold)
         ]
     return {
         "candidate": candidate.name,
@@ -133,14 +133,14 @@ def compare_one(tf, keras_model, inputs, candidate: Path, variant: dict, np) -> 
         },
         "numerical_tolerance_passed": max_error <= tolerance,
         "candidate_boundary_effects_vs_keras": boundary_effects,
-        "inherited_model_max_absolute_error_vs_keras_informational_only": float(baseline_errors.max()),
-        "inherited_boundary_effects_vs_keras_informational_only": baseline_boundary_effects,
-        "candidate_max_absolute_error_vs_inherited_model": inherited_max_error,
-        "candidate_boundary_effects_vs_inherited_model": inherited_boundary_effects,
+        "selected_model_max_absolute_error_vs_keras_informational_only": float(selected_errors.max()),
+        "selected_model_boundary_effects_vs_keras_informational_only": selected_boundary_effects,
+        "candidate_max_absolute_error_vs_selected_model": selected_max_error,
+        "candidate_boundary_effects_vs_selected_model": selected_model_boundary_effects,
         "probabilities_by_pattern": {
             name: {"keras": reference_results[name].tolist(),
                    "candidate": candidate_results[name].tolist(),
-                   "inherited_tflite": baseline_results[name].tolist()}
+                   "selected_sdk_tflite": selected_results[name].tolist()}
             for name in inputs
         },
     }
@@ -156,8 +156,8 @@ def main() -> None:
     source = json.loads(SOURCE_MANIFEST.read_text(encoding="utf-8"))["source"]
     if not WEIGHTS.is_file() or sha256_file(WEIGHTS).lower() != source.get("sha256", "").lower():
         raise SystemExit("The HDF5 source weights are absent or do not match SOURCE_MANIFEST.json.")
-    if not BASELINE.is_file() or sha256_file(BASELINE) != BASELINE_SHA:
-        raise SystemExit("The inherited SDK model differs from the recorded baseline.")
+    if not SELECTED_MODEL.is_file() or sha256_file(SELECTED_MODEL) != SELECTED_MODEL_SHA:
+        raise SystemExit("The selected SDK model differs from its recorded SHA-256.")
 
     os.environ["KERAS_BACKEND"] = "tensorflow"
     os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
@@ -204,7 +204,7 @@ def main() -> None:
         "created_utc": datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
         "input_scope": "Eight generated tensor patterns only; no media corpus or captured images.",
         "weights_sha256": source["sha256"],
-        "inherited_model_sha256": BASELINE_SHA,
+        "selected_model_sha256": SELECTED_MODEL_SHA,
         "input_contract": {"shape": [1, 224, 224, 3], "dtype": "float32",
                             "channels": "BGR", "mean_subtraction": [104, 117, 123]},
         "patterns": list(inputs),
@@ -213,7 +213,7 @@ def main() -> None:
         "candidate_comparisons": comparisons,
         "numerical_tolerance_gate_passed": all(item["numerical_tolerance_passed"] for item in comparisons),
         "reproducibility": reproducibility,
-        "interpretation": "Synthetic numerical comparison verifies conversion mechanics only; it does not establish real-world efficacy or rights.",
+        "interpretation": "Synthetic numerical comparison checks source-model tolerance and current selected-model differences only; it does not establish real-world efficacy.",
     }
     report_path = args.report if args.report.is_absolute() else ROOT / args.report
     report_path = report_path.resolve()

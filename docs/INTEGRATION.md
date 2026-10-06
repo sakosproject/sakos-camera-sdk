@@ -61,7 +61,9 @@ scene and the bounded phone flow. See BUILD_NOTES for executed evidence. Spatial
 sampled video are probabilistic; neither every-frame coverage nor accuracy,
 parity or broad physical-device compatibility is established. One bounded
 Samsung live-camera mechanics result is recorded in BUILD_NOTES. A modified host can bypass
-an app-level SDK. External redistribution and delivery remain gated.
+an app-level SDK. The selected model's published license conditions and notices
+are recorded in `docs/model-conversion/LICENSE_REVIEW.md`; package release and
+delivery still require an approved version and target.
 
 See [camera discovery/calibration and controls](CAMERA_TOOLING.md),
 [approved library and explicit saving](REVIEWED_LIBRARY.md) and

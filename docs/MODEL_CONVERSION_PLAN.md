@@ -1,12 +1,12 @@
 # Model evidence recovery and reproducible conversion plan
 
-Date: 2026-10-05/06. Status: **conversion reproducible; neither new candidate selected; repository and API 36 runtime gates passed against the unchanged bundled model**.
+Date: 2026-10-05/06. Status: **float32 conversion selected and bundled; attribution/license conditions satisfied; non-device repository gate passed; device tests omitted by owner request**.
 
 The owner requested searching `private camera/gallery source project` for the original conversion and
 distribution evidence, then preparing this plan if either remained incomplete.
-The project owner subsequently authorized implementation, both local candidate
-gates, and a GitHub feature-branch push. Candidate creation is authorized; model
-adoption still depends on the comparison and Android gates below.
+The project owner subsequently authorized implementation, replacement with the
+reproducible model, and a GitHub feature-branch push. The owner asked to omit
+device testing; the non-device repository gate has passed.
 
 ## Result of the investigation
 
@@ -25,11 +25,11 @@ The history search covered 951 unique relevant document/script blobs across all
 locally reachable refs. No conversion recipe or raw weight filename was found.
 The source's documented model cache contains only `.gitkeep`.
 
-Recommendation: preserve the current model while preparing a reproducible candidate
-from the official OpenNSFW2 weights. The `private camera/gallery source project` audit established its
-documented model lineage and the exact inherited binary but did not contain the
-original HDF5 inputs or converter. The candidate below establishes a separate
-documented chain; it does not prove the inherited file's historical source.
+Initial recommendation: preserve the old model while preparing a reproducible
+conversion from official OpenNSFW2 weights. After the float32 conversion passed
+the predeclared source tolerance, the owner directed replacing the old model. The
+new model has its own documented source chain and does not rewrite the history of
+the first imported file.
 
 ## Boundaries
 
@@ -78,10 +78,10 @@ additional retained license file and updated notice/inspection inventory for
 that lineage. TensorFlow/tool dependencies belong in the build-tool inventory;
 their installation alone does not mean their code is shipped inside the AAR.
 
-Gate: the selected input file is identified and pinned; the distribution basis
-and full notice inventory are documented with authoritative sources. If an
-actual exclusion or unclear license scope is found, resolve it before adopting
-or distributing that input. Reformatting weights does not resolve missing rights.
+Gate: the selected input file is identified and pinned; the source license chain
+permits binary redistribution with its stated conditions; the complete notice
+inventory is in the repo and artifact metadata. The license review records how
+each condition is met.
 
 ## Phase 2 — lock the conversion environment
 
@@ -176,9 +176,9 @@ requires a deliberate selection after this evidence is available.
 
 ## Phase 5 — integrate the selected candidate and verify artifacts
 
-Run this adoption phase only after the candidate passes source parity and the project
-owner selects it. A changed binary would require updating the asset, size/digest
-and digest-derived model version together:
+The owner selected the float32 candidate after it passed the predeclared source
+tolerance. The asset, size/digest, and digest-derived model version were updated
+together:
 
 - `safety-opennsfw2/src/main/assets/model/sakos_nudity_model.tflite`
 - `safety-opennsfw2/src/main/java/org/sakos/camera/safety/opennsfw2/OpenNsfw2ModelPreflight.kt`
@@ -202,29 +202,17 @@ Run the existing non-device verifier:
 ```
 
 It performs clean JVM/debug/test-APK/lint builds, local Maven publication,
-minified-consumer builds and artifact/notice/model inspections. After selecting
-an available isolated emulator, run the affected runtime and consumer checks:
+minified-consumer builds and artifact/notice/model inspections. No device or
+emulator run is required for this replacement, as requested. Regenerate artifact
+checksums and the source-bound manifest after the verifier using
+`inspect-local-candidate.py`.
 
-```powershell
-.\scripts\run-synthetic-instrumentation.ps1 -Serial <isolated-emulator-serial>
-.\scripts\run-synthetic-instrumentation.ps1 -Serial <isolated-emulator-serial> -ConsumerOnly
-```
-
-Use a verified emulator serial; do not assume an old tunnel is available or start
-production devices. Regenerate candidate checksums and the source-bound manifest
-after the runtime checks, using `inspect-local-candidate.py --emulator-tested`.
-The current dynamic-range candidate exceeded the predeclared Keras parity limit;
-it is not selected for integration. Keep the existing model identity and run the
-repository gates against the unchanged asset. Do not claim those runtime checks
-as validation of the ignored candidate.
-
-Adoption gate (not met): updated integrity tests and configuration binding pass;
-both strategies load the selected converted model; all AAR/source/APK packaging
-checks pass with the complete notice inventory; minified consumer loads the exact
-converted candidate; docs disclose scope. No candidate was selected because the
-dynamic-range tolerance failed and the float32 candidate does not preserve the
-existing quantized packaging. The repository gates below therefore verify the
-unchanged bundled model and expanded attribution inventory only.
+Adoption gate: the selected float32 model passes the predeclared `1e-4` source
+tolerance, matches the recorded input/output contract, and is bound to its new
+digest-derived configuration identity. The dynamic-range alternative remains
+rejected because it exceeds its predeclared `1e-2` tolerance. The published
+license conditions are recorded as met in `LICENSE_REVIEW.md`; all applicable
+full notices are in Maven metadata and the model AAR/source JAR.
 
 ## Rollback and release boundary
 
@@ -234,20 +222,19 @@ Rollback restores the asset, size, digest-derived version, affected tests,
 inspection constants, and current documentation as one coherent change. Rebuild
 local artifacts after rollback; do not mix either model with the other's manifest.
 
-Completing this pipeline resolves the new candidate's conversion documentation.
-It does not grant missing rights or publish anything. External delivery follows
-the existing [release checklist](RELEASE_CHECKLIST.md): documented distribution
-rights/notices, verified versioned artifacts, accurate limitations, and an
-owner-approved delivery target. Broader efficacy/device coverage remain disclosed
-follow-up work for an experimental release.
+The selected model's license conditions and notice requirements are satisfied in
+the repository artifacts. External delivery still follows the existing
+[release checklist](RELEASE_CHECKLIST.md) for an approved version and target,
+verified artifacts, and accurate limitations. Broader efficacy/device coverage
+remain disclosed follow-up work for an experimental release.
 
 ## Execution ledger
 
 | Phase | Status | Evidence |
 | --- | --- | --- |
 | Investigation and plan | Completed locally | Read-only source/history/cache and binary audit; 951 historical blobs; public release evidence |
-| 1. Selected weights and licenses | Completed for new candidate | SHA-256 pinned; OpenNSFW2, Yahoo and Marc Dietrichstein notices retained; upstream publishes no asset digest |
+| 1. Selected weights and licenses | Completed | SHA-256 pinned; OpenNSFW2, Yahoo and Marc Dietrichstein terms reviewed; binary redistribution conditions and complete notices satisfied |
 | 2. Environment lock | Completed | Python 3.12.15, TensorFlow 2.20.0, OpenNSFW2 0.15.2; package hashes in `uv.lock` |
 | 3. Conversion and inspection | Completed | Float32 and dynamic-range candidates generated twice; both use built-in ops and preserve tensor interface |
-| 4. Comparison/reproduction | Completed with adoption gate failed | Byte-identical repeat runs; float32 passes `1e-4`; dynamic-range exceeds `1e-2` on generated black input but matches inherited TFLite outputs on eight patterns; no threshold changes |
-| 5. Adoption and packaging | No model adoption; baseline verification completed | Inherited asset digest unchanged; all notices present in 24 artifacts; clean local build/lint/Maven/minified package gate passed; API 36 runtime suites passed (12 SDK/sample tests plus 1 consumer test) against unchanged asset; no claim about unselected candidates |
+| 4. Comparison/reproduction | Completed; float32 selected | Byte-identical repeat runs; float32 passes `1e-4`; dynamic-range exceeds `1e-2` on generated black input; no threshold changes |
+| 5. Adoption and packaging | Passed | Float32 asset and digest-derived identity installed; full notices and Maven license entries verified in packages; no device testing per owner request |

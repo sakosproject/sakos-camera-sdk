@@ -9,7 +9,7 @@ This is not a released SDK; there are no remote installation coordinates.
 
 The four libraries and functional sample exercise local workflows independently
 of host application accounts, entitlements, signing or providers. The repository remains
-private while redistribution rights for the bundled model are unresolved.
+private and the SDK has no release coordinates.
 
 | Module | Implemented boundary |
 | --- | --- |
@@ -73,29 +73,18 @@ conditions. A modified host can bypass a library's managed path.
 
 ## Model, notices and remaining gates
 
-The bundled model's recorded lineage is [OpenNSFW2](https://github.com/bhky/opennsfw2)
-by Bosco Yung (MIT), based on [Yahoo Open NSFW](https://github.com/yahoo/open_nsfw)
-by Yahoo Inc. (BSD-2-Clause). It was inherited unchanged from the SakOS prebuilt
-asset through camera/gallery application. Credits and full license texts are retained in
-[third-party notices](third_party/NOTICE.md) and packaged with the libraries.
+The bundled model is a reproducible float32 conversion of the official OpenNSFW2
+weights release, whose release notes identify Yahoo Open NSFW as the original
+pretrained model. Yahoo BSD-2-Clause, TensorFlow Open NSFW BSD-2-Clause, and
+OpenNSFW2 MIT notices are retained in [third-party notices](third_party/NOTICE.md),
+the model library POM, and its archives. The selected model, recipe, and
+redistribution review are recorded in [PROVENANCE](docs/PROVENANCE.md), the
+[conversion plan](docs/MODEL_CONVERSION_PLAN.md), and its
+[conversion manifest](docs/model-conversion/CONVERSION_MANIFEST.json).
 
-The exact asset identity and import authorization are retained in
-[PROVENANCE](docs/PROVENANCE.md). Owner import authorization does not clear the
-full conversion/weight provenance or external redistribution rights. Project
-material uses [Apache-2.0](LICENSE); upstream MIT/BSD notices remain under
-`third_party` and inside candidate library artifacts.
-
-A separate conversion from the publicly pinned OpenNSFW2 weights now has a
-locked recipe and repeatable candidate hashes. The dynamic-range candidate
-matched the inherited model on eight generated tensors but exceeded the
-predeclared Keras parity limit on black input, so it was not selected. The
-bundled TFLite bytes remain unchanged; complete source, license, and result
-records are in the [conversion plan](docs/MODEL_CONVERSION_PLAN.md) and its
-[recorded candidate manifest](docs/model-conversion/CONVERSION_MANIFEST.json).
-
-Experimental SDK distribution requires confirmed redistribution rights/notices,
-a versioned verified artifact set, accurate limitations and an approved release
-target. Broader camera/API coverage, efficacy, source parity and independent
+Experimental SDK distribution requires a versioned verified artifact set,
+accurate limitations, and an approved release version and delivery target.
+Broader camera/API coverage, efficacy and independent
 validation remain disclosed follow-up work; they do not block the helper site
 or automatically block an experimental release. No accuracy, broad parity,
 certification, broad device coverage or verified private reporting intake is claimed.

@@ -26,15 +26,14 @@
     <p class="lede">The project has completed its authorized local implementation and candidate checks. The <a href="https://github.com/sakosproject/sakos-camera-sdk">source repository</a> is currently private, and the SDK and bundled model are not released.</p>
 
     <h2>Local verification</h2>
-    <p>The earlier full local gate recorded 185 passing JVM tests, 12 passing synthetic Android tests, zero lint errors, locally packaged Maven artifacts, and a separate minified consumer. Follow-up Android checks, artifact evidence, and one authorized live camera flow are recorded separately in the private candidate history. This status-page update did not rebuild or rerun those checks.</p>
+    <p>The selected replacement passed the clean non-device gate: 185 passing JVM tests, zero lint errors, local Maven packaging, a separate minified consumer, and inspection of 24 artifacts. No emulator or device tests were run for this model. Earlier synthetic Android tests used the previous model and do not validate the replacement. A separate live camera-mechanics check is recorded in the private candidate history.</p>
     <p>To repeat the consumer packaging check from the private source checkout:</p>
     <pre class="code">PS&gt; .\scripts\verify-local-consumer.ps1</pre>
     <p>The provisional coordinates <code>org.sakos.camera:…:0.0.0-local</code> are produced under <code>build/local-maven</code>. They are local review artifacts, not a public repository or remote install path.</p>
 
     <h2>Open before an SDK or model release</h2>
     <ul>
-      <li>Confirm permission to redistribute the included code, exact model weights/conversion and dependencies; retain required license notices.</li>
-      <li>Approve an experimental version and delivery target, with artifact hashes and relevant build/consumer checks.</li>
+      <li>Approve an experimental version and delivery target, with versioned artifact hashes and relevant build/consumer checks.</li>
       <li>Publish accurate integration instructions, tested scope and known limitations without credentials or private media.</li>
     </ul>
 
@@ -43,7 +42,7 @@
 
     <div class="notice">
       <strong>Rights and reporting</strong>
-      <p>The repository's Apache-2.0 license covers SakOS-owned material only. Import authorization for the model bytes does not settle their full upstream provenance or redistribution rights. No verified public or private security-reporting endpoint is configured here. This static site has no contact form, upload path, or private intake.</p>
+      <p>The selected model's source chain, published license terms, and required notices are documented in the repository and verified in the model-bearing AAR, source JAR, and Maven POM. This is a repository assessment of the published terms, not an external legal opinion. No verified public or private security-reporting endpoint is configured here. This static site has no contact form, upload path, or private intake.</p>
     </div>
 
     <p><a class="link" href="../../camera/">Read the camera capture and live-device notes &rarr;</a></p>

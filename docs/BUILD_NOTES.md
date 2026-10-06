@@ -1,6 +1,43 @@
 # Local build notes
 
-## Model provenance/conversion candidate and fresh API 36 gates — 2026-10-05/06
+## Selected model replacement and non-device gate — 2026-10-06
+
+The original `private camera/gallery source project` asset had recorded OpenNSFW2/Yahoo lineage, but its
+original weight file and conversion recipe were not present. The SDK now bundles
+the reproducible float32 conversion from the pinned OpenNSFW2 v0.1.0 HDF5
+release. Its SDK asset is 23,608,404 bytes with SHA-256
+`bea35dc93c86f074ae9a047638773aff9eb84c05e6ead8d785af5c8ddde05518`.
+Two conversions were byte-identical; generated-tensor comparison passed the
+predeclared `1e-4` source-Keras tolerance. Dynamic-range conversion exceeded its
+`1e-2` limit and was rejected.
+
+The selected model's source chain and redistribution basis are recorded in
+`docs/model-conversion/`. The repo retains the complete OpenNSFW2 MIT, Yahoo
+BSD-2-Clause, and TensorFlow Open NSFW BSD-2-Clause notices; the model POM lists
+all three upstream licenses. The clean package inspector verified the model
+digest in its AAR and compared every bundled notice/license file byte for byte
+in all four AARs and source JARs.
+
+The non-device gate passed using:
+
+```powershell
+.\scripts\verify-local-candidate.ps1
+```
+
+It completed a clean build, 185 passing JVM tests, APK assembly, lint with zero
+errors (36 warnings), four local Maven publications, and a separate minified
+consumer build. The inspector verified 24 artifacts; local link checking passed
+for 28 files and 67 links. No emulator or device tests were run, as requested.
+The generated manifest is `build/private-candidate/manifest.json`. The selected
+model's synthetic comparison establishes conversion mechanics, not accuracy or
+real-world efficacy. The remaining release gate is approval of an experimental
+version and delivery target with versioned artifacts and accurate limitations.
+
+## Initial model candidate status before replacement — 2026-10-05/06 (historical)
+
+This dated snapshot was superseded on 2026-10-06 by the selected-model result
+above. At the time, neither candidate had been selected and the old asset
+remained bundled; its conclusions below are not the current repository status.
 
 The read-only `private camera/gallery source project` investigation found the inherited TFLite asset,
 its recorded OpenNSFW2/Yahoo lineage, and embedded conversion metadata, but no
@@ -14,8 +51,9 @@ Two isolated CPU conversions from the pinned OpenNSFW2 release weights were
 byte-identical across repeat runs. The float32 candidate met the predeclared
 `1e-4` Keras comparison tolerance. The dynamic-range candidate exceeded its
 predeclared `1e-2` maximum-error tolerance on generated black pixels, despite
-matching the inherited TFLite output on the eight generated patterns. Neither
-candidate was selected; the existing 6,128,536-byte model remains at SHA-256
+matching the inherited TFLite output on the eight generated patterns. This
+historical snapshot recorded that no candidate had yet been selected and the
+6,128,536-byte inherited model remained at SHA-256
 `051A21BF697858C1E2537354A99BE09A48D26BBFBA0C35216B340F16DE7528D7`.
 Synthetic comparisons and emulator checks do not establish broad model parity,
 accuracy, or classifier efficacy.
@@ -44,14 +82,15 @@ enabled as emulated hardware, these suites passed:
 The first run passed 5 video-runtime tests, 2 model-runtime tests, and 5 sample
 flow tests. The second passed the minified consumer's 1 packaged-runtime test.
 The sample runner's prior-absent-package reset was made conditional so a fresh
-emulator is supported. The candidate manifest at
-`build/private-candidate/manifest.json` records 12 SDK/sample tests and 1
-consumer test. These tests load the unchanged bundled model; they do not run the
-ignored newly converted candidate files. No physical device or media corpus was
-used. Broader device/API coverage, efficacy, independent validation, and external
-redistribution clearance remain open.
+emulator is supported. At that time, the candidate manifest at
+`build/private-candidate/manifest.json` recorded 12 SDK/sample tests and 1
+consumer test. Those tests load the previous bundled model and do not validate
+the selected replacement. No physical device or media corpus was used. The
+replacement's source and published-license review is completed in the current
+section above; broader device/API coverage, efficacy, and independent validation
+remain open.
 
-## Model attribution packaging verification — 2026-10-05
+## Initial model attribution packaging verification — 2026-10-05 (historical)
 
 Only attribution documentation and the packaged `third_party/NOTICE.md` changed.
 The retained license files, model bytes, Android code, and build configuration
@@ -79,8 +118,9 @@ The other AARs contain no model. The ignored inspection report is
 `python scripts/check-local-links.py` passed for 26 files and 53 local links,
 with zero broken links. `git diff --check` passed. The source `private camera/gallery source project`
 checkout remained clean at `source revision omitted`. License
-wording was checked against pinned public upstream revisions in PROVENANCE;
-exact conversion provenance and external redistribution clearance remain open.
+wording was checked against pinned public upstream revisions in PROVENANCE.
+At that time, the selected conversion had not yet been made; its source and
+distribution assessment are recorded in the current section above.
 
 ## Final current-artifact validation - 2026-10-02
 

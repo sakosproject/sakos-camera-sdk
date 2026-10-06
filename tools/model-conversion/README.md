@@ -41,12 +41,13 @@ $uv = '.\build\model-conversion\bootstrap\uv.exe'
 
 Conversion writes only ignored candidate and report files under
 `build/model-conversion/`. Repeating it uses the same pinned source bytes and
-locked wheels. Review numerical results, the exact Android LiteRT runtime gate,
-and attribution/legal scope before selecting a candidate. The current SDK model
-remains available as rollback until an explicitly selected replacement passes
-the repository acceptance checks.
+locked wheels. Review source tolerance, differences from the currently selected
+SDK model, and the license record before replacing the bundled bytes. The current
+selected model is the reproduced float32 export. Its preflight size, digest, and
+configuration identity are enforced by the repository gate.
 
-The committed comparison record documents the current dynamic-range candidate's
-Keras tolerance failure. The comparison command returns nonzero for that failure;
-keep the candidate unselected unless a separately reviewed conversion resolves
-it without silently changing the declared tolerance.
+The dynamic-range alternative is not selected because it exceeded the declared
+Keras tolerance. The comparison command returns nonzero when any generated
+variant fails its tolerance; this is expected for that rejected alternative and
+must not be hidden by widening the threshold. The owner requested no device test
+for the selected model; use the repository's non-device verification command.

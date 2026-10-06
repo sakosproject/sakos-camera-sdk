@@ -2,8 +2,10 @@
 
 ## Unreleased — private local candidate
 
-- Bundled the exact owner-authorized OpenNSFW2-lineage model with size/digest,
-  float32 tensor shape/count preflight and a fail-closed Bitmap runtime.
+- Replaced the historical imported model with a reproducible float32 OpenNSFW2
+  conversion; pinned its size/digest and bound it to the runtime configuration.
+- Retained OpenNSFW2 MIT, Yahoo BSD-2-Clause, and TensorFlow Open NSFW BSD-2-Clause
+  notices in the model library archives and Maven POM.
 - Implemented Fixed14/default early Block exits and optional source-staged Adaptive14
   execution with distinct configuration/approval identity and unchanged thresholds.
 - Added source-derived advertised capability discovery, actual first-run quality/zoom
@@ -33,7 +35,8 @@
 
 Current checks use benign generated patterns, mocks, simulated scores and an
 isolated emulator scene, plus the bounded operator-approved live phone flow.
-The phone result establishes exercised camera/storage mechanics on one handset.
-Accuracy, source parity, broad device compatibility and redistribution clearance
-remain unverified. SDK/model packages remain unreleased; helper-site hosting is
-tracked separately in website/README.md. Historical records retain their dated scope.
+The selected model passed its predeclared source-Keras tolerance on eight generated
+patterns. No device test was run for the replacement. Classifier efficacy and broad
+device compatibility remain unverified. The SDK package remains unreleased pending
+an approved version and delivery target; helper-site hosting is tracked separately
+in website/README.md. Historical records retain their dated scope.

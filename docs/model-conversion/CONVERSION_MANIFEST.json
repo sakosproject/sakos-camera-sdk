@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "recorded_utc": "2026-10-06T00:31:13Z",
-  "status": "conversion reproduced; candidate not selected for SDK integration",
+  "recorded_utc": "2026-10-06T16:56:39Z",
+  "status": "float32 model selected and bundled; attribution and redistribution license conditions satisfied",
   "source_checkout_evidence": {
     "repository": "private camera/gallery source project",
     "revision": "source revision omitted",
@@ -84,17 +84,19 @@
     "dynamic_range_max_abs_error_vs_inherited_tflite_on_patterns": 0.0,
     "decision_thresholds_tested": [0.45, 0.75, 0.85],
     "decision_changes_vs_inherited_tflite_on_patterns": 0,
-    "candidate_selection": "No candidate selected; preserve the inherited asset because the dynamic-range Keras tolerance failed and float32 does not preserve the existing quantized packaging."
+    "candidate_selection": "Select float32: it is byte-identical across two runs and passes the predeclared 1e-4 maximum-error tolerance against the Keras source model. Reject dynamic-range for SDK use because it exceeds its predeclared 1e-2 tolerance."
   },
+  "selected_candidate": "float32",
   "current_sdk_asset": {
-    "bytes": 6128536,
-    "sha256": "051a21bf697858c1eecba96a761bd1579b523adae1b749b0a4ffd8b7ed8babe",
-    "changed": false
+    "bytes": 23608404,
+    "sha256": "bea35dc93c86f074ae9a047638773aff9eb84c05e6ead8d785af5c8ddde05518",
+    "changed": true,
+    "previous_sha256": "051a21bf697858c1eecba96a761bd1579b523adae1b749b0a4ffd8b7ed8babe"
   },
   "limitations": [
     "Synthetic tensor comparison tests conversion mechanics, not real-world classifier accuracy or efficacy.",
-    "Matching the inherited model on eight generated patterns does not establish equivalence for all images.",
     "The upstream asset has no publisher-provided checksum; the recorded digest is a local first-acquisition pin.",
-    "Attribution and retained notices do not independently resolve all external redistribution rights."
+    "The dynamic-range candidate did not meet its predeclared Keras tolerance and is not bundled.",
+    "No device/emulator test was requested or run for the selected replacement."
   ]
 }

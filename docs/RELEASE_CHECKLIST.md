@@ -16,15 +16,15 @@ Required before publishing the static status pages:
   is authorized; attach the owner-controlled apex through Pages Custom domains,
   or provide a working Pages hostname and manual attachment steps.
 
-Model redistribution clearance, efficacy studies, broad device testing and a
-formal security intake are not requirements for this status-only helper site.
+Model distribution, efficacy studies, broad device testing and a formal security
+intake are not requirements for this status-only helper site.
 Deployment/domain status is recorded in [website/README](../website/README.md).
 
 ## Experimental SDK distribution
 
 | Minimum requirement | Current status |
 | --- | --- |
-| Confirm permission to redistribute the included code, exact model weights/conversion and dependencies; retain required licenses/notices | Owner import authorized and upstream notices retained; exact external distribution permission and final notice inventory still need confirmation |
+| Confirm the model weights/conversion can be redistributed; retain required code/dependency notices | The selected OpenNSFW2/Yahoo model chain is redistributable under the published MIT/BSD-2-Clause terms; complete model notices are in the model AAR/source JAR and Maven POM. See `docs/model-conversion/LICENSE_REVIEW.md`. |
 | Approved experimental version/delivery target, immutable artifact hashes, relevant build/tests and minified-consumer verification | Local `0.0.0-local` candidate passed; 24 artifacts verified, four local publications and consumer checks retained; final release version/target not selected |
 | Accurate documentation of tested scope, privacy behavior and known limitations; exclude secrets/private media | Current docs disclose sampled video, probabilistic detection and one-handset evidence; private text audit/evidence retained |
 

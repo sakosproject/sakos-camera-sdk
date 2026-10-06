@@ -56,6 +56,20 @@ subprojects {
                                     name.set("Apache License, Version 2.0")
                                     url.set("https://www.apache.org/licenses/LICENSE-2.0.txt")
                                 }
+                                if (project.name == "safety-opennsfw2") {
+                                    license {
+                                        name.set("MIT License (OpenNSFW2)")
+                                        url.set("https://github.com/bhky/opennsfw2/blob/19530b8f08aac12479a901fe18763c0392c8bd8c/LICENSE")
+                                    }
+                                    license {
+                                        name.set("BSD 2-Clause License (Yahoo Open NSFW model)")
+                                        url.set("https://github.com/yahoo/open_nsfw/blob/a4e13931465f4380742545932657eeea0a10aa48/LICENSE.md")
+                                    }
+                                    license {
+                                        name.set("BSD 2-Clause License (TensorFlow Open NSFW conversion)")
+                                        url.set("https://github.com/mdietrichstein/tensorflow-open_nsfw/blob/ead9f4d1748e8bc80ab14bf0a36f696a5fe4109d/LICENSE")
+                                    }
+                                }
                             }
                             developers {
                                 developer {
