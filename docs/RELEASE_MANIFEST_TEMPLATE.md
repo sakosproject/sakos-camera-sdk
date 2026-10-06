@@ -11,7 +11,7 @@ requirements and a separate validation backlog.
 accompany the manifest. This is a local review record, not a publication record.
 
 Before external delivery, an owner-approved manifest additionally needs an
-immutable release version, confirmed model/code/dependency distribution rights
+immutable release version, documented model attribution and notice review for this exact artifact set, plus code/dependency license obligations
 and notices, artifact hashes and relevant verification evidence, accurate known
 limitations, and the approved package registry/delivery target. Record device
 coverage and independent-validation status truthfully; completion of broad

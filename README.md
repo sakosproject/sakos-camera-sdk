@@ -8,8 +8,7 @@ This is not a released SDK; there are no remote installation coordinates.
 [Apache-2.0 license](LICENSE)
 
 The four libraries and functional sample exercise local workflows independently
-of host application accounts, entitlements, signing or providers. The repository remains
-private and the SDK has no release coordinates.
+of host application accounts, entitlements, signing or providers. The repository is currently private and the SDK has no release coordinates.
 
 | Module | Implemented boundary |
 | --- | --- |
@@ -75,22 +74,22 @@ conditions. A modified host can bypass a library's managed path.
 
 The bundled model is a reproducible float32 conversion of the official OpenNSFW2
 weights release, whose release notes identify Yahoo Open NSFW as the original
-pretrained model. Yahoo BSD-2-Clause, TensorFlow Open NSFW BSD-2-Clause, and
-OpenNSFW2 MIT notices are retained in [third-party notices](third_party/NOTICE.md),
-the model library POM, and its archives. The selected model, recipe, and
-redistribution review are recorded in [PROVENANCE](docs/PROVENANCE.md), the
-[conversion plan](docs/MODEL_CONVERSION_PLAN.md), and its
+pretrained model. For this selected replacement, the repository license review
+records the applicable published redistribution conditions as satisfied and
+retains the required OpenNSFW2 MIT, Yahoo BSD-2-Clause, and TensorFlow Open NSFW
+BSD-2-Clause notices in the model library POM and archives. The historical
+import is documented separately; its exact source weights and conversion recipe
+remain unresolved, and its bytes are excluded from this candidate's reachable
+history. See [PROVENANCE](docs/PROVENANCE.md), the
+[license review](docs/model-conversion/LICENSE_REVIEW.md), the
+[conversion plan](docs/MODEL_CONVERSION_PLAN.md), and the
 [conversion manifest](docs/model-conversion/CONVERSION_MANIFEST.json).
 
-Experimental SDK distribution requires a versioned verified artifact set,
-accurate limitations, and an approved release version and delivery target.
-Broader camera/API coverage, efficacy and independent
-validation remain disclosed follow-up work; they do not block the helper site
-or automatically block an experimental release. No accuracy, broad parity,
-certification, broad device coverage or verified private reporting intake is claimed.
-The [customer-facing project site](https://sakosproject.org/) is a dependency-free
-status helper with no SDK or model downloads. Its reciprocal link points to the
-[GitHub repository](https://github.com/sakosproject/sakos-camera-sdk), which is
-currently private. The site README records the Cloudflare Pages deployment and
-active custom-domain status. Site publication is separate from SDK/model
-distribution.
+Experimental SDK distribution requires an approved immutable version and
+delivery target, verified versioned artifacts, and accurate limitations.
+Broader camera/API coverage, efficacy and independent validation remain disclosed
+follow-up work. No accuracy, broad parity, certification, broad device coverage
+or verified private reporting intake is claimed. The [customer-facing project
+site](https://sakosproject.org/) is a dependency-free status helper with no SDK
+or model downloads. Its reciprocal link points to the GitHub repository, which
+is currently private. Site publication is separate from SDK/model distribution.

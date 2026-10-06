@@ -32,9 +32,10 @@ visibility changes need a concrete approved version/target before execution.
 3. Review the ignored candidate manifest/checksums/logs, model fingerprint,
    notice/dependency inventory, permissions, strategy identities and test scope.
    Record relevant changes/results in BUILD_NOTES and RELEASE_EVIDENCE.
-4. For experimental distribution, confirm exact redistribution rights/notices,
-   select an immutable release version and registry/delivery target, bind artifact
-   hashes to verification evidence, and publish accurate known limitations.
+4. For experimental distribution, use the documented license review to verify
+   required attribution and notices in the exact versioned artifacts; select an
+   immutable release version and delivery target, bind artifact hashes to
+   verification evidence, and publish accurate known limitations.
    Broad API/OEM, efficacy and independent-validation work stays in the disclosed
    backlog unless the proposed claims require it.
 5. Publish only the approved deliverable/version to the approved destination.

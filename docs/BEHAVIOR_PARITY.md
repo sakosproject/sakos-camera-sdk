@@ -7,9 +7,7 @@ exclusion describe Phase 4A only. Current synthetic mechanics checks establish
 neither source/runtime parity nor real-world efficacy; see BUILD_NOTES and
 MODEL_CARD for current status.
 
-Phase 4A characterizes the user-authorized spatial policy at source commit
-`historical source revision omitted`. It is not model, device, camera,
-or device parity evidence.
+Phase 4A characterizes a historical spatial-policy source snapshot. Its private revision identifier is omitted. It is not model, device, camera, or device parity evidence.
 
 ## Imported policy surface
 
@@ -62,8 +60,9 @@ lower-lateral evidence, corroboration, early allow/block conditions and score
 mapping.
 
 Real-model equivalence, classifier accuracy, latency and false-accept/false-
-reject evidence remain later gates. External model redistribution remains gated
-by the provenance review.
+reject evidence remain later gates. The selected replacement model's attribution
+and published license conditions are documented as satisfied; the historical import
+remains separate hash-only provenance with its binary excluded.
 
 ## Expanded live driver mechanics - 2026-10-01
 

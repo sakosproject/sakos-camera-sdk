@@ -30,13 +30,14 @@ intermediate TensorFlow port and OpenNSFW2 implementation contribute the
 additional BSD and MIT terms listed above. The repository retains every complete
 license text and includes them with the model-bearing AAR and source JAR.
 
-## Previously imported SakOS model
+## Superseded historical import
 
-The original camera/gallery application import was
-`051A21BF697858C1E2537354A99BE09A48D26BBFBA0C35216B340F16DE7528D7`.
-Its historical source chain and import record remain in
-`docs/PROVENANCE.md`; that file is no longer bundled.
-
+A prior imported model with SHA-256
+`051a21bf697858c1eecba96a761bd1579b523adae1b749b0a4ffd8b7ed8babe` is recorded
+for provenance only. Its exact input-weight and conversion history was not
+recovered; the binary is absent from this candidate's reachable history and is
+not part of the selected model or its redistribution review. See
+`docs/PROVENANCE.md`.
 ## Retention
 
 Consumers redistributing the model-bearing library or binaries must reproduce

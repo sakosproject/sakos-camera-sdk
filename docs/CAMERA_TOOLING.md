@@ -4,7 +4,7 @@
 records/selection and secure profile storage. `capture-video` supplies actual
 photo/video/zoom probes using the managed no-backup staging and bundled runtime.
 No host application account, trust snapshot, provider authority or build value is needed.
-See TOOLING_PARITY for source revisions, included behavior and deliberate differences.
+See TOOLING_PARITY for source-derived behavior, included behavior and deliberate differences.
 
 After CAMERA permission, obtain a ProcessCameraProvider and a mounted PreviewView.
 Run calibration on a lifecycle coroutine on the main thread; provide a worker

@@ -30,8 +30,7 @@ the source Keras model on eight generated tensor patterns. The dynamic-range
 alternative exceeded its predeclared `1e-2` limit and was not selected. No device
 test was run for this replacement. This synthetic result validates the conversion
 against its source implementation; it does not establish real-world accuracy or
-broad classifier efficacy. The prior camera/gallery application model is retained only as
-historical provenance and is no longer in the SDK asset. See the
+broad classifier efficacy. The historical import is recorded only by hash in provenance; its bytes are absent from this candidate history and the current SDK asset. See the
 [conversion recipe](MODEL_CONVERSION_PLAN.md) and
 [recorded conversion results](model-conversion/CONVERSION_MANIFEST.json).
 

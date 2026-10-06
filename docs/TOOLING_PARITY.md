@@ -1,72 +1,25 @@
-# Source tooling and standalone boundary
+# Source-derived tooling and standalone boundary
 
-Code-only inventory: source checkout HEAD `source revision omitted`.
-Calibration, diagnostics, foundation and runtime match their pinned
-`historical source revision omitted` versions after CRLF normalization.
-Current CameraActivity is additionally referenced at HEAD. No source media is
-part of extraction or tests. This is a behavior map, not an accuracy/parity claim.
+This SDK contains an authorized, code-only adaptation of camera and gallery
+workflow behavior from a related Android application. This publication copy omits
+private source-project identifiers, package paths, revisions, and source-file
+digests. No source media, private test corpus, credentials, signing material,
+telemetry payloads, or source build configuration is included.
 
-All source paths below are relative to that checkout.
-
-| Source code | Reusable behavior | SDK treatment |
+| Capability area | SDK implementation | Evidence boundary |
 | --- | --- | --- |
-| `private host-app source file omitted` | v10 required defaults: back/front still and video, back High still, derived <=3MP Low, back photo/video zoom 0.6/1/2/5; readiness, selector evidence, fast retry, secure cache | Adapt source records/policy and AES-GCM Android Keystore profile; no-backup SDK directory; identity includes actual advertised inventory, model/strategy, build/app/graph/step versions; invalidated profile cannot be relabeled |
-| `private host-app source file omitted` | Actual dimensions/crop/rotation/duration versus requested quality | Reusable diagnostics; no export or input intake |
-| `private host-app source file omitted` and `CameraActivity.kt` | CameraX Preview/closing latest-only analysis/still or video; portrait viewport; independent High still; higher resolution preference; binding wait/timeout; gate/cleanup probes | Standalone graph binding and first-run runner; probe artifacts never approved library items; default failure blocks readiness and offers retry |
-| `CameraActivity.kt`, `CameraStillFlashPreference.kt` (same camera directory) | Back/front, verified zoom stops (0.05 tolerance, max product 5), selfie 1x, tap AF/AE auto-cancel 3s, Off/Auto/On persisted choice, display/output orientation | SDK controls and minimal sample; preserve choices while unsupported modes use safe effective settings |
-| `CameraQualityCalibration.kt` | PhotoHighProbe and UHD diagnostics; Low/FHD graph candidates do not automatically become product selectors; High must be >=110% default pixels and distinct; no non-default front selector | Preserve distinctions and source default sequence; optional diagnostics remain hidden from product selectors |
-| `private source path omitted` | Fixed block short circuit and adaptive context/sentinel/portrait/refinement/targeted/fallback stages; exact exported thresholds | Pure live score driver and Bitmap runtime; Fixed14 retains default configuration; Adaptive14 has distinct policy identity; synthetic mechanical coverage only |
-| `private host-app source file omitted`, `ReviewedVideoRepository.kt`, `TemporaryVideoCaptureRepository.kt` | Allowed-only private save, pending file/metadata commit, non-Allow disk cleanup, private approved inventory | Standalone approval-bound photo/video library and managed no-backup staging; atomic entry commit and restart recovery; no temporary or unapproved item becomes viewer/export input |
-| `private host-app source file omitted`, `private host-app source file omitted` | Read-only approved inventory/preview/playback, bounded decode, private playback caches, named-item access | Same-process repository interfaces replace fixed cross-app authority/signature permission; caller chooses any provider integration; no exported provider installed by SDK |
-| `private host-app source file omitted`, `GalleryViewModel.kt` | Cancellable inventory load, previous state on recoverable failure, generation guard against stale responses | Standalone library loader/controller with caller coroutine scope; no Application/host application/diagnostics dependency |
-| `private host-app source file omitted` | Explicit user save, Android Q+ pending MediaStore insert/copy/publish; delete partial output on failure | Explicit caller authorization and transactional destination interface; optional configurable MediaStore adapter; sample never automatically exports |
+| Camera discovery and calibration | Advertised capability inventory, verified selectors, calibration profiles, safe defaults, retries, and diagnostics | Generated/synthetic and bounded device mechanics only; no broad OEM/API coverage claim |
+| Photo and video capture | In-memory photo review; no-backup video staging, finalization, bounded temporal sampling, cleanup and recovery | Does not inspect every video frame; deletion is not forensic erasure |
+| Reviewed media library | Capture/configuration-bound approvals, approved-only inventory and preview, private playback, explicit authorized save | Host integration and real gallery behavior remain outside this SDK |
+| Model evaluation | Fixed14 default and optional Adaptive14 policy over caller-owned inputs | Conversion and synthetic policy evidence do not establish classifier accuracy or efficacy |
 
-App-specific integrations excluded: entitlement/trust/parent authorization, fixed
-host application package names and provider authority, production credentials/build/signing,
-telemetry and exported diagnostics, private input intake, source gallery fixtures,
-location tracking. Host authorization replaces app trust through explicit injected
-interfaces. Full gallery layout, editing and sharing UI, cross-app migration and
-recycle-bin UI are deferred because this SDK supplies independent capture/review/
-private save primitives, not those app screens. Capture and approval ownership,
-cancellation, cleanup and default selector safeguards remain required.
+## Standalone ownership differences
 
-Missing front/back or failed required default/1x probes do not establish readiness.
-The SDK does not claim to make every advertised camera usable. Owners must test
-physical devices, API ranges and real-world efficacy separately.
+The libraries use injected host interfaces instead of app-specific account,
+entitlement, trust, provider-authority, or diagnostics dependencies. Capture and
+approval ownership, cancellation, cleanup, and selector safeguards remain explicit.
+The sample does not automatically export to a device gallery and requests no
+microphone, storage, or network permission.
 
-## Code snapshot identity
-
-Current source was clean at the recorded HEAD during code-only inspection.
-The following SHA-256 values normalize CRLF to LF and describe allowlisted Kotlin
-source only; they make no statement about historical inputs or validation.
-
-| Current source path | Normalized SHA-256 |
-| --- | --- |
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Deliberate standalone ownership differences
-
-The source app uses its own singleton repository/client lifecycle. Independent
-SDK adapters can share a canonical private root: writes and recovery coordinate
-through shared ownership and filesystem locks, preserving live pending writes
-and playback leases across another adapter initialization. Competing process
-operations fail closed instead of recovering live content. Playback cleanup is
-retryable. Export results preserve committed-save status when terminal cleanup
-fails, including committed IDs on cancellation. Calibration additionally rejects
-malformed probe contracts and releases its run lock after cleanup exceptions.
-These reliability differences preserve the source privacy/save boundary; they
-are not classifier or hardware parity claims.
+This document describes design ancestry and the independent SDK boundary. It is
+not a claim of exact source parity, classifier accuracy, or broad hardware behavior.

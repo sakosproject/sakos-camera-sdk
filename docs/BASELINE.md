@@ -1,8 +1,6 @@
 # Baseline record
 
-This internal record pins the source observations used for the initial SDK
-extraction plan. It is not a license grant and must be reviewed before making
-the repository public.
+This historical record summarizes observations used for the initial SDK extraction. It is not a license grant; current model attribution and notice status are recorded in `PROVENANCE.md` and `model-conversion/LICENSE_REVIEW.md`.
 
 ## SDK foundation
 
@@ -14,17 +12,7 @@ the repository public.
 
 ## Read-only source snapshot
 
-The candidate source repository was inspected at commit
-`historical source revision omitted` on 2026-09-17. It had two
-pre-existing uncommitted modifications:
-
-- `docs/BUILD_NOTES.md`
-- `scripts/build-play-release-bundles-with-reviewer-token.ps1`
-
-Neither file is a candidate for this SDK and neither was read into or copied
-to this repository. All source paths in this document and the extraction
-manifest are relative to that source repository at the pinned commit. The
-source checkout is a behavioral reference only and remains read-only.
+A related Android application source snapshot was reviewed on 2026-09-17. It contained unrelated local changes that were not included in this SDK. Private source-project names, revisions, and paths are omitted. The comparison is behavioral context only and does not establish exact source parity.
 
 ## Retained Android baseline for Phase 2
 
@@ -55,7 +43,7 @@ release audit must still include Gradle wrapper notices in its package review.
 
 ## Model fingerprint and declared contract
 
-The source asset `private source path omitted`
+The prior SDK model asset
 was measured locally at the pinned source snapshot:
 
 | Property | Value |
@@ -90,10 +78,4 @@ the source snapshot, not independently validated suitability claims.
 
 ## Expanded code-only snapshot - 2026-10-01
 
-The reusable tooling inventory references clean source HEAD
-`source revision omitted`. Calibration, diagnostics, foundation
-and live runtime match pinned `historical source revision omitted` after
-CRLF normalization. Current camera activity and gallery save/review code were
-inspected read-only. TOOLING_PARITY records exact allowlisted code hashes and
-included/deferred behavior. This supplements the earlier extraction baseline;
-no source media or production configuration is included.
+The reusable tooling inventory was compared with a historical source snapshot. Private revision identifiers and source-file digests are omitted. Current camera activity and gallery save/review behavior were inspected as code only; this supplements the extraction baseline and includes no source media or production configuration.

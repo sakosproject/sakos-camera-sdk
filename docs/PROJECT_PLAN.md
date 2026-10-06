@@ -2,10 +2,10 @@
 
 ## Model source evidence and conversion planning — 2026-10-05
 
-The owner requested a deeper search of `private camera/gallery source project` for the original
-weights/conversion and distribution evidence, then authorized implementing a
-new-conversion path, running both local candidate gates, and pushing the result
-on a GitHub feature branch. Keep the source project read-only.
+The owner requested reviewing the historical model's original conversion and
+distribution evidence, then authorized a reproducible replacement and the local
+verification recorded here. Private source-project names, revisions, and workstation
+paths are omitted from this publication copy.
 
 Execution plan:
 
@@ -20,8 +20,7 @@ Execution plan:
 4. Run the full local SDK gate and both isolated API 36 runtime suites; record
    the measured model choice and results before committing and pushing.
 
-Completed: `private camera/gallery source project` documented the old SakOS prebuilt and OpenNSFW2/Yahoo
-lineage, but did not contain its original weights or conversion recipe. A new
+Completed: historical source records reported OpenNSFW2/Yahoo lineage for the old import but did not identify its original weights or conversion recipe. A new
 public-source float32 conversion was pinned, locked, reproduced twice, and passed
 the predeclared source-Keras tolerance. It now replaces the inherited asset.
 Attribution and the published MIT/BSD-2-Clause license conditions are recorded
@@ -33,8 +32,7 @@ recorded in `docs/model-conversion/` and `docs/BUILD_NOTES.md`.
 
 ## Model origin and attribution audit — 2026-10-05
 
-The owner requested finding the model origin in `private camera/gallery source project` and applying
-attribution in this SDK repository. The source checkout is a read-only reference.
+The owner requested documenting the historical model attribution in this SDK repository. The related source project was left unchanged; private names, revisions, and paths are omitted.
 
 Execution plan:
 
@@ -49,20 +47,16 @@ Execution plan:
    toolchain. Verify exact notice/license bytes and the unchanged bundled model.
 4. Record the checks here. No release publication or site deployment is needed.
 
-Acceptance: identifiable upstream credits and complete retained license texts;
-source evidence pinned to its inspected revision; unchanged model digest; notices
-present in all eight library archives; source checkout unchanged.
+Acceptance: clear upstream credits, complete retained license texts, a distinct historical-import record, and unchanged model bytes at the time of that audit. Private source identifiers are omitted from this publication copy.
 
-Completed: source records were pinned to `private camera/gallery source project` revision `source revision omitted` and
-its original model import `source revision omitted`. Both model copies match the recorded size
-and SHA-256. The retained license wording matches the checked upstream texts;
+Completed: historical source records and the original import were checked against the recorded size and SHA-256. Private project revisions and paths are omitted. The retained license wording matches the checked upstream texts;
 both license files are unchanged. Explicit credits, upstream links, the import
 chain, and unrecorded conversion details are documented in the planned files.
 
 The offline library packaging build passed. All eight AAR/source archives retain
 the updated notice and complete licenses byte for byte (32 file comparisons);
 the model-bearing AAR retains the exact model digest. Local documentation links
-and `git diff --check` passed. The source checkout remains clean and unchanged.
+and `git diff --check` passed. The historical source checkout remained unchanged.
 Exact commands and private check-output paths are recorded in `docs/BUILD_NOTES.md`.
 At the time of this audit, the old model's conversion details and distribution
 basis were unrecorded. The follow-up conversion and license review below replace

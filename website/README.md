@@ -62,9 +62,11 @@ Wrangler 4.147.0 delegates new Pages commands to Workers by default. The install
 CLI's `--force` option selects actual Pages for initial project creation. Once
 the Pages project exists, uploads use it directly without that option. The first
 delegated creation failed before creating a project or deployment, and was
-replaced by this explicit Pages flow. The script selects the verified account
-using a temporary `CLOUDFLARE_ACCOUNT_ID` environment value because Pages config
-does not support an `account_id` field; it restores the caller's value afterward.
+replaced by this explicit Pages flow. Before deployment, set `SAKOS_CLOUDFLARE_ACCOUNT_ID` in the local process
+environment to the intended 32-character hexadecimal account identifier. The
+script validates it, passes it temporarily to Wrangler as
+`CLOUDFLARE_ACCOUNT_ID`, and restores the caller's previous value afterward.
+Keep the identifier outside tracked files and deployment logs.
 
 If choosing Git integration for a future project, the static build settings are
 framework None, blank build command and output directory `website`. Cloudflare

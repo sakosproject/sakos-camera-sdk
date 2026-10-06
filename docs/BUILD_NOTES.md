@@ -2,8 +2,7 @@
 
 ## Selected model replacement and non-device gate — 2026-10-06
 
-The original `private camera/gallery source project` asset had recorded OpenNSFW2/Yahoo lineage, but its
-original weight file and conversion recipe were not present. The SDK now bundles
+Historical source records attributed the prior model to OpenNSFW2/Yahoo, but the original weight file and conversion recipe were not recovered. The SDK now bundles
 the reproducible float32 conversion from the pinned OpenNSFW2 v0.1.0 HDF5
 release. Its SDK asset is 23,608,404 bytes with SHA-256
 `bea35dc93c86f074ae9a047638773aff9eb84c05e6ead8d785af5c8ddde05518`.
@@ -39,9 +38,7 @@ This dated snapshot was superseded on 2026-10-06 by the selected-model result
 above. At the time, neither candidate had been selected and the old asset
 remained bundled; its conclusions below are not the current repository status.
 
-The read-only `private camera/gallery source project` investigation found the inherited TFLite asset,
-its recorded OpenNSFW2/Yahoo lineage, and embedded conversion metadata, but no
-original HDF5 weights, weight digest, or executable conversion recipe. The SDK
+The historical investigation found an inherited TFLite asset with reported OpenNSFW2/Yahoo lineage and embedded conversion metadata, but no original HDF5 weights, weight digest, or executable conversion recipe. Private source identifiers are omitted. The SDK
 now records that evidence, credits the upstream authors, retains the applicable
 license texts, and keeps a separate source/input/conversion manifest for a new
 public-source candidate. See `docs/PROVENANCE.md`,
@@ -116,8 +113,7 @@ The other AARs contain no model. The ignored inspection report is
 `build-logs/model-attribution-archive-check.json`.
 
 `python scripts/check-local-links.py` passed for 26 files and 53 local links,
-with zero broken links. `git diff --check` passed. The source `private camera/gallery source project`
-checkout remained clean at `source revision omitted`. License
+with zero broken links. `git diff --check` passed. The related source checkout remained clean and unchanged. License
 wording was checked against pinned public upstream revisions in PROVENANCE.
 At that time, the selected conversion had not yet been made; its source and
 distribution assessment are recorded in the current section above.

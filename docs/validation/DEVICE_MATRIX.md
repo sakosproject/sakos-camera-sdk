@@ -31,7 +31,7 @@ credentials into this file.
 1. Build the exact SDK commit and install the sample/host app on an authorized
    physical device. Record the build and configuration identities.
 2. Exercise one row at a time with only authorized safe inputs. Preserve the
-   source checkout as read-only.
+   historical source material as read-only.
 3. Inspect app-private staging and public provider/gallery/backup visibility
    after every terminal outcome; record only aggregate/sanitized observations.
 4. For a failure, stop dependent validation, keep the row failed or pending,

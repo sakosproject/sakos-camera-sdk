@@ -2,7 +2,7 @@
 
 Date: 2026-10-05/06. Status: **float32 conversion selected and bundled; attribution/license conditions satisfied; non-device repository gate passed; device tests omitted by owner request**.
 
-The owner requested searching `private camera/gallery source project` for the original conversion and
+The initial investigation reviewed historical source records for the original conversion and
 distribution evidence, then preparing this plan if either remained incomplete.
 The project owner subsequently authorized implementation, replacement with the
 reproducible model, and a GitHub feature-branch push. The owner asked to omit
@@ -10,20 +10,20 @@ device testing; the non-device repository gate has passed.
 
 ## Result of the investigation
 
-Source checkout: `private camera/gallery source project` at `source revision omitted`.
+Historical source identifiers, revisions, and local paths are intentionally omitted from this publication copy.
 SDK audit baseline: `52969bb` (the prior attribution changes are committed).
 The detailed evidence and source links are in [PROVENANCE](PROVENANCE.md).
 
 | Question | Recovered evidence | Remaining gap |
 | --- | --- | --- |
-| Which file did we inherit? | Original March 17 import, unchanged source/SDK SHA-256, recorded private SakOS prebuilt path | Private SakOS source revision and original `MODEL.md` contents |
+| Which file did we inherit? | Original March 17 import, unchanged source/SDK SHA-256, recorded historical prebuilt asset (source path omitted) | Exact historical source revision and original model documentation |
 | Which converter/settings? | Embedded TensorFlow 2.20.0, API 2, Keras input, dynamic-range quantization, no custom/Select TF ops | Complete environment and executable conversion command |
 | Which trained weights? | OpenNSFW2/Yahoo lineage; a later benchmark pins OpenNSFW2 0.15.2 | Original input weight file, hash, and exact OpenNSFW2 version |
 | What is the distribution basis? | Public Yahoo BSD, OpenNSFW2 MIT, official weight release lineage, intermediate Marc Dietrichstein BSD notice | Bind the selected input bytes to the documented sources and complete notice inventory |
 
 The history search covered 951 unique relevant document/script blobs across all
 locally reachable refs. No conversion recipe or raw weight filename was found.
-The source's documented model cache contains only `.gitkeep`.
+The inspected model cache contained only `.gitkeep`.
 
 Initial recommendation: preserve the old model while preparing a reproducible
 conversion from official OpenNSFW2 weights. After the float32 conversion passed
@@ -33,7 +33,7 @@ the first imported file.
 
 ## Boundaries
 
-- Keep `private camera/gallery source project` read-only. Work in the SDK and an isolated conversion environment.
+- Keep the historical source project unchanged. Work in the SDK and an isolated conversion environment.
 - Preserve the current asset and its complete versioned configuration as rollback.
 - Keep the Android SDK/AGP/Kotlin/LiteRT versions, preprocessing, crop strategies,
   thresholds, and video policy unchanged for this work.
@@ -48,9 +48,7 @@ the first imported file.
 ## Phase 1 — establish the selected weights and license chain
 
 Use the public source below for the new candidate. Do not represent it as the
-historical source of the inherited TFLite file. The read-only `private camera/gallery source project`
-provenance and history search found no original weights or conversion script;
-its later benchmark pin is a candidate source selection only.
+historical source of the inherited TFLite file. The historical provenance and history search found no original weights or conversion script; a later benchmark pin was only a candidate source selection.
 
 Proposed public selection:
 
